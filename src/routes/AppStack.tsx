@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { HomeScreen, ProductListScreen } from '@screens';
+import { HomeScreen, ProductDetailScreen, ProductListScreen } from '@screens';
 import { useAppTheme } from '@theme';
 
 import type { AppStackParamList } from './types/navigationTypes';
@@ -16,6 +16,7 @@ export function AppStack() {
       }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="ProductList" component={ProductListScreen} />
+      <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
     </Stack.Navigator>
   );
 }

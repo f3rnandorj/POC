@@ -41,11 +41,12 @@ As a merchant, I want care instructions stored in Shopify so that the app can di
 **Complexity:** 2/10
 
 **Acceptance Criteria:**
-- [ ] `custom.care_instructions` defined in the Shopify admin, type JSON
-- [ ] **Storefront API access enabled** on the definition
-- [ ] Populated on Northstar Essential with `washing` and `drying` keys
-- [ ] Left empty on Everyday Tee
-- [ ] Verified by curl before any app code is written
+- [x] `custom.care_instructions` defined in the Shopify admin, type JSON
+- [x] **Storefront API access enabled** on the definition
+- [x] Populated on Northstar Essential with `washing` and `drying` keys
+- [x] Left empty on Everyday Tee
+- [x] Verified by curl before any app code is written — 2026-10-01: Northstar Essential
+  returns `type: "json"` with the value as a **string**, Everyday Tee returns `null`.
 
 ### US-002: Query and parse
 

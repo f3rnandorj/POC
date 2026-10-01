@@ -175,5 +175,5 @@ No screens, no Collection domain, no cart, no checkout, no OAuth, no metaobjects
 
 ## Open Questions
 
-- **`care_instructions` returns `null` for BOTH products** on the live store — the definition is either absent or not published to the Storefront API. It is out of scope here (4 identifiers in US-003) but PRD 006 depends on it, so it has to be created/published in the admin before that block starts.
+- ~~**`care_instructions` returns `null` for BOTH products**~~ — **RESOLVED 2026-10-01.** The definition was created as type JSON with Storefront access enabled and populated on Northstar Essential only. Verified by curl: the value arrives as a JSON **string**, Everyday Tee as `null`. PRD 006 US-001 is satisfied; the block is unblocked.
 - **No `json` metafield exists yet**, so the US-005 acceptance line about `JSON.parse` inside try/catch has no subject in this block. The parser lands with `care_instructions` in PRD 006 via `templates/metafield-feature.md`; writing it now would be a helper with no caller.

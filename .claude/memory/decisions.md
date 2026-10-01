@@ -176,4 +176,24 @@ Append-only. Never delete. Format: date heading + decision + reason + rejected a
 
 ---
 
+## 2026-10-01 — PRD 003 (Product Browse) execution decisions
+
+1. **A back control on the detail screen, beyond the ACs.** The stack runs `headerShown: false` so the product image stays full-bleed, which left the iOS edge-swipe as the only way off the screen. That is a dead end when the gesture fails and unusable for anyone who cannot perform it. `components/BackControl.tsx` is the visible, focusable equivalent. Accessibility basics are not simplified away, even when no AC names them.
+
+2. **Deep links added, then removed.** They went in to drive the simulator without synthetic mouse events. They work, but iOS 26.5 raises an "Open in …?" confirmation for a custom scheme opened from outside — with the app foregrounded *and* with it terminated first — so they never became hands-free. With push out of scope by the README and no web surface, nothing else consumed them, and a URL route param would have needed the shape check `security.md` requires. Cost: two native rebuilds. **Rule taken from it: never add a product feature in order to test the product.**
+
+3. **The simulator is driven by a temporary render change, never by synthetic input.** Posting CGEvents moves the developer's *real* cursor and steals focus from whatever they are doing on the same machine — reported by the user mid-block. Flipping `initialRouteName` or adding a one-shot `useEffect`, screenshotting with `simctl io`, then reverting, is the only reliably hands-free method. Recorded in the brain (`rn-cli/tooling/simulator.md`) and in project memory.
+
+4. **The variant picker hides itself on a single `Default Title` variant.** Shopify returns that name for a product with no real options; one chip reading "Default Title" is noise, so `hasMeaningfulChoice` returns false and the component renders nothing. Verified live on the Everyday Tee.
+
+5. **The first *available* variant is preselected**, so the CTA starts enabled. If every variant were sold out nothing is selected and the CTA stays disabled.
+
+6. **Price formatting lives in `utils/priceUtils.ts`**, never in the adapter. Shopify sends money as a string to preserve precision; whole amounts render without cents (`$299`), fractional ones keep two digits.
+
+**Verified on the simulator against the live store:** 2-column grid, both products, detail with BLACK preselected / BLUE sold out and unselectable / WHITE selectable, and the Everyday Tee rendering no picker at all.
+
+**Open:** both products carry placeholder images (screenshots of an Apple receipt). The app renders them correctly; `design.md` puts the product photo at the centre of the screen, so the demo reads wrong until they are replaced in the admin. The user is handling it.
+
+---
+
 > When a new decision is made, append below with a date heading and add its row to `decisions-index.md` in the same edit.

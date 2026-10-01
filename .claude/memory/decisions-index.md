@@ -22,3 +22,5 @@
 | 2026-10-01 | Design validation no longer requires a small+large device matrix — one simulator is enough |
 | 2026-10-01 | Git writes (`init`/`add`/`commit`/`push`/PR) need an explicit user request — a PRD acceptance criterion is not one; not hook-enforced, carried by the model |
 | 2026-10-01 | PRD 002: `fetch` nativo (sem axios), fragments `Core`/`Card` separados por conflito de argumento em `images`, identificadores de metafield em `merchantConfig`, adapter indexa por `key` |
+| 2026-10-01 | PRD 003: back control (swipe não pode ser a única saída), picker some em variante única, preço formatado em `utils/`; deep links entraram e saíram — nunca adicionar recurso só para testar |
+| 2026-10-01 | Simulador se dirige por render temporário, nunca por evento sintético de mouse — rouba o cursor real do usuário |
