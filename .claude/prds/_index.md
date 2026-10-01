@@ -38,10 +38,6 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
 
 | # | Feature | File | Depends on | README source | Status |
 |---|---|---|---|---|---|
-| 001 | App Foundation | `active/001-app-foundation.md` | — | Entrega / architecture | draft |
-| 002 | Shopify Product Data | `active/002-shopify-product-data.md` | 001 | CASE 1 — requisito técnico | draft |
-| 003 | Product Browse | `active/003-product-browse.md` | 002 | CASE 1 — Product Detail | draft |
-| 004 | Product Metafields | `active/004-product-metafields.md` | 003 | CASE 2 | draft |
 | 005 | Winter Collection Badge | `active/005-winter-collection-badge.md` | 004 | CASE 3 + Requisito 4 | draft |
 | 006 | Product Care Section | `active/006-product-care-section.md` | 004 | CASE 5 | draft |
 | 007 | Home and Collections | `active/007-home-and-collections.md` | 004 | CASE 1 — navigation tree | draft |
@@ -52,7 +48,10 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
 
 | Feature | Shipped | Outcome |
 |---|---|---|
-| (none) | | |
+| 001 App Foundation | 2026-10-01 | `done/001-app-foundation.md` |
+| 002 Shopify Product Data | 2026-10-01 | `done/002-shopify-product-data.md` |
+| 003 Product Browse | 2026-10-01 | `done/003-product-browse.md` |
+| 004 Product Metafields | 2026-10-01 | `done/004-product-metafields.md` — EMV complete |
 
 ## How to author a new PRD
 

@@ -24,3 +24,5 @@
 | 2026-10-01 | PRD 002: `fetch` nativo (sem axios), fragments `Core`/`Card` separados por conflito de argumento em `images`, identificadores de metafield em `merchantConfig`, adapter indexa por `key` |
 | 2026-10-01 | PRD 003: back control (swipe não pode ser a única saída), picker some em variante única, preço formatado em `utils/`; deep links entraram e saíram — nunca adicionar recurso só para testar |
 | 2026-10-01 | Simulador se dirige por render temporário, nunca por evento sintético de mouse — rouba o cursor real do usuário |
+| 2026-10-01 | PRD 004: absent-case validado no admin real (storefront access revogado, valor só espaço, texto de 143 chars); `ProductMetadata` usa ternário em vez de `&&` (string vazia fora de `<Text>` quebra o RN); sem prefixo de label; badge não entrou no card da grid |
+| 2026-10-01 | CTA fixo sobre `ScrollView`: o conteúdo reserva espaço medindo o rodapé por `onLayout`, nunca por constante — safe area, escala de fonte e label do botão mudam a altura |

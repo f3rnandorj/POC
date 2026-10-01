@@ -1,6 +1,7 @@
 # PRD: Product Metafields (badge, material, promotion)
 
-**Status:** draft
+**Status:** done
+**Shipped:** 2026-10-01
 **Started:** 2026-10-01
 **Source:** README — CASE 2 "Metafields" + Requisito 2
 
@@ -42,11 +43,11 @@ As a merchant, I want a highlight on my product so that shoppers notice it — a
 **Complexity:** 3/10
 
 **Acceptance Criteria:**
-- [ ] `components/ProductBadge/ProductBadge.tsx` takes a single prop: `text?: string`
-- [ ] **Returns `null` on falsy text** — no skeleton, no placeholder, no reserved space
-- [ ] `accent` fill, `accentText` label, `badge` text variant, `s2` radius, `alignSelf="flex-start"`
-- [ ] No emoji — the README's star is prose describing a badge, not a spec
-- [ ] The component's name and props contain no merchant reference
+- [x] `components/ProductBadge/ProductBadge.tsx` takes a single prop: `text?: string`
+- [x] **Returns `null` on falsy text** — no skeleton, no placeholder, no reserved space
+- [x] `accent` fill, `accentText` label, `badge` text variant, `s2` radius, `alignSelf="flex-start"`
+- [x] No emoji — the README's star is prose describing a badge, not a spec
+- [x] The component's name and props contain no merchant reference
 
 ### US-002: ProductMetadata
 
@@ -56,11 +57,11 @@ As a merchant, I want my material and promotion copy shown so that the product p
 **Complexity:** 3/10
 
 **Acceptance Criteria:**
-- [ ] `components/ProductMetadata/ProductMetadata.tsx` takes `material?` and `promotion?`
-- [ ] Each line renders only when its value is present
-- [ ] All values absent → the component returns `null`, contributing no spacing
-- [ ] `textMuted` token, `body` variant
-- [ ] No label prefix that would read as `Material: undefined` in any state
+- [x] `components/ProductMetadata/ProductMetadata.tsx` takes `material?` and `promotion?`
+- [x] Each line renders only when its value is present
+- [x] All values absent → the component returns `null`, contributing no spacing
+- [x] `textMuted` token, `body` variant
+- [x] No label prefix that would read as `Material: undefined` in any state
 
 ### US-003: Wire the metafields into the detail screen
 
@@ -70,12 +71,12 @@ As a user, I want the custom information in the product page so that the merchan
 **Complexity:** 3/10
 
 **Acceptance Criteria:**
-- [ ] The badge and metadata slots from PRD 003 are filled with the two components
-- [ ] Values come from `product.metafields`, already parsed by the adapter
-- [ ] The screen contains no `if (x !== undefined)` guard around them — the components own that
-- [ ] Order: title → price → badge → metadata → description
-- [ ] Northstar Essential shows `BEST SELLER`, `Organic Cotton`, `Free shipping above $199`
-- [ ] Everyday Tee shows none, and the description sits where the metadata would have been with no gap
+- [x] The badge and metadata slots from PRD 003 are filled with the two components
+- [x] Values come from `product.metafields`, already parsed by the adapter
+- [x] The screen contains no `if (x !== undefined)` guard around them — the components own that
+- [x] Order: title → price → badge → metadata → description
+- [x] Northstar Essential shows `BEST SELLER`, `Organic Cotton`, `Free shipping above $199`
+- [x] Everyday Tee shows none, and the description sits where the metadata would have been with no gap
 
 ### US-004: Absent-value sweep
 
@@ -85,9 +86,9 @@ As a reviewer, I want the absent case proven so that the POC's grading criterion
 **Complexity:** 2/10
 
 **Acceptance Criteria:**
-- [ ] The list screen and the detail screen are both checked against the Everyday Tee
-- [ ] No `undefined`, `null`, `NaN`, `—` or empty quotes render anywhere
-- [ ] Temporarily clearing a single metafield in the Shopify admin removes exactly that line and nothing else
+- [x] The list screen and the detail screen are both checked against the Everyday Tee
+- [x] No `undefined`, `null`, `NaN`, `—` or empty quotes render anywhere
+- [x] Temporarily clearing a single metafield in the Shopify admin removes exactly that line and nothing else
 
 ## Functional Requirements
 
@@ -110,6 +111,18 @@ No winter collection (PRD 005), no care instructions (PRD 006), no metafield edi
 
 - Adding a fourth text metafield would touch the query, the adapter and one render line — nothing else
 - Side-by-side screenshots of both products show the difference with no visual artifact
+
+## Resolved Decisions
+
+- The absent case was validated **against the live Shopify admin by the user**, not simulated in code. Three real mutations, all passing:
+  - `material` had its **Storefront access revoked** on the definition → Storefront returns `null` → the line disappears, the badge sits straight against the promotion, no gap and no crash. This is the failure mode that bites in production (shopify.md, metafield rule 5), and the app treats it as plain absence.
+  - `promotion_text` set to **143 characters** → wraps to four lines, clips nothing, and the CTA stays pinned and visible because the footer lives outside the `ScrollView`.
+  - `material` set to **whitespace only** → `readText`'s trim maps it to `undefined`, so nothing renders.
+  - The leading space the admin kept on the long promo value confirms the trim on the render path too — the line starts flush with the badge.
+- That run also closed the partial case end to end (badge present + `material` absent + promotion present, all from real API data), which an earlier in-code override had only proven at the component level.
+- `ProductMetadata` renders its lines with `{value ? <Text/> : null}` rather than `{value && <Text/>}`. The adapter already maps `''` to `undefined`, but `&&` leaks an empty string into the tree, and a bare string outside `<Text>` is a React Native crash — the ternary cannot.
+- No label prefix on the metadata lines. A `Material:` prefix is exactly the construct that produces `Material: undefined` the moment the metafield goes away, and the merchant's values already read as sentences.
+- The badge was **not** added to `ProductCard`. PRD 004 scopes it to the detail screen; the grid stays title + price.
 
 ## Open Questions
 

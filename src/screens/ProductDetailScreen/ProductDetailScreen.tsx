@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Image, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Box, PressableBox, Text } from '@components';
+import { Box, PressableBox, ProductBadge, ProductMetadata, Text } from '@components';
 import { useProductGetDetail } from '@domain';
 import type { AppScreenProps } from '@routes';
 import { formatPrice } from '@utils';
@@ -15,6 +15,9 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
   const { top, bottom } = useSafeAreaInsets();
   const { product, isLoading, error, refetch } = useProductGetDetail(route.params.handle);
   const [selectedId, setSelectedId] = useState<string>();
+  // The CTA floats over the scroll, so the content has to end above it. Measured rather
+  // than guessed — safe area, font scaling and the "Sold out" label all change its height.
+  const [footerHeight, setFooterHeight] = useState(0);
 
   if (!product) {
     return (
@@ -36,7 +39,10 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
     <Box flex={1} backgroundColor="background" style={{ paddingTop: top }}>
       <BackControl top={top} onPress={navigation.goBack} />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: footerHeight }}
+      >
         <Box backgroundColor="surface" aspectRatio={1} width="100%">
           {image && (
             <Image
@@ -52,7 +58,13 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
           <Text variant="displayLarge">{product.title}</Text>
           <Text variant="priceLarge">{formatPrice(product.price)}</Text>
 
-          {/* Badge and metadata slots land in PRD 004. */}
+          {/* No guard here on purpose — each component returns `null` on an absent
+              metafield, so the Everyday Tee leaves no gap behind (quick-rule #5). */}
+          <ProductBadge text={product.metafields.badge} />
+          <ProductMetadata
+            material={product.metafields.material}
+            promotion={product.metafields.promotionText}
+          />
 
           {product.description.length > 0 && (
             <>
@@ -79,6 +91,7 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
         borderTopWidth={1}
         borderTopColor="border"
         style={{ paddingBottom: bottom + 12 }}
+        onLayout={event => setFooterHeight(event.nativeEvent.layout.height)}
       >
         {/* ponytail: local feedback only — cart and checkout are out of scope for the POC
             (README "O que NÃO fazer"). Wire a cart service here when one exists. */}

@@ -197,3 +197,29 @@ Append-only. Never delete. Format: date heading + decision + reason + rejected a
 ---
 
 > When a new decision is made, append below with a date heading and add its row to `decisions-index.md` in the same edit.
+
+## 2026-10-01 — PRD 004: metafields renderizados por componente genérico
+
+**Contexto.** Os três metafields de texto (`badge`, `material`, `promotion_text`) já chegavam parseados do adapter desde a PRD 002. Faltava só o render, e o critério de nota da POC é o produto *sem* metafield não deixar rastro.
+
+**Decisões.**
+
+1. **Absent-case validado no admin real, pelo usuário.** O primeiro passe provou o caso em código (render temporário, revertido) porque mutar dado real do merchant não é chamada do app e o token é read-only. O usuário então rodou no admin de verdade: `material` com Storefront access revogado (caso de produção mais comum — vira `null`, a linha some, nada quebra), `material` só com espaço (o trim do adapter absorve) e `promotion_text` com 143 caracteres (quebra em 4 linhas, não clipa, CTA segue fixo). Essa rodada também fechou o caso parcial ponta a ponta, que o passe em código só tinha provado no nível do componente.
+
+2. **`ProductMetadata` usa `{value ? <Text/> : null}`, não `{value && <Text/>}`.** O adapter já mapeia `''` para `undefined`, então na prática as duas formas rendem igual. Mas `&&` vaza string vazia para a árvore quando a garantia do adapter falhar, e string solta fora de `<Text>` é crash no React Native — o ternário não tem esse modo de falha.
+
+3. **Sem prefixo de label nas linhas de metadata.** `Material:` é exatamente a construção que vira `Material: undefined` quando o metafield some. Os valores do merchant já leem como frase.
+
+4. **Badge não entrou no `ProductCard`.** Escopo da PRD é a tela de detalhe; a grid segue título + preço.
+
+**Consequências.** Um quarto metafield de texto custa: identificador no `merchantConfig`, campo no `ProductMetafields`, linha no adapter, uma linha de render. Nenhuma tela, navegação ou client é tocado.
+
+## 2026-10-01 — Rodapé fixo sobre scroll: reservar espaço medido, não constante
+
+**Contexto.** O `ProductDetailScreen` tem o CTA fora do `ScrollView`, flutuando sobre ele. Sem reserva no fim do conteúdo, o último bloco (o seletor de variante) ficava permanentemente atrás do botão. Achado ao validar a PRD 004; o defeito era da PRD 003.
+
+**Decisão.** O `ScrollView` recebe `contentContainerStyle={{ paddingBottom: footerHeight }}`, e `footerHeight` vem de um `onLayout` no próprio rodapé.
+
+**Por que não uma constante.** A altura do rodapé é `bottom` da safe area + paddings + a linha de texto do botão. Os três variam: aparelho com e sem home indicator, escala de fonte do sistema, e o label alternando entre "Add to cart" e "Sold out". Qualquer número fixo fica certo em um aparelho e errado no próximo.
+
+**Consequência.** Vale para toda tela que ponha barra fixa sobre scroll. Se uma segunda aparecer, o par `onLayout` + `paddingBottom` vira hook em `hooks/`.
