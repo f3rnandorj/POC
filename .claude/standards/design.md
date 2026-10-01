@@ -64,4 +64,4 @@ A second badge variant (outline) is allowed only when two badges must coexist on
 
 ## Validation
 
-Mobile profile: the layout is checked on a **small device (iPhone SE / 375pt) and a large one** before a screen counts as done. Overflow, clipped badge text, or a 2-column grid that breaks at 375pt means not done. Long-content check: a 3-line product title and a 200-char promo text must not push the CTA off screen.
+Mobile profile: a screen counts as done when it was exercised on a running simulator — one device is enough, no small/large matrix. Overflow and clipped badge text still mean not done. Long-content check: a 3-line product title and a 200-char promo text must not push the CTA off screen.

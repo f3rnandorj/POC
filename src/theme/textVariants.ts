@@ -1,6 +1,7 @@
 import type { TextStyle } from 'react-native';
 
 import type { ColorToken } from './colors';
+import { fonts } from './fonts';
 
 /**
  * Every variant carries its own color token, and `defaults` carries one too — a `Text`
@@ -9,49 +10,49 @@ import type { ColorToken } from './colors';
  */
 export const textVariants = {
   defaults: {
+    fontFamily: fonts.regular,
     fontSize: 15,
     lineHeight: 22,
-    fontWeight: '400',
     color: 'text',
   },
   displayLarge: {
+    fontFamily: fonts.bold,
     fontSize: 32,
     lineHeight: 36,
-    fontWeight: '700',
     letterSpacing: -0.6,
     color: 'text',
   },
   titleMedium: {
+    fontFamily: fonts.bold,
     fontSize: 14,
     lineHeight: 18,
-    fontWeight: '700',
     letterSpacing: 1,
     textTransform: 'uppercase',
     color: 'text',
   },
   priceLarge: {
+    fontFamily: fonts.bold,
     fontSize: 24,
     lineHeight: 28,
-    fontWeight: '700',
     fontVariant: ['tabular-nums'],
     color: 'text',
   },
   body: {
+    fontFamily: fonts.regular,
     fontSize: 15,
     lineHeight: 22,
-    fontWeight: '400',
     color: 'text',
   },
   caption: {
+    fontFamily: fonts.medium,
     fontSize: 12,
     lineHeight: 16,
-    fontWeight: '500',
     color: 'textMuted',
   },
   badge: {
+    fontFamily: fonts.bold,
     fontSize: 11,
     lineHeight: 14,
-    fontWeight: '700',
     letterSpacing: 1,
     textTransform: 'uppercase',
     color: 'accentText',

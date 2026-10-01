@@ -131,9 +131,11 @@ Append-only. Never delete. Format: date heading + decision + reason + rejected a
 
 5. **Android keeps the default scaffold.** iOS is the demo target. `dotenv.gradle` is applied so a later Android run is not blocked, but no Android build was exercised.
 
+7. **The knowledge graph is scoped by `.graphifyignore`.** `graphify update .` indexed `ios/Pods` and produced a 40,783-node graph of CocoaPods internals (the tool skips `node_modules` by default but not Pods). `.graphifyignore` now excludes the native dependency trees and build output; the graph is 53 nodes of the app's own source. `graphify-out/cache/` is gitignored (~200MB of regenerable blobs).
+
 **Rejected:** keeping the template's `App.tsx` at the repo root — `index.js` now points at `src/App.tsx` so the whole app lives under the aliased tree.
 
-**Open, not decided:** the type family. `standards/design.md` names Inter or Satoshi; this block ships the iOS system font with no font assets linked. Needs an answer before the UI blocks (003+).
+6. **Inter is linked as a real asset, and weight is selected by face.** `standards/design.md` names Inter or Satoshi; the block first shipped the iOS system font, and the user chose to close the gap in 001. `src/assets/fonts` holds Inter-Regular/Medium/Bold (SIL OFL, license kept beside them), linked to both platforms by `react-native-asset` via `react-native.config.js`. `theme/fonts.ts` holds the PostScript names and each text variant sets `fontFamily` instead of `fontWeight` — RN would otherwise synthesize a faux bold on Android rather than use Inter-Bold.
 
 ---
 

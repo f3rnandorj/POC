@@ -17,3 +17,6 @@
 | 2026-09-30 | Knowledge graph installed below the size threshold, by user request — self-healing rule + queue hook |
 | 2026-10-01 | RN CLI conventions: hooks `use{Domain}{Action}{Target}`, singleton objects export last, no per-component/per-screen barrel, domain barrel never exports the service |
 | 2026-10-01 | PRD 001 executed: jest not merged (no test layer), `theme/colors.ts` split for token typing, every text variant carries a color token, `react-native-config` wired (consumed in 008), Android left on the default scaffold |
+| 2026-10-01 | Inter linked as a real font asset; weight selected by face (`fontFamily`), never `fontWeight` |
+| 2026-10-01 | Graph scoped by `.graphifyignore` — `ios/Pods` was burying the app's own nodes; `graphify-out/cache/` gitignored |
+| 2026-10-01 | Design validation no longer requires a small+large device matrix — one simulator is enough |
