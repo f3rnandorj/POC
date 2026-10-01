@@ -305,3 +305,27 @@ Append-only. Never delete. Format: date heading + decision + reason + rejected a
 5. **O segundo merchant reusa as credenciais da loja real, e isso está dito no import.** A POC tem uma loja de dev. Forjar catálogo seria pior que reusar um real com um comentário `ponytail:` nomeando o caminho de produção: instalação OAuth → endpoint da plataforma → mesmo shape.
 
 **Consequência.** Trocar `ACTIVE_MERCHANT_ID` muda accent, capacidades habilitadas e chaves de metafield ao mesmo tempo. Adicionar merchant é um arquivo em `config/merchant/merchants/` e uma linha no record.
+
+## 2026-10-01 — PRD 009: seed de catálogo e o custo de escolher foto pelo link
+
+**Contexto.** A loja tinha 2 produtos e 2 coleções sem capa. Toda tela lia como stub.
+
+**Decisões técnicas.**
+
+1. **`productSet` com `identifier: { handle }`.** A PRD presumia dois writes por produto (`productCreate` + `productVariantsBulkCreate`). O `ProductSetInput` leva opções, variantes, mídia, metafields e coleções juntos — e o `identifier` é o que faz virar upsert. Sem ele a mutation sempre cria e o rerun morre em "handle already in use".
+
+2. **Disponibilidade por rastreamento, não por quantidade.** Variante rastreada nasce em zero e lê como esgotada; não rastreada é sempre disponível. Quantidade real exigiria `read_locations` e um location id, sem ganho nenhum numa demo.
+
+3. **Conteúdo em `catalog.mjs`, maquinário em `seed-catalog.mjs`.** Trocar foto ou preço é editar dado; não deve exigir ler GraphQL.
+
+4. **Token Admin em `~/.config/northstar-poc/admin-token.sh`, modo 600.** O scratchpad é da sessão e a Shopify revela o token Admin uma vez só — perder significa desinstalar e reinstalar o app. Nunca no `.env`, nunca no repositório.
+
+**O erro que custou mais caro: escolher foto por "o link responde" em vez de "a imagem serve".** O primeiro passe subiu um flat lay com tênis Puma e duas peças Champion no quadro, uma figura encapuzada de máscara de Guy Fawkes como jaqueta, e quatro retratos noturnos ao lado de duas fotos de estúdio. Grade virou colagem de banco de imagem.
+
+Checados Unsplash, Pexels e o Burst da própria Shopify: **não existe acervo gratuito de peça isolada em fundo preto.** Quem fotografa peça sozinha usa branco; quem fotografa escuro bota pessoa dentro. As duas fotos originais da loja só escapam disso porque são **geradas por IA** (`ChatGPT_Image_*.png` nos arquivos da loja).
+
+Então o catálogo padronizou **no claro**: UI preta, tile de produto claro, como a maioria das lojas de roupa faz. E a linha de produtos foi reescrita em volta das fotos que existem e são livres — não há moletom no catálogo porque não há foto gratuita de moletom isolado, e inventar o produto para casar com um retrato foi exatamente o erro do primeiro passe.
+
+**Regra que fica:** foto de seed se escolhe pelo que está no quadro — marca de terceiro, pessoa, fundo — antes de se checar se o link responde.
+
+**Deleção é do usuário.** Trocar a linha deixou seis produtos órfãos. A etapa de delete foi escrita e recusada pelo harness; o usuário removeu pelo admin. O script semeia e restiliza, nunca apaga — que é a forma certa para ele de qualquer jeito.
