@@ -3,7 +3,7 @@
 **Status:** done
 **Completed:** 2026-10-01
 **Started:** 2026-10-01
-**Source:** README — CASE 1 "A Product Detail deve mostrar" + the EMV minimum journey
+**Source:** product requirement — Product Detail contents + the EMV minimum journey
 
 ## Overview
 

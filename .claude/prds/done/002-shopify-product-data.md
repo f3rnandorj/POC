@@ -3,7 +3,7 @@
 **Status:** done
 **Completed:** 2026-10-01
 **Started:** 2026-10-01
-**Source:** README — CASE 1 "Requisito técnico" (Storefront API + GraphQL)
+**Source:** technical requirement — Storefront API + GraphQL
 
 ## Overview
 

@@ -40,7 +40,7 @@ Rules:
 
 1. **The returned array is positional and contains `null`** for every identifier the product does not define. The adapter must tolerate `null` entries — indexing blindly is a crash, not a missing value.
 2. **The adapter owns all parsing.** `value` is always a string: `boolean` → `value === 'true'`, `json` → `JSON.parse` inside a try/catch, `number_integer` → `Number(...)`. A parse failure yields `undefined`, never a throw that kills the screen.
-3. **Absent means absent** — the adapter emits `undefined` for a missing metafield and the component returns `null`. No `''`, no `'—'`, no `'undefined'`, no default text. This is quick-rule #5 and it is the POC's grading criterion.
+3. **Absent means absent** — the adapter emits `undefined` for a missing metafield and the component returns `null`. No `''`, no `'—'`, no `'undefined'`, no default text. This is quick-rule #5.
 4. **Identifiers are declared once**, in `src/config/merchant/merchantConfig.ts` (`features` + metafield keys), so a new merchant with different keys is a config change.
 5. The metafield must be **published to the Storefront API** in the Shopify admin (Settings → Custom data → the definition → "Storefront access"). A correct query against an unpublished definition returns `null` — check this before debugging the app.
 
@@ -58,7 +58,7 @@ type ProductMetafields = {
 
 ## Generic components, never merchant-named
 
-The whole point of Case 4. A merchant requirement becomes a **generic component + a config flag**, never a named component:
+A merchant requirement becomes a **generic component + a config flag**, never a named component:
 
 ```tsx
 // ✅ reusable for every merchant

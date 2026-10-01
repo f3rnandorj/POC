@@ -3,7 +3,7 @@
 **Status:** done
 **Shipped:** 2026-10-01
 **Started:** 2026-10-01
-**Source:** README — CASE 3 + Requisito 4 ("The client wants a special badge for Winter Collection products")
+**Source:** merchant request — "a special badge for Winter Collection products"
 
 ## Overview
 
@@ -92,7 +92,7 @@ No collection pages, no filtering by collection, no seasonal theming, no second 
 ## Success Metrics
 
 - Total diff under ~20 lines across config, adapter and one screen line
-- A reviewer can answer "what changes for the next merchant?" with "one config entry"
+- Anyone reading the code answers "what changes for the next merchant?" with "one config entry"
 
 ## Open Questions
 

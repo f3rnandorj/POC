@@ -3,7 +3,7 @@
 **Status:** done
 **Shipped:** 2026-10-01
 **Started:** 2026-10-01
-**Source:** README — CASE 5 "Mini tarefa de Forward Deployment" (`care_instructions`)
+**Source:** merchant request — a How-to-care section fed by the `care_instructions` metafield
 
 ## Overview
 

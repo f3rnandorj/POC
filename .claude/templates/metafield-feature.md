@@ -1,6 +1,6 @@
 # Template — merchant asks for a new metafield-driven feature
 
-The Case 3/4/5 path. A Merchant Success message ("the client wants a badge for the Winter Collection", "products with `care_instructions` should show a How-to-care section") becomes **config + adapter + generic component**. It must not touch the client, the queries' structure, navigation or any screen's shape.
+A Merchant Success message ("the client wants a badge for the Winter Collection", "products with `care_instructions` should show a How-to-care section") becomes **config + adapter + generic component**. It must not touch the client, the queries' structure, navigation or any screen's shape.
 
 **Before writing code:** run steps 1-2 of `standards/issue-protocol.md` — confirm the metafield exists in the Shopify admin **and is published to the Storefront API**, and confirm the raw GraphQL response contains it. Most of these requests die there.
 
@@ -94,14 +94,14 @@ Rules that make this safe:
 Reuse first. Only create a component when no existing one fits, and name it for the **shape**, never the merchant or the metafield.
 
 ```tsx
-// Case 3 — a badge. Nothing new is built: the existing primitive takes the text.
+// A badge. Nothing new is built: the existing primitive takes the text.
 <ProductBadge
   text={features.winterCollection && product.metafields.isWinterCollection
     ? 'WINTER COLLECTION'
     : undefined}
 />
 
-// Case 5 — a titled list of label/value pairs. Generic on purpose.
+// A titled list of label/value pairs. Generic on purpose.
 <ProductSection title="HOW TO CARE" items={careItems} />
 ```
 
@@ -140,6 +140,6 @@ The screen passes data and never wraps the component in a conditional — the co
 - [ ] No screen, no navigation file and no `client.ts` was touched.
 - [ ] Turning the feature flag off hides the section for every product.
 
-## The 5-minute test (README's final challenge)
+## The 5-minute test
 
 "The client wants the same feature for another 10 merchants." If the answer is anything other than *"add the identifier to the fragment and flip the flag per merchant"*, the feature was built in the wrong layer — go back to step 4 or 5.

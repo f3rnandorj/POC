@@ -1,4 +1,6 @@
+export * from './BackControl/BackControl';
 export * from './Box/Box';
+export * from './CollectionCard/CollectionCard';
 export * from './PressableBox/PressableBox';
 export * from './ProductBadge/ProductBadge';
 export * from './ProductCard/ProductCard';

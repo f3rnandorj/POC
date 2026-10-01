@@ -3,7 +3,7 @@
 **Status:** done
 **Shipped:** 2026-10-01
 **Started:** 2026-10-01
-**Source:** README — CASE 2 "Metafields" + Requisito 2
+**Source:** product requirement — merchant-specific product content through metafields
 
 ## Overview
 
@@ -80,7 +80,7 @@ As a user, I want the custom information in the product page so that the merchan
 
 ### US-004: Absent-value sweep
 
-As a reviewer, I want the absent case proven so that the POC's grading criterion is met on every path.
+As a user, I want absent content to render nothing so that no placeholder leaks on any path.
 
 **Depends on:** US-003
 **Complexity:** 2/10

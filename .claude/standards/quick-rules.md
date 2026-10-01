@@ -11,7 +11,7 @@
 
 ## Metafields & merchant customization
 
-5. **Absent metafield renders nothing** — no `undefined`, no `null`, no "Material: —". The component returns `null` when the value is missing. Non-negotiable; it is the POC's grading criterion.
+5. **Absent metafield renders nothing** — no `undefined`, no `null`, no "Material: —". The component returns `null` when the value is missing. Non-negotiable.
 6. **No merchant-named code** — `<ProductBadge text={...} />`, never `<NorthstarWinterBadge />`. Merchant identity lives in `merchantConfig`, not in file or component names. See `shopify.md`.
 7. **New metafield = config + adapter + generic component** — adding one must not touch navigation, screens or the Shopify client. Follow `templates/metafield-feature.md`.
 

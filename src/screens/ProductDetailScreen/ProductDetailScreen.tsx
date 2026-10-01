@@ -3,6 +3,7 @@ import { Image, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
+  BackControl,
   Box,
   PressableBox,
   ProductBadge,
@@ -15,7 +16,6 @@ import { useProductGetDetail } from '@domain';
 import type { AppScreenProps } from '@routes';
 import { formatPrice } from '@utils';
 
-import { BackControl } from './components/BackControl';
 import { ProductDetailFeedback } from './components/ProductDetailFeedback';
 import { VariantPicker } from './components/VariantPicker';
 

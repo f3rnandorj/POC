@@ -265,3 +265,25 @@ Append-only. Never delete. Format: date heading + decision + reason + rejected a
 4. **`washing`/`drying` hardcoded, e isso está declarado.** As chaves são do merchant. Outro merchant com outras chaves é a PRD 008; esta PRD diz isso explicitamente nas Technical Considerations, então não é V2 por iniciativa do modelo.
 
 **Consequência.** O bloco custou: um identificador no config, um campo no tipo, uma linha no adapter, um componente genérico e uma chamada na tela. É a prova que a arquitetura das PRDs 002-004 pedia.
+
+## 2026-10-01 — PRD 007: Collection pelo mesmo pipeline, e dois defeitos antigos
+
+**Contexto.** Fecha a árvore de navegação: Home com destaques e collections, alimentando a lista existente. Fora do caminho da EMV.
+
+**Decisões.**
+
+1. **`collectionAdapter` importa `productAdapter` por caminho relativo.** O barrel do Product exporta só useCases + tipos (quick-rule #10), e os produtos aninhados de uma collection precisam sair do mesmo mapper que a grid usa. Um segundo `toProduct` seria exatamente a divergência que a regra existe para evitar. A exceção está comentada no import.
+
+2. **Uma tela de lista, dois escopos.** `useProductGetList(!collectionHandle)` e `useCollectionGetProducts(handle)`, cada um desabilitado no modo do outro. Sem segunda tela, sem request desperdiçado.
+
+3. **`BackControl` subiu para `@components` com `top` opcional.** Flutuante sobre a imagem full-bleed do detalhe, em fluxo normal na lista. Com a Home virando entrada, a lista deixou de ser raiz da stack e o edge-swipe seria a única saída.
+
+4. **"Featured" é o primeiro N do catálogo.** Shopify não tem esse conceito. Comentário `ponytail:` aponta o caminho: um handle de collection `featured` no `merchantConfig` quando um merchant curar uma.
+
+**Defeitos pré-existentes corrigidos.**
+
+1. **React Query v5 recusa `undefined` como dado em cache.** `productService.byHandle` e `collectionService.productsByHandle` devolvem `undefined` para "não encontrado", o que virava *"Query data cannot be undefined"* e tela de erro no lugar do estado vazio desenhado. Os dois useCases agora mandam `null` pelo cache e devolvem `undefined` para a UI — o contrato de ausência das telas não muda. O detalhe de produto tinha o mesmo buraco desde a PRD 002; nunca apareceu porque todo handle testado existia.
+
+2. **`numColumns={2}` estica o último card de linha ímpar.** Collection com 1, 3 ou 5 produtos renderizava o último card na largura toda. `maxWidth="50%"` no wrapper do item.
+
+**Pendente, e não é do modelo.** A loja tem só a collection `frontpage` criada automaticamente pelo Shopify; duas collections reais publicadas no canal Headless são passo de admin do usuário. E o tap-through Home → collection → lista → detalhe precisa de toque humano, porque dirigir o simulador por evento sintético de cursor é proibido.

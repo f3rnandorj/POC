@@ -2,7 +2,7 @@
 
 **Status:** draft
 **Started:** 2026-10-01
-**Source:** README — CASE 4 + Bônus 2 + "Desafio final" ("the same feature for another 10 merchants")
+**Source:** platform requirement — one codebase, many merchants ("the same feature for another 10 merchants")
 
 ## Overview
 
@@ -75,7 +75,7 @@ As a merchant, I want my brand color in the app so that it does not look generic
 
 ### US-004: Second merchant
 
-As a reviewer, I want a second merchant configured so that the claim is demonstrated rather than described.
+As the author, I want a second merchant configured so that the claim is demonstrated rather than described.
 
 **Depends on:** US-001, US-002, US-003
 **Complexity:** 4/10
@@ -105,7 +105,7 @@ No OAuth, no backend, no merchant admin UI, no runtime merchant switcher in the 
 
 ## Success Metrics
 
-- A reviewer switching the active merchant sees a different app without reading the diff
+- Switching the active merchant yields a visibly different app without reading the diff
 - The README's "50 merchants" answer points at running code, not a paragraph
 
 ## Open Questions

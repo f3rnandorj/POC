@@ -23,24 +23,25 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
       ↓
 003 product-browse ─────────────┐
       ↓                         │
-004 product-metafields          │   ← EMV complete (README's "entrega mínima viável")
+004 product-metafields          │   ← EMV complete (minimum viable journey)
       ├──→ 005 winter-collection-badge
       ├──→ 006 product-care-section
-      ├──→ 007 home-and-collections   (Case 1 in full; not on the EMV path)
-      └──→ 008 multi-merchant-config  (Case 4 + Bônus 2)
+      ├──→ 007 home-and-collections   (full navigation tree; not on the EMV path)
+      ├──→ 008 multi-merchant-config  (one codebase, many merchants)
+      └──→ 009 catalog-seed           (content, not code; needs 007 for collection covers)
                     ↓
-            009 delivery-readme       (needs every other block shipped)
+            010 project README        (needs every other block shipped)
 ```
 
-005, 006, 007 and 008 depend only on 004 and can be reordered. 009 is last by definition — it documents what shipped.
+005, 006, 007 and 008 depend only on 004 and can be reordered. 009 seeds the store so the app looks filled — content only, no source change. 010 is last by definition: a general project README for a developer visiting the repo.
 
 ## Active PRDs
 
-| # | Feature | File | Depends on | README source | Status |
+| # | Feature | File | Depends on | Source | Status |
 |---|---|---|---|---|---|
-| 007 | Home and Collections | `active/007-home-and-collections.md` | 004 | CASE 1 — navigation tree | draft |
-| 008 | Multi-Merchant Config | `active/008-multi-merchant-config.md` | 004 | CASE 4 + Bônus 2 | draft |
-| 009 | Delivery — README and Demo | `active/009-delivery-readme.md` | 005-008 | O que documentar | draft |
+| 008 | Multi-Merchant Config | `active/008-multi-merchant-config.md` | 004 | one codebase, many merchants | draft |
+| 009 | Catalog Seed | `active/009-catalog-seed.md` | 004, 007 | demo requirement — app must not look empty | draft |
+| 010 | Project README and Demo | `active/010-project-readme.md` | 005-009 | general project doc | draft |
 
 ## Done PRDs
 
@@ -52,6 +53,7 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
 | 004 Product Metafields | 2026-10-01 | `done/004-product-metafields.md` — EMV complete |
 | 005 Winter Collection Badge | 2026-10-01 | `done/005-winter-collection-badge.md` |
 | 006 Product Care Section | 2026-10-01 | `done/006-product-care-section.md` |
+| 007 Home and Collections | 2026-10-01 | `done/007-home-and-collections.md` — CASE 1 complete |
 
 ## How to author a new PRD
 

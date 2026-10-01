@@ -4,13 +4,19 @@ interface ProductListFeedbackProps {
   isLoading: boolean;
   error: unknown;
   onRetry: () => void;
+  emptyText: string;
 }
 
 /**
  * The three non-content states in one place, all in the project identity: type and
  * accent, never a spinner on white (standards/design.md).
  */
-export function ProductListFeedback({ isLoading, error, onRetry }: ProductListFeedbackProps) {
+export function ProductListFeedback({
+  isLoading,
+  error,
+  onRetry,
+  emptyText,
+}: ProductListFeedbackProps) {
   if (isLoading) {
     return (
       <Box paddingVertical="s32" gap="s8">
@@ -54,7 +60,7 @@ export function ProductListFeedback({ isLoading, error, onRetry }: ProductListFe
         Nothing here yet
       </Text>
       <Text variant="body" color="textMuted">
-        This store has no published products.
+        {emptyText}
       </Text>
     </Box>
   );
