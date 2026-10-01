@@ -10,6 +10,37 @@ The store holds 2 products and 2 collections, and neither collection has a cover
 
 Deliberately small. The point is a populated app, not a catalog.
 
+## Before execution — walk the user through the setup first
+
+**When the user asks to run this block, do not start writing the script.** This block needs manual
+steps in the Shopify admin that only the user can do. Guide them through it, confirm each one is
+done, then implement.
+
+What is needed before the first line of code:
+
+1. **A custom app in the admin** — Settings → Apps and sales channels → Develop apps → Create an app.
+2. **Admin API scopes on that app** — `write_products` (products, variants, collections, metafields)
+   and `write_publications` (publishing to the Headless channel).
+3. **The Admin API access token** (`shpat_…`), installed and revealed once. The user holds it; it is
+   exported in the shell for the run and never written to `.env`, the repo, or any tracked file.
+4. **The Headless channel's publication id** — everything seeded must be published to it, or the
+   Storefront API cannot see it and the app looks broken for a reason no code explains.
+5. **Metafield definitions with Storefront access enabled** for all five identifiers in
+   `merchantConfig`. Already true if 004 shipped — verify, do not assume.
+
+### Why a script and not the CLI or an MCP server
+
+Settled on 2026-10-01, do not re-derive:
+
+- **Shopify CLI** has no catalog CRUD. It covers app, theme and hydrogen workflows only, and it is
+  not installed on this machine.
+- **The official Shopify Dev MCP** reads docs and introspects the Admin schema. It does not write to
+  a store.
+- **Third-party Shopify MCP servers** do write, but that means installing an unaudited server and
+  handing it an Admin token for work one local script does.
+
+So: Admin GraphQL from `scripts/seed-catalog.mjs`, token from the shell environment.
+
 ## Goals
 
 - Home, both collection lists and Product Detail all look filled
@@ -44,7 +75,7 @@ As the author, I want the mechanism settled before any content is written so tha
 **Complexity:** 2/10
 
 **Acceptance Criteria:**
-- [ ] Admin GraphQL from a local script is the path; Shopify CLI has no catalog CRUD and no Shopify MCP is installed here
+- [ ] The five setup items above were walked through with the user and each confirmed done — this US is a conversation, not code
 - [ ] A custom app exists in the admin with `write_products` and `write_publications`
 - [ ] The Admin token is passed through the shell environment at run time — never into `.env`, never into a tracked file
 - [ ] `scripts/seed-catalog.mjs` is dev tooling: nothing under `src/` imports it, and the app keeps reading only the Storefront API

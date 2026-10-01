@@ -287,3 +287,21 @@ Append-only. Never delete. Format: date heading + decision + reason + rejected a
 2. **`numColumns={2}` estica o último card de linha ímpar.** Collection com 1, 3 ou 5 produtos renderizava o último card na largura toda. `maxWidth="50%"` no wrapper do item.
 
 **Pendente, e não é do modelo.** A loja tem só a collection `frontpage` criada automaticamente pelo Shopify; duas collections reais publicadas no canal Headless são passo de admin do usuário. E o tap-through Home → collection → lista → detalhe precisa de toque humano, porque dirigir o simulador por evento sintético de cursor é proibido.
+
+## 2026-10-01 — PRD 008: merchant vira dado, não ramificação
+
+**Contexto.** Responder "a mesma feature para mais 10 merchants" com código rodando, não com parágrafo.
+
+**Decisões.**
+
+1. **Metafield deixou de ser lista e virou mapa `conceito → {namespace, key}`.** A query monta os identificadores a partir dos valores do mapa; o adapter resolve cada conceito pelo mesmo mapa. Merchant que chama `material` de `fabric_type` custa uma entrada de config. `MetafieldConcept` é declarado em `merchantTypes.ts` e não derivado de `ProductMetafields` — config fica abaixo do domínio e a dependência precisa correr num sentido só.
+
+2. **Conceito omitido nunca é pedido.** `flatMap` tira ele do documento GraphQL e o `find` do adapter devolve `undefined` — idêntico a qualquer metafield ausente, então a quick-rule #5 vale sem segundo caminho de código.
+
+3. **`accentText` é derivado, não um segundo override.** `theme.primaryColor` sobrescreve só o `accent`; a cor do rótulo em cima dele sai da luminância relativa WCAG (`theme/contrast.ts`). Cor de marca de merchant não consegue produzir CTA ilegível. Conferido na tela: `#4D7CFE` resolve para o quase-preto a 5.3:1, e o `volt` base resolve para o mesmo token que o tema já usava — Northstar ficou idêntico.
+
+4. **Hex de marca mora no config do merchant.** A quick-rule #9 diz que `palette.ts` é o único arquivo com literal de cor, e ela governa o **tema base**. O accent de um merchant é dado de merchant, não token de design, e `config/merchant/` é exatamente onde dado de merchant vive.
+
+5. **O segundo merchant reusa as credenciais da loja real, e isso está dito no import.** A POC tem uma loja de dev. Forjar catálogo seria pior que reusar um real com um comentário `ponytail:` nomeando o caminho de produção: instalação OAuth → endpoint da plataforma → mesmo shape.
+
+**Consequência.** Trocar `ACTIVE_MERCHANT_ID` muda accent, capacidades habilitadas e chaves de metafield ao mesmo tempo. Adicionar merchant é um arquivo em `config/merchant/merchants/` e uma linha no record.

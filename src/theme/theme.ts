@@ -1,10 +1,21 @@
 import { createTheme } from '@shopify/restyle';
 
+import { merchantConfig } from '@config';
+
 import { colors } from './colors';
+import { pickContrastText } from './contrast';
 import { textVariants } from './textVariants';
 
+// The accent is the only merchant-overridable token (design.md). `accentText` is not a second
+// override — it is derived, so a merchant brand color can never produce an unreadable label.
+const accent = merchantConfig.theme.primaryColor ?? colors.accent;
+
 export const theme = createTheme({
-  colors,
+  colors: {
+    ...colors,
+    accent,
+    accentText: pickContrastText(accent),
+  },
   spacing: {
     s4: 4,
     s8: 8,

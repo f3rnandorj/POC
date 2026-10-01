@@ -6,4 +6,5 @@ export * from './ProductBadge/ProductBadge';
 export * from './ProductCard/ProductCard';
 export * from './ProductMetadata/ProductMetadata';
 export * from './ProductSection/ProductSection';
+export * from './StoryCard/StoryCard';
 export * from './Text/Text';

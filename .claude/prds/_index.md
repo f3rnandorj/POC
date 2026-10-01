@@ -39,7 +39,6 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
 
 | # | Feature | File | Depends on | Source | Status |
 |---|---|---|---|---|---|
-| 008 | Multi-Merchant Config | `active/008-multi-merchant-config.md` | 004 | one codebase, many merchants | draft |
 | 009 | Catalog Seed | `active/009-catalog-seed.md` | 004, 007 | demo requirement — app must not look empty | draft |
 | 010 | Project README and Demo | `active/010-project-readme.md` | 005-009 | general project doc | draft |
 
@@ -54,6 +53,8 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
 | 005 Winter Collection Badge | 2026-10-01 | `done/005-winter-collection-badge.md` |
 | 006 Product Care Section | 2026-10-01 | `done/006-product-care-section.md` |
 | 007 Home and Collections | 2026-10-01 | `done/007-home-and-collections.md` — CASE 1 complete |
+| 008 Multi-Merchant Config | 2026-10-01 | `done/008-multi-merchant-config.md` |
+| 011 Brand Story Metaobject | 2026-10-01 | `done/011-brand-story.md` — optional bonus |
 
 ## How to author a new PRD
 

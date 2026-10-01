@@ -1,4 +1,6 @@
 import type { MetafieldApi } from '@api';
+import type { MetafieldConcept } from '@config';
+import { merchantConfig } from '@config';
 
 import type {
   Product,
@@ -47,11 +49,11 @@ function toMetafields(raw: (MetafieldApi | null)[] | null | undefined): ProductM
   }
 
   return {
-    badge: readText(byKey.get('badge')),
-    material: readText(byKey.get('material')),
-    promotionText: readText(byKey.get('promotion_text')),
-    isWinterCollection: readBoolean(byKey.get('is_winter_collection')),
-    careInstructions: readJson<ProductCareInstructions>(byKey.get('care_instructions')),
+    badge: readText(find(byKey, 'badge')),
+    material: readText(find(byKey, 'material')),
+    promotionText: readText(find(byKey, 'promotionText')),
+    isWinterCollection: readBoolean(find(byKey, 'isWinterCollection')),
+    careInstructions: readJson<ProductCareInstructions>(find(byKey, 'careInstructions')),
   };
 }
 
@@ -68,6 +70,17 @@ function toVariants(node: ProductNodeApi): ProductVariant[] {
     title: edge.node.title,
     isAvailable: edge.node.availableForSale,
   }));
+}
+
+/**
+ * Resolves a domain concept through the merchant's map instead of a hardcoded key, so a merchant
+ * calling the same field `fabric_type` costs a config entry. A concept the merchant does not map
+ * was never requested, and reaches the UI as `undefined` like any absent metafield.
+ */
+function find(byKey: Map<string, MetafieldApi>, concept: MetafieldConcept): MetafieldApi | undefined {
+  const identifier = merchantConfig.metafields[concept];
+
+  return identifier ? byKey.get(identifier.key) : undefined;
 }
 
 /** An empty string is an absent value, not a value to render. */

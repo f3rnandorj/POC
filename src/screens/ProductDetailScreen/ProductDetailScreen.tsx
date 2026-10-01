@@ -101,7 +101,7 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
           )}
 
           <ProductSection
-            title="How to care"
+            title={merchantConfig.labels.productCare}
             items={[
               { label: 'Washing', value: care?.washing },
               { label: 'Drying', value: care?.drying },

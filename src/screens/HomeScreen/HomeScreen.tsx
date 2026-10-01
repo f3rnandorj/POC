@@ -1,9 +1,9 @@
 import { FlatList } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Box, CollectionCard } from '@components';
+import { Box, CollectionCard, StoryCard } from '@components';
 import type { Collection } from '@domain';
-import { useCollectionGetList, useProductGetList } from '@domain';
+import { useBrandStoryGetDetail, useCollectionGetList, useProductGetList } from '@domain';
 import type { AppScreenProps } from '@routes';
 
 import { HomeHeader } from './components/HomeHeader';
@@ -17,6 +17,7 @@ export function HomeScreen({ navigation }: AppScreenProps<'Home'>) {
     isLoading: isLoadingCollections,
     error: collectionsError,
   } = useCollectionGetList();
+  const { brandStory } = useBrandStoryGetDetail();
 
   function openProduct(handle: string) {
     navigation.navigate('ProductDetail', { handle });
@@ -51,6 +52,13 @@ export function HomeScreen({ navigation }: AppScreenProps<'Home'>) {
             isLoading={isLoadingCollections}
             error={collectionsError}
             emptyText="This store has no published collections."
+          />
+        }
+        ListFooterComponent={
+          <StoryCard
+            title={brandStory?.title}
+            body={brandStory?.description}
+            image={brandStory?.image}
           />
         }
         contentContainerStyle={CONTENT}

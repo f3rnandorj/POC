@@ -1,48 +1,34 @@
-import Config from 'react-native-config';
-
+import { atlas } from './merchants/atlas';
+import { northstar } from './merchants/northstar';
 import type { MerchantConfig } from './merchantTypes';
 
 /**
- * The single consumer of the Storefront environment variables in the whole tree
- * (standards/security.md). Everything else reads this object.
+ * The single switch. Change this id and the catalogue, the enabled capabilities, the metafield
+ * keys and the accent all follow — nothing else in the tree is edited.
  */
-export const merchantConfig: MerchantConfig = {
-  id: 'northstar',
-  credentials: {
-    storeDomain: requireEnv('SHOPIFY_STORE_DOMAIN'),
-    storefrontToken: requireEnv('SHOPIFY_STOREFRONT_TOKEN'),
-    apiVersion: requireEnv('SHOPIFY_API_VERSION'),
-  },
-  theme: {},
-  features: {
-    winterCollection: true,
-    productCare: true,
-    brandStory: false,
-  },
-  metafieldIdentifiers: [
-    { namespace: 'custom', key: 'badge' },
-    { namespace: 'custom', key: 'material' },
-    { namespace: 'custom', key: 'promotion_text' },
-    { namespace: 'custom', key: 'is_winter_collection' },
-    { namespace: 'custom', key: 'care_instructions' },
-  ],
-  labels: {
-    winterCollection: 'WINTER COLLECTION',
-  },
-};
+const ACTIVE_MERCHANT_ID = 'northstar';
 
-/**
- * Fails loudly at startup instead of letting an empty token reach the Storefront as a
- * 401 three screens later. The message names the key only — never the value.
- */
-function requireEnv(key: keyof typeof Config): string {
-  const value = Config[key];
+export function getMerchantConfig(merchantId: string): MerchantConfig {
+  const merchant = MERCHANTS[merchantId];
 
-  if (!value) {
+  if (!merchant) {
     throw new Error(
-      `Missing ${String(key)} in .env — copy .env.example and fill it from the Shopify admin.`,
+      `Unknown merchant "${merchantId}" — add its config under config/merchant/merchants/.`,
     );
   }
 
-  return value;
+  return merchant;
 }
+
+/**
+ * ponytail: a local record stands in for the platform endpoint. In production the app installs
+ * through Shopify OAuth, the platform stores the merchant's token server-side and returns this
+ * same shape at startup — the type is the contract, the lookup is the stub.
+ */
+const MERCHANTS: Record<string, MerchantConfig> = {
+  [northstar.id]: northstar,
+  [atlas.id]: atlas,
+};
+
+/** Everything downstream reads this object and never the record above. */
+export const merchantConfig = getMerchantConfig(ACTIVE_MERCHANT_ID);

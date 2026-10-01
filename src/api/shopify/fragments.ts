@@ -51,7 +51,11 @@ export const PRODUCT_CARD_FRAGMENT = /* GraphQL */ `
  * is a config change and not a query edit (standards/shopify.md, rule 4).
  */
 function buildMetafieldIdentifiers(): string {
-  return merchantConfig.metafieldIdentifiers
-    .map(({ namespace, key }) => `{ namespace: "${namespace}", key: "${key}" }`)
+  // `flatMap` rather than `map`: a concept the merchant omits is simply never requested, and
+  // an explicit `undefined` in the map must not become `{ namespace: "undefined" }`.
+  return Object.values(merchantConfig.metafields)
+    .flatMap(identifier =>
+      identifier ? [`{ namespace: "${identifier.namespace}", key: "${identifier.key}" }`] : [],
+    )
     .join(' ');
 }

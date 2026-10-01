@@ -3,6 +3,7 @@ export enum QueryKeys {
   ProductDetail = 'ProductDetail',
   CollectionList = 'CollectionList',
   CollectionDetail = 'CollectionDetail',
+  BrandStory = 'BrandStory',
 }
 
 export interface MutationOptions<TData> {

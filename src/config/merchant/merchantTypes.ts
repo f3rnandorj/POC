@@ -4,11 +4,13 @@ export interface MerchantConfig {
   theme: MerchantTheme;
   features: MerchantFeatures;
   /**
-   * Metafield identifiers live here so a merchant using different keys is a config
-   * change, never a query edit (standards/shopify.md, metafield contract rule 4).
+   * Domain concept → Shopify identifier. The query is built from this map and the adapter
+   * resolves values through it, so a merchant whose keys differ is a config entry and never
+   * a query or adapter edit (standards/shopify.md, metafield contract rule 4).
    */
-  metafieldIdentifiers: MetafieldIdentifier[];
-  /** Copy the UI renders verbatim — a merchant renaming a section is a config change. */
+  metafields: MerchantMetafieldMap;
+  /** Standalone merchant content, keyed the same way: concept → Shopify metaobject type. */
+  metaobjects: MerchantMetaobjectMap;
   labels: MerchantLabels;
 }
 
@@ -31,7 +33,26 @@ export interface MerchantFeatures {
 
 export interface MerchantLabels {
   winterCollection: string;
+  productCare: string;
 }
+
+/**
+ * The domain concepts a merchant may map. Declared here rather than derived from
+ * `ProductMetafields` because config sits below the domain — the dependency runs one way.
+ */
+export type MetafieldConcept =
+  | 'badge'
+  | 'material'
+  | 'promotionText'
+  | 'isWinterCollection'
+  | 'careInstructions';
+
+/** A concept the merchant omits is never requested, and reaches the UI as `undefined`. */
+export type MerchantMetafieldMap = Partial<Record<MetafieldConcept, MetafieldIdentifier>>;
+
+export type MetaobjectConcept = 'brandStory';
+
+export type MerchantMetaobjectMap = Partial<Record<MetaobjectConcept, string>>;
 
 export interface MetafieldIdentifier {
   namespace: string;
