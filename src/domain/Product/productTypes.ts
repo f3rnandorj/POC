@@ -37,6 +37,13 @@ export interface ProductMetafields {
   material?: string;
   promotionText?: string;
   isWinterCollection?: boolean;
+  careInstructions?: ProductCareInstructions;
+}
+
+/** Merchant-authored JSON. Both keys optional — the merchant may fill only one. */
+export interface ProductCareInstructions {
+  washing?: string;
+  drying?: string;
 }
 
 // ── raw Storefront shapes ────────────────────────────────────────────────────

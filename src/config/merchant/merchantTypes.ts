@@ -8,6 +8,8 @@ export interface MerchantConfig {
    * change, never a query edit (standards/shopify.md, metafield contract rule 4).
    */
   metafieldIdentifiers: MetafieldIdentifier[];
+  /** Copy the UI renders verbatim — a merchant renaming a section is a config change. */
+  labels: MerchantLabels;
 }
 
 export interface MerchantCredentials {
@@ -25,6 +27,10 @@ export interface MerchantFeatures {
   winterCollection: boolean;
   productCare: boolean;
   brandStory: boolean;
+}
+
+export interface MerchantLabels {
+  winterCollection: string;
 }
 
 export interface MetafieldIdentifier {

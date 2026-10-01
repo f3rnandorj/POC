@@ -223,3 +223,45 @@ Append-only. Never delete. Format: date heading + decision + reason + rejected a
 **Por que não uma constante.** A altura do rodapé é `bottom` da safe area + paddings + a linha de texto do botão. Os três variam: aparelho com e sem home indicator, escala de fonte do sistema, e o label alternando entre "Add to cart" e "Sold out". Qualquer número fixo fica certo em um aparelho e errado no próximo.
 
 **Consequência.** Vale para toda tela que ponha barra fixa sobre scroll. Se uma segunda aparecer, o par `onLayout` + `paddingBottom` vira hook em `hooks/`.
+
+## 2026-10-01 — PRD 005: label do badge em config, linha de badges condicional por layout
+
+**Contexto.** Primeiro pedido não planejado do merchant. O metafield `is_winter_collection`, o campo no domínio e o `readBoolean` já tinham vindo na PRD 002, então o bloco era só render.
+
+**Decisões.**
+
+1. **O texto do badge vem de `merchantConfig.labels.winterCollection`.** O exemplo em `standards/shopify.md` e no template hardcoda `'WINTER COLLECTION'` na tela; a US-002 da PRD manda o contrário e a PRD vence na precedência. `MerchantConfig` ganhou um bloco `labels` ao lado de `features` — a flag diz *se* a capacidade existe, o label diz *como* ela se chama.
+
+2. **A linha dos dois badges é condicional, e a condição é de layout, não de dado.** Dois `ProductBadge` lado a lado precisam de um `Box` em row com `gap="s8"`. Esse `Box`, quando vazio, continua sendo um item flex da coluna e consome um `gap="s12"` — exatamente o buraco que a quick-rule #5 proíbe. Por isso a row só existe quando algum dos dois textos existe. Cada `ProductBadge` continua dono da própria ausência; o guard não é checagem de dado.
+
+3. **Dois badges `accent` lado a lado ficam.** A Technical Consideration previa trocar o segundo por tratamento outline se lessem como ruído. Revisados no simulador, leem como intenção. Variante outline não foi construída.
+
+**Consequência.** Um segundo badge para outro merchant custa: entrada em `labels`, flag em `features`, uma expressão na tela.
+
+## 2026-10-01 — Um simulador, nunca uma matriz de devices
+
+**Contexto.** O quality gate da PRD 006 pedia "exercised at 375pt". O modelo começou a subir um iPhone SE e instalar o build nele. O usuário cortou: validar em segundo device não se faz neste projeto, e isso vale também para o brain.
+
+**Decisão.** Validação acontece no simulador **já aberto**, e só nele. Não subir segundo simulador, não instalar o build em outro modelo, não rodar matriz small/large — nem quando uma PRD nomeia uma largura.
+
+**Por quê.** Subir um segundo device custa boot + install + bundle para uma screenshot que reproduz o que o primeiro já mostra. Layout que quebra em largura menor quebra porque o conteúdo cresce além da caixa, e isso se prova **no device em mãos** forçando conteúdo: título de 3 linhas, promo de 200 caracteres, valor de seção de 140. Segurou ali, o device estreito não acrescenta nada; clipou ali, o device estreito nunca foi o achado.
+
+**Leitura de specs.** Uma largura nomeada numa PRD (`375pt`) é **intenção** ("isto precisa sobreviver a texto longo em coluna apertada"), não device a provisionar. Satisfazer a intenção e registrar na PRD que a largura foi exercida por conteúdo.
+
+**Onde ficou.** Quick-rule #11 (estendida, sem renumerar), `standards/design.md` §Validation, e no brain em `developer/frontend/mobile/rn-cli/tooling/simulator.md` — que antes ensinava o oposto ("instale o `.app` num segundo device em vez de rebuildar"). Os dois comandos de segundo device seguem lá, marcados como "só quando o usuário pedir".
+
+## 2026-10-01 — PRD 006: seção genérica e JSON de merchant como entrada não confiável
+
+**Contexto.** Segundo pedido não planejado: `care_instructions`, metafield JSON, vira uma seção "How to care" abaixo da descrição.
+
+**Decisões.**
+
+1. **`ProductSection` é genérico de verdade.** Recebe `title` e uma lista de `{ label, value }`, descarta item sem valor e devolve `null` quando nenhum sobra — o heading e a hairline de cima nunca aparecem sozinhos. Renderia "Ingredients" ou "Sizing" sem edição.
+
+2. **`readJson` com try/catch no adapter, nunca acima dele.** JSON de metafield é texto livre escrito pelo merchant e chega ao device sem validação. Valor malformado degrada para ausente. Provado no simulador com `'{"washing": broken'`: a tela renderiza inteira, a seção some.
+
+3. **A flag resolve no mesmo lugar que o dado.** `features.productCare` desligada produz `undefined` antes do componente, igual ao produto que não define o metafield — a tela não envolve o componente em condicional e `ProductSection` segue dono do caso vazio.
+
+4. **`washing`/`drying` hardcoded, e isso está declarado.** As chaves são do merchant. Outro merchant com outras chaves é a PRD 008; esta PRD diz isso explicitamente nas Technical Considerations, então não é V2 por iniciativa do modelo.
+
+**Consequência.** O bloco custou: um identificador no config, um campo no tipo, uma linha no adapter, um componente genérico e uma chamada na tela. É a prova que a arquitetura das PRDs 002-004 pedia.

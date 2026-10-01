@@ -24,7 +24,11 @@ export const merchantConfig: MerchantConfig = {
     { namespace: 'custom', key: 'material' },
     { namespace: 'custom', key: 'promotion_text' },
     { namespace: 'custom', key: 'is_winter_collection' },
+    { namespace: 'custom', key: 'care_instructions' },
   ],
+  labels: {
+    winterCollection: 'WINTER COLLECTION',
+  },
 };
 
 /**

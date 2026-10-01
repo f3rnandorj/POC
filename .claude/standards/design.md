@@ -64,4 +64,4 @@ A second badge variant (outline) is allowed only when two badges must coexist on
 
 ## Validation
 
-Mobile profile: a screen counts as done when it was exercised on a running simulator — one device is enough, no small/large matrix. Overflow and clipped badge text still mean not done. Long-content check: a 3-line product title and a 200-char promo text must not push the CTA off screen.
+Mobile profile: a screen counts as done when it was exercised on **the simulator already running** — one device, period. Never boot a second simulator, never install the build on another model, never ask for a device matrix: not for a width named in a PRD gate, not for a "small screen check". A layout that only holds at one width is a layout bug, caught by forcing long content on the device at hand. A PRD that names a specific width (`375pt`) is naming an intent, not a device — satisfy it with long content here. Overflow and clipped badge text still mean not done. Long-content check: a 3-line product title and a 200-char promo text must not push the CTA off screen.

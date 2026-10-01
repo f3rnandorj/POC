@@ -2,7 +2,15 @@ import { useState } from 'react';
 import { Image, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Box, PressableBox, ProductBadge, ProductMetadata, Text } from '@components';
+import {
+  Box,
+  PressableBox,
+  ProductBadge,
+  ProductMetadata,
+  ProductSection,
+  Text,
+} from '@components';
+import { merchantConfig } from '@config';
 import { useProductGetDetail } from '@domain';
 import type { AppScreenProps } from '@routes';
 import { formatPrice } from '@utils';
@@ -34,6 +42,17 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
   const preselected = selected ?? product.variants.find(variant => variant.isAvailable);
   const canAddToCart = Boolean(preselected?.isAvailable) || product.variants.length === 0;
   const [image] = product.images;
+  // The merchant flag gates the capability, the metafield gates the product. Absent
+  // metafield stays `undefined` here, so `ProductBadge` keeps owning the empty case.
+  const winterBadge =
+    merchantConfig.features.winterCollection && product.metafields.isWinterCollection
+      ? merchantConfig.labels.winterCollection
+      : undefined;
+  // Flag off means the merchant never bought the capability — same as the product not
+  // defining it. Resolving it here keeps `ProductSection` owning the empty case.
+  const care = merchantConfig.features.productCare
+    ? product.metafields.careInstructions
+    : undefined;
 
   return (
     <Box flex={1} backgroundColor="background" style={{ paddingTop: top }}>
@@ -58,9 +77,15 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
           <Text variant="displayLarge">{product.title}</Text>
           <Text variant="priceLarge">{formatPrice(product.price)}</Text>
 
-          {/* No guard here on purpose — each component returns `null` on an absent
-              metafield, so the Everyday Tee leaves no gap behind (quick-rule #5). */}
-          <ProductBadge text={product.metafields.badge} />
+          {/* The row is conditional for layout only: an empty flex row still consumes one
+              of the column's `s12` gaps, which is the hole quick-rule #5 forbids. Each
+              badge still owns its own absence. */}
+          {product.metafields.badge || winterBadge ? (
+            <Box flexDirection="row" flexWrap="wrap" gap="s8">
+              <ProductBadge text={product.metafields.badge} />
+              <ProductBadge text={winterBadge} />
+            </Box>
+          ) : null}
           <ProductMetadata
             material={product.metafields.material}
             promotion={product.metafields.promotionText}
@@ -74,6 +99,14 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
               </Text>
             </>
           )}
+
+          <ProductSection
+            title="How to care"
+            items={[
+              { label: 'Washing', value: care?.washing },
+              { label: 'Drying', value: care?.drying },
+            ]}
+          />
 
           <Box height={1} backgroundColor="border" marginVertical="s16" />
 

@@ -1,6 +1,7 @@
 # PRD: Winter Collection Badge
 
-**Status:** draft
+**Status:** done
+**Shipped:** 2026-10-01
 **Started:** 2026-10-01
 **Source:** README — CASE 3 + Requisito 4 ("The client wants a special badge for Winter Collection products")
 
@@ -41,10 +42,10 @@ As a merchant, I want to flag a product as Winter Collection in Shopify so that 
 **Complexity:** 2/10
 
 **Acceptance Criteria:**
-- [ ] `custom.is_winter_collection` is already in the query from PRD 002 — confirmed, not re-added
-- [ ] The adapter maps it to `isWinterCollection?: boolean` via `value === 'true'`
-- [ ] A product that does not define it yields `undefined`, not `false`
-- [ ] Northstar Essential arrives `true`; Everyday Tee arrives `undefined`
+- [x] `custom.is_winter_collection` is already in the query from PRD 002 — confirmed, not re-added
+- [x] The adapter maps it to `isWinterCollection?: boolean` via `value === 'true'`
+- [x] A product that does not define it yields `undefined`, not `false`
+- [x] Northstar Essential arrives `true`; Everyday Tee arrives `undefined`
 
 ### US-002: Feature flag
 
@@ -54,10 +55,10 @@ As a platform, I want the capability gated per merchant so that enabling it for 
 **Complexity:** 2/10
 
 **Acceptance Criteria:**
-- [ ] `merchantConfig.features.winterCollection: boolean` exists and is typed
-- [ ] The badge renders only when the flag is on **and** the product value is true
-- [ ] The label text lives in config, not hardcoded in the screen
-- [ ] Flag off → nothing renders, and no empty space remains
+- [x] `merchantConfig.features.winterCollection: boolean` exists and is typed
+- [x] The badge renders only when the flag is on **and** the product value is true
+- [x] The label text lives in config, not hardcoded in the screen
+- [x] Flag off → nothing renders, and no empty space remains
 
 ### US-003: Render through the existing badge
 
@@ -67,10 +68,10 @@ As a user, I want the Winter Collection marker on the product page so that I rec
 **Complexity:** 2/10
 
 **Acceptance Criteria:**
-- [ ] The existing `ProductBadge` is reused — **no new badge component is created**
-- [ ] The badge slot resolves its text in one expression and passes it down; `ProductBadge` still owns the null case
-- [ ] Two badges on one product lay out side by side with `s8` gap, wrapping rather than overflowing at 375pt
-- [ ] `<NorthstarWinterBadge />` does not exist in any form
+- [x] The existing `ProductBadge` is reused — **no new badge component is created**
+- [x] The badge slot resolves its text in one expression and passes it down; `ProductBadge` still owns the null case
+- [x] Two badges on one product lay out side by side with `s8` gap, wrapping rather than overflowing at 375pt
+- [x] `<NorthstarWinterBadge />` does not exist in any form
 
 ## Functional Requirements
 
@@ -96,3 +97,26 @@ No collection pages, no filtering by collection, no seasonal theming, no second 
 ## Open Questions
 
 - **Where the badge appears in the list screen** — **Assumption:** detail only, because the 2-column card has no room at 375pt without crowding the title. Revisit if the demo needs it on the card.
+
+## Resolved Decisions
+
+- The badge label lives in `merchantConfig.labels.winterCollection`, not in the screen — the
+  standards' example hardcodes `'WINTER COLLECTION'`; US-002 overrides it, so `MerchantConfig`
+  grew a `labels` block alongside `features`.
+- The badge row is wrapped in one conditional, for layout only: an empty flex row still
+  consumes one of the column's `s12` gaps, which is exactly the hole quick-rule #5 forbids.
+  Each `ProductBadge` still owns its own absence — the guard is not a data check.
+- Two filled accent badges were reviewed side by side on the simulator and read as deliberate,
+  not noisy. The outline treatment floated in Technical Considerations was not built.
+- US-001 required no code: the identifier, the domain field and `readBoolean` all shipped with
+  PRD 002. Confirmed against the live Storefront — `northstar-essential` returns `"true"`,
+  `everyday-tee` returns `null` → `undefined`.
+
+## Verification
+
+Simulator (iPhone 17, iOS 26.5), temporary `initialRouteName` on the stack — never a synthetic
+cursor event, and the deep link was not reinstated:
+
+- `northstar-essential` → `BEST SELLER` + `WINTER COLLECTION` side by side, `s8` gap
+- `everyday-tee` → no badge, no gap: title → price → divider
+- `features.winterCollection: false` → `BEST SELLER` alone, layout identical to pre-change

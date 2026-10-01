@@ -23,7 +23,7 @@
 
 ## Cross-cutting
 
-11. **No test layer installed** — this repo has no Jest/RTL setup. A task that asks for tests starts by saying the infra must be installed first; never emit a `*.test.ts` against absent infra. Verification here is the simulator (`yarn ios` / `yarn android`), not a green suite.
+11. **No test layer installed** — this repo has no Jest/RTL setup. A task that asks for tests starts by saying the infra must be installed first; never emit a `*.test.ts` against absent infra. Verification here is the simulator (`yarn ios` / `yarn android`), not a green suite — **always the one simulator already running**. Never boot a second device, install the build on another model, or run a small/large matrix, whatever a PRD gate names: width risk is proven by forcing long content on the device at hand. See `design.md`.
 12. **Issue → repro before code** — normalize the report, reproduce it, then fix at the shared point all callers route through (grep the callers first). Patching only the reported path is not a fix.
 13. **File order — main export first, singleton objects last** — components/hooks: primary export at the top, subcomponents and helpers below. `{domain}Service/Api/Adapter`: functions first, `export const {domain}Service = {...}` closing the file. See `code-style.md`.
 14. **Pure layers stay pure — no inline helpers** — services, useCases, components never declare pure utilities inline (formatters, parsers, predicates, label maps). Extract to the nearest `utils/`. Allowed inline: `Props`/`Deps` interfaces, callbacks bound to local state, sub-components <30 lines used only here.

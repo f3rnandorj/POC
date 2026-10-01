@@ -3,6 +3,7 @@ import type { MetafieldApi } from '@api';
 import type {
   Product,
   ProductByHandleApi,
+  ProductCareInstructions,
   ProductImage,
   ProductListApi,
   ProductMetafields,
@@ -50,6 +51,7 @@ function toMetafields(raw: (MetafieldApi | null)[] | null | undefined): ProductM
     material: readText(byKey.get('material')),
     promotionText: readText(byKey.get('promotion_text')),
     isWinterCollection: readBoolean(byKey.get('is_winter_collection')),
+    careInstructions: readJson<ProductCareInstructions>(byKey.get('care_instructions')),
   };
 }
 
@@ -78,6 +80,22 @@ function readText(metafield?: MetafieldApi): string | undefined {
 /** `value` is a string for every metafield type — `"true"` is not `true`. */
 function readBoolean(metafield?: MetafieldApi): boolean | undefined {
   return metafield ? metafield.value === 'true' : undefined;
+}
+
+/**
+ * A JSON metafield is merchant-authored free-form text that reaches the device unvalidated.
+ * A malformed value degrades to an absent section — never to a throw that kills the screen.
+ */
+function readJson<T>(metafield?: MetafieldApi): T | undefined {
+  if (!metafield?.value) {
+    return undefined;
+  }
+
+  try {
+    return JSON.parse(metafield.value) as T;
+  } catch {
+    return undefined;
+  }
 }
 
 export const productAdapter = {

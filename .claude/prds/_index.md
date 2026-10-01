@@ -38,8 +38,6 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
 
 | # | Feature | File | Depends on | README source | Status |
 |---|---|---|---|---|---|
-| 005 | Winter Collection Badge | `active/005-winter-collection-badge.md` | 004 | CASE 3 + Requisito 4 | draft |
-| 006 | Product Care Section | `active/006-product-care-section.md` | 004 | CASE 5 | draft |
 | 007 | Home and Collections | `active/007-home-and-collections.md` | 004 | CASE 1 — navigation tree | draft |
 | 008 | Multi-Merchant Config | `active/008-multi-merchant-config.md` | 004 | CASE 4 + Bônus 2 | draft |
 | 009 | Delivery — README and Demo | `active/009-delivery-readme.md` | 005-008 | O que documentar | draft |
@@ -52,6 +50,8 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
 | 002 Shopify Product Data | 2026-10-01 | `done/002-shopify-product-data.md` |
 | 003 Product Browse | 2026-10-01 | `done/003-product-browse.md` |
 | 004 Product Metafields | 2026-10-01 | `done/004-product-metafields.md` — EMV complete |
+| 005 Winter Collection Badge | 2026-10-01 | `done/005-winter-collection-badge.md` |
+| 006 Product Care Section | 2026-10-01 | `done/006-product-care-section.md` |
 
 ## How to author a new PRD
 
