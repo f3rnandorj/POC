@@ -1,0 +1,739 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "index.js",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/index.js",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_index_js",
+      "community": 8,
+      "norm_label": "index.js"
+    },
+    {
+      "label": "metro.config.js",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/metro.config.js",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_metro_config_js",
+      "community": 9,
+      "norm_label": "metro.config.js"
+    },
+    {
+      "label": "babel.config.js",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/babel.config.js",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_babel_config_js",
+      "community": 10,
+      "norm_label": "babel.config.js"
+    },
+    {
+      "label": "AppDelegate.swift",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_ios_fuego_appdelegate_swift",
+      "community": 1,
+      "norm_label": "appdelegate.swift"
+    },
+    {
+      "label": "AppDelegate",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L6",
+      "id": "appdelegate_appdelegate",
+      "community": 1,
+      "norm_label": "appdelegate"
+    },
+    {
+      "label": "UIResponder",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "uiresponder",
+      "community": 1,
+      "norm_label": "uiresponder"
+    },
+    {
+      "label": "UIApplicationDelegate",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "uiapplicationdelegate",
+      "community": 1,
+      "norm_label": "uiapplicationdelegate"
+    },
+    {
+      "label": ".application()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L13",
+      "id": "appdelegate_appdelegate_application",
+      "community": 0,
+      "norm_label": ".application()"
+    },
+    {
+      "label": "ReactNativeDelegate",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L36",
+      "id": "appdelegate_reactnativedelegate",
+      "community": 0,
+      "norm_label": "reactnativedelegate"
+    },
+    {
+      "label": "RCTDefaultReactNativeFactoryDelegate",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "rctdefaultreactnativefactorydelegate",
+      "community": 0,
+      "norm_label": "rctdefaultreactnativefactorydelegate"
+    },
+    {
+      "label": ".sourceURL()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L37",
+      "id": "appdelegate_reactnativedelegate_sourceurl",
+      "community": 0,
+      "norm_label": ".sourceurl()"
+    },
+    {
+      "label": ".bundleURL()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L41",
+      "id": "appdelegate_reactnativedelegate_bundleurl",
+      "community": 0,
+      "norm_label": ".bundleurl()"
+    },
+    {
+      "label": "MainActivity.kt",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_android_app_src_main_java_com_fuego_mainactivity_kt",
+      "community": 3,
+      "norm_label": "mainactivity.kt"
+    },
+    {
+      "label": "MainActivity",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
+      "source_location": "L8",
+      "id": "mainactivity_mainactivity",
+      "community": 3,
+      "norm_label": "mainactivity"
+    },
+    {
+      "label": ".getMainComponentName()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
+      "source_location": "L14",
+      "id": "mainactivity_mainactivity_getmaincomponentname",
+      "community": 3,
+      "norm_label": ".getmaincomponentname()"
+    },
+    {
+      "label": ".createReactActivityDelegate()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
+      "source_location": "L20",
+      "id": "mainactivity_mainactivity_createreactactivitydelegate",
+      "community": 3,
+      "norm_label": ".createreactactivitydelegate()"
+    },
+    {
+      "label": "MainApplication.kt",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainApplication.kt",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_android_app_src_main_java_com_fuego_mainapplication_kt",
+      "community": 4,
+      "norm_label": "mainapplication.kt"
+    },
+    {
+      "label": "MainApplication",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainApplication.kt",
+      "source_location": "L10",
+      "id": "mainapplication_mainapplication",
+      "community": 4,
+      "norm_label": "mainapplication"
+    },
+    {
+      "label": ".onCreate()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainApplication.kt",
+      "source_location": "L23",
+      "id": "mainapplication_mainapplication_oncreate",
+      "community": 4,
+      "norm_label": ".oncreate()"
+    },
+    {
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/App.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_app_tsx",
+      "community": 5,
+      "norm_label": "app.tsx"
+    },
+    {
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/App.tsx",
+      "source_location": "L11",
+      "id": "app_app",
+      "community": 5,
+      "norm_label": "app()"
+    },
+    {
+      "label": "queryClient.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/infra/queryClient.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_infra_queryclient_ts",
+      "community": 11,
+      "norm_label": "queryclient.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/infra/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_infra_index_ts",
+      "community": 12,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "infraTypes.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/infra/infraTypes.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_infra_infratypes_ts",
+      "community": 13,
+      "norm_label": "infratypes.ts"
+    },
+    {
+      "label": "env.d.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/types/env.d.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_types_env_d_ts",
+      "community": 14,
+      "norm_label": "env.d.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/types/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_types_index_ts",
+      "community": 15,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_config_index_ts",
+      "community": 16,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/constants/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_constants_index_ts",
+      "community": 17,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/utils/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_utils_index_ts",
+      "community": 18,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_screens_index_ts",
+      "community": 19,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "ProductListScreen.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/ProductListScreen.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_screens_productlistscreen_productlistscreen_tsx",
+      "community": 20,
+      "norm_label": "productlistscreen.tsx"
+    },
+    {
+      "label": "HomeScreen.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_homescreen_tsx",
+      "community": 6,
+      "norm_label": "homescreen.tsx"
+    },
+    {
+      "label": "HomeScreen()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
+      "source_location": "L6",
+      "id": "homescreen_homescreen",
+      "community": 6,
+      "norm_label": "homescreen()"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_components_index_ts",
+      "community": 21,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "Box.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/Box/Box.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_components_box_box_tsx",
+      "community": 22,
+      "norm_label": "box.tsx"
+    },
+    {
+      "label": "PressableBox.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/PressableBox/PressableBox.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_components_pressablebox_pressablebox_tsx",
+      "community": 23,
+      "norm_label": "pressablebox.tsx"
+    },
+    {
+      "label": "Text.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/Text/Text.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_components_text_text_tsx",
+      "community": 24,
+      "norm_label": "text.tsx"
+    },
+    {
+      "label": "colors.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/colors.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_theme_colors_ts",
+      "community": 25,
+      "norm_label": "colors.ts"
+    },
+    {
+      "label": "textVariants.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/textVariants.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_theme_textvariants_ts",
+      "community": 26,
+      "norm_label": "textvariants.ts"
+    },
+    {
+      "label": "palette.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/palette.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_theme_palette_ts",
+      "community": 27,
+      "norm_label": "palette.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_theme_index_ts",
+      "community": 28,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "theme.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/theme.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_theme_theme_ts",
+      "community": 29,
+      "norm_label": "theme.ts"
+    },
+    {
+      "label": "useAppTheme.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/useAppTheme.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_theme_useapptheme_ts",
+      "community": 2,
+      "norm_label": "useapptheme.ts"
+    },
+    {
+      "label": "useAppTheme()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/useAppTheme.ts",
+      "source_location": "L5",
+      "id": "useapptheme_useapptheme",
+      "community": 2,
+      "norm_label": "useapptheme()"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/hooks/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_hooks_index_ts",
+      "community": 30,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_api_index_ts",
+      "community": 31,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_domain_index_ts",
+      "community": 32,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "Router.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/Router.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_routes_router_tsx",
+      "community": 7,
+      "norm_label": "router.tsx"
+    },
+    {
+      "label": "Router()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/Router.tsx",
+      "source_location": "L7",
+      "id": "router_router",
+      "community": 7,
+      "norm_label": "router()"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_routes_index_ts",
+      "community": 33,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "AppStack.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/AppStack.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_routes_appstack_tsx",
+      "community": 2,
+      "norm_label": "appstack.tsx"
+    },
+    {
+      "label": "AppStack()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/AppStack.tsx",
+      "source_location": "L8",
+      "id": "appstack_appstack",
+      "community": 2,
+      "norm_label": "appstack()"
+    },
+    {
+      "label": "navigationTypes.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/types/navigationTypes.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_routes_types_navigationtypes_ts",
+      "community": 34,
+      "norm_label": "navigationtypes.ts"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_ios_fuego_appdelegate_swift",
+      "_tgt": "appdelegate_appdelegate",
+      "source": "users_fernandohenrique_desktop_projects_poc_ios_fuego_appdelegate_swift",
+      "target": "appdelegate_appdelegate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_ios_fuego_appdelegate_swift",
+      "_tgt": "appdelegate_reactnativedelegate",
+      "source": "users_fernandohenrique_desktop_projects_poc_ios_fuego_appdelegate_swift",
+      "target": "appdelegate_reactnativedelegate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "appdelegate_appdelegate",
+      "_tgt": "uiresponder",
+      "source": "appdelegate_appdelegate",
+      "target": "uiresponder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "appdelegate_appdelegate",
+      "_tgt": "uiapplicationdelegate",
+      "source": "appdelegate_appdelegate",
+      "target": "uiapplicationdelegate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_src": "appdelegate_appdelegate",
+      "_tgt": "appdelegate_appdelegate_application",
+      "source": "appdelegate_appdelegate",
+      "target": "appdelegate_appdelegate_application",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "appdelegate_appdelegate_application",
+      "_tgt": "appdelegate_reactnativedelegate",
+      "source": "appdelegate_appdelegate_application",
+      "target": "appdelegate_reactnativedelegate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_src": "appdelegate_reactnativedelegate",
+      "_tgt": "rctdefaultreactnativefactorydelegate",
+      "source": "appdelegate_reactnativedelegate",
+      "target": "rctdefaultreactnativefactorydelegate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "appdelegate_reactnativedelegate",
+      "_tgt": "appdelegate_reactnativedelegate_sourceurl",
+      "source": "appdelegate_reactnativedelegate",
+      "target": "appdelegate_reactnativedelegate_sourceurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_src": "appdelegate_reactnativedelegate",
+      "_tgt": "appdelegate_reactnativedelegate_bundleurl",
+      "source": "appdelegate_reactnativedelegate",
+      "target": "appdelegate_reactnativedelegate_bundleurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "appdelegate_reactnativedelegate_sourceurl",
+      "_tgt": "appdelegate_reactnativedelegate_bundleurl",
+      "source": "appdelegate_reactnativedelegate_sourceurl",
+      "target": "appdelegate_reactnativedelegate_bundleurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_android_app_src_main_java_com_fuego_mainactivity_kt",
+      "_tgt": "mainactivity_mainactivity",
+      "source": "users_fernandohenrique_desktop_projects_poc_android_app_src_main_java_com_fuego_mainactivity_kt",
+      "target": "mainactivity_mainactivity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "mainactivity_mainactivity",
+      "_tgt": "mainactivity_mainactivity_getmaincomponentname",
+      "source": "mainactivity_mainactivity",
+      "target": "mainactivity_mainactivity_getmaincomponentname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "mainactivity_mainactivity",
+      "_tgt": "mainactivity_mainactivity_createreactactivitydelegate",
+      "source": "mainactivity_mainactivity",
+      "target": "mainactivity_mainactivity_createreactactivitydelegate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainApplication.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_android_app_src_main_java_com_fuego_mainapplication_kt",
+      "_tgt": "mainapplication_mainapplication",
+      "source": "users_fernandohenrique_desktop_projects_poc_android_app_src_main_java_com_fuego_mainapplication_kt",
+      "target": "mainapplication_mainapplication",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainApplication.kt",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_src": "mainapplication_mainapplication",
+      "_tgt": "mainapplication_mainapplication_oncreate",
+      "source": "mainapplication_mainapplication",
+      "target": "mainapplication_mainapplication_oncreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/App.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_app_tsx",
+      "_tgt": "app_app",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_app_tsx",
+      "target": "app_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_homescreen_tsx",
+      "_tgt": "homescreen_homescreen",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_homescreen_tsx",
+      "target": "homescreen_homescreen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/useAppTheme.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_useapptheme_ts",
+      "_tgt": "useapptheme_useapptheme",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_theme_useapptheme_ts",
+      "target": "useapptheme_useapptheme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/AppStack.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "useapptheme_useapptheme",
+      "_tgt": "appstack_appstack",
+      "source": "useapptheme_useapptheme",
+      "target": "appstack_appstack"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/Router.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_routes_router_tsx",
+      "_tgt": "router_router",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_routes_router_tsx",
+      "target": "router_router",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/AppStack.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_routes_appstack_tsx",
+      "_tgt": "appstack_appstack",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_routes_appstack_tsx",
+      "target": "appstack_appstack",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}

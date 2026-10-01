@@ -1,0 +1,8 @@
+# The graph covers the app's own source. Native dependency trees and generated
+# scaffolding dwarf src/ (ios/Pods alone is ~5.6k files) and bury the real nodes.
+ios/Pods/
+ios/build/
+vendor/
+android/.gradle/
+android/app/build/
+graphify-out/

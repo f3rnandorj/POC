@@ -1,0 +1,115 @@
+# PRD: Product Care Section
+
+**Status:** draft
+**Started:** 2026-10-01
+**Source:** README — CASE 5 "Mini tarefa de Forward Deployment" (`care_instructions`)
+
+## Overview
+
+The second unplanned merchant request, arriving as a Slack message: products carrying a `care_instructions` metafield show a "How to care" section below the description, and products without it show nothing. Unlike PRD 005, this one introduces a structured (JSON) metafield and a reusable section component.
+
+## Goals
+
+- The section renders for products that define the field
+- The section is absent — not empty — for products that do not
+- The component that renders it is generic enough for the next merchant's "ingredients" or "sizing" section
+
+## Standards Referenced
+
+- `.claude/standards/shopify.md` — metafield contract, `json` parsing inside try/catch
+- `.claude/templates/metafield-feature.md`
+- `.claude/standards/design.md` — section rhythm, `titleMedium` uppercase variant
+- `.claude/standards/security.md` — `JSON.parse` on merchant data is always guarded
+
+## Decisions Referenced
+
+- 2026-09-30 — Adapter owns parsing; a parse failure yields `undefined`, never a throw that kills the screen
+
+## Quality Gates
+
+- A product with the field shows the section; a product without it shows the description and nothing after
+- A deliberately malformed JSON value in the admin does not crash the screen
+- Exercised at 375pt with long care copy
+
+## User Stories
+
+### US-001: Create and populate the metafield
+
+As a merchant, I want care instructions stored in Shopify so that the app can display them.
+
+**Depends on:** —
+**Complexity:** 2/10
+
+**Acceptance Criteria:**
+- [ ] `custom.care_instructions` defined in the Shopify admin, type JSON
+- [ ] **Storefront API access enabled** on the definition
+- [ ] Populated on Northstar Essential with `washing` and `drying` keys
+- [ ] Left empty on Everyday Tee
+- [ ] Verified by curl before any app code is written
+
+### US-002: Query and parse
+
+As a developer, I want the structured value mapped into the domain model so that the UI receives plain fields.
+
+**Depends on:** US-001
+**Complexity:** 3/10
+
+**Acceptance Criteria:**
+- [ ] The identifier is added to the existing metafield selection — one line
+- [ ] `ProductMetafields.careInstructions?: { washing?: string; drying?: string }`
+- [ ] `JSON.parse` wrapped in try/catch inside the adapter
+- [ ] Malformed JSON → `undefined`, no throw, screen still renders
+- [ ] A present object with only `washing` maps with `drying` undefined
+
+### US-003: Generic section component
+
+As a platform, I want a reusable titled section so that the next merchant's extra section costs nothing new.
+
+**Depends on:** —
+**Complexity:** 3/10
+
+**Acceptance Criteria:**
+- [ ] `components/ProductSection/ProductSection.tsx` takes `title: string` and a list of `{ label, value }` items
+- [ ] Items with a falsy value are dropped
+- [ ] **Returns `null` when no item survives** — the section header never renders alone
+- [ ] `titleMedium` uppercase variant for the heading, hairline separator above
+- [ ] Name and props carry no mention of care, washing or the merchant
+
+### US-004: Wire it into the detail screen
+
+As a user, I want care instructions below the description so that I know how to handle the product.
+
+**Depends on:** US-002, US-003
+**Complexity:** 2/10
+
+**Acceptance Criteria:**
+- [ ] Rendered below the description, separated by a hairline
+- [ ] Gated by `merchantConfig.features.productCare`
+- [ ] Northstar Essential shows `HOW TO CARE` with Washing and Drying
+- [ ] Everyday Tee ends at the description — no header, no separator, no gap
+- [ ] A product with only `washing` shows one row, not an empty Drying row
+
+## Functional Requirements
+
+- FR-1: Section renders only when at least one care value exists
+- FR-2: A malformed value degrades to absent, never to a crash
+- FR-3: The section component is reusable for any future titled label/value block
+
+## Non-Goals
+
+No rich text, no icons per care type, no localization of the labels, no editing from the app, no care data on the list screen.
+
+## Technical Considerations
+
+- This is the block that proves the architecture. If it needs more than: one identifier line, one adapter mapping, one generic component and one render line, the earlier blocks were built wrong and the fix belongs upstream, not here.
+- A JSON metafield is merchant-authored free-form data. It is untrusted input: parse defensively and never render it in a WebView.
+- The label keys (`washing`, `drying`) are the merchant's. A different merchant may use other keys — PRD 008 handles that through config; this block hardcodes the two the README specifies and says so.
+
+## Success Metrics
+
+- Implementation time under 30 minutes given PRDs 002-004 shipped
+- The same `ProductSection` could render a hypothetical "Ingredients" block with no edit
+
+## Open Questions
+
+- **Unknown keys in the JSON** — **Assumption:** only `washing` and `drying` are read, per the README. Extra keys are ignored rather than rendered generically, because label ordering and copy would then be merchant data the POC does not model.

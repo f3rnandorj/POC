@@ -1,0 +1,19 @@
+# ── Per-developer / per-session state — NEVER commit ──
+# Rewritten every session by the checkpoint hooks. Committing them makes every
+# merge collide on session-state.md + activity-log.md.
+memory/session-state.md
+memory/activity-log.md
+memory/activity-log-archive.md
+
+# Local-only session buffer — recreated by checkpoint-record.sh
+memory/.session-buffer.jsonl
+
+# Graph queue + sync log — recreated by graph-queue.sh / graph-sync.sh
+memory/.graph-queue
+memory/.graph-sync.log
+
+# Post-compact resume flag — one-shot, consumed by route-prompt.sh
+memory/.post-compact-flag
+
+# Local permissions — per-dev
+settings.local.json

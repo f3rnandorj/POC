@@ -1,0 +1,21 @@
+# Controls AI behavior when working on this project.
+# Edit before starting a task to switch modes.
+
+mode: code              # prd | code | review
+
+# brain_lookup behavior by mode:
+#   code   -> off       (default — local only, brain on explicit request)
+#   prd    -> fallback  (brain read when local silent)
+#   review -> on        (cross-check both — for audits)
+brain_lookup: off
+
+load_done_prds: false
+hooks_enabled: true
+
+profile: mobile           # React Native CLI
+dev_mode: ai-assisted
+team: solo
+infra_pattern: api-bound
+test_layer: none
+
+setup_date: 2026-09-30

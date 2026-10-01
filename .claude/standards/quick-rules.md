@@ -1,0 +1,46 @@
+# Quick Rules — Non-Negotiables
+
+> Always loaded. Full detail in `standards/{architecture,shopify,frontend,design,code-style,security,naming}.md`. Enforced mechanically by `hooks/pre-edit-validate.sh` where possible.
+
+## Stack
+
+1. **Stack pin** — React Native CLI + TypeScript, React Navigation, TanStack Query v5, `@shopify/restyle`, axios (or `graphql-request`) for the Storefront call, yarn. No Expo APIs, no `StyleSheet.create`, no Redux.
+2. **Shopify only through the adapter** — screens and components never see a Storefront response. `shopifyApi` → `{domain}Adapter` → domain model → useCase hook → UI. See `shopify.md`.
+3. **GraphQL lives in `{domain}Queries.ts`** — no inline query strings in services, hooks or screens.
+4. **Storefront token comes from config, never hardcoded** — `src/config/merchant/` holds it; no token literal in a tracked file. See `security.md`.
+
+## Metafields & merchant customization
+
+5. **Absent metafield renders nothing** — no `undefined`, no `null`, no "Material: —". The component returns `null` when the value is missing. Non-negotiable; it is the POC's grading criterion.
+6. **No merchant-named code** — `<ProductBadge text={...} />`, never `<NorthstarWinterBadge />`. Merchant identity lives in `merchantConfig`, not in file or component names. See `shopify.md`.
+7. **New metafield = config + adapter + generic component** — adding one must not touch navigation, screens or the Shopify client. Follow `templates/metafield-feature.md`.
+
+## UI
+
+8. **Restyle props over `style={{}}`** — `backgroundColor="primary"`, `padding="s16"`. `style` only for computed values (`hexToRgba`) or non-theme numbers.
+9. **Tokens only, no raw hex** — every color/spacing/radius comes from `src/theme`. A new token is an ADR, not an inline value. See `design.md`.
+10. **Barrel imports** — always `@{module}` at the root, never a deep path. `index.ts` in every *module* folder; **not** inside a single-file component folder nor inside a screen folder. The domain barrel exports **useCases + types only — never the service**.
+
+## Cross-cutting
+
+11. **No test layer installed** — this repo has no Jest/RTL setup. A task that asks for tests starts by saying the infra must be installed first; never emit a `*.test.ts` against absent infra. Verification here is the simulator (`yarn ios` / `yarn android`), not a green suite.
+12. **Issue → repro before code** — normalize the report, reproduce it, then fix at the shared point all callers route through (grep the callers first). Patching only the reported path is not a fix.
+13. **File order — main export first, singleton objects last** — components/hooks: primary export at the top, subcomponents and helpers below. `{domain}Service/Api/Adapter`: functions first, `export const {domain}Service = {...}` closing the file. See `code-style.md`.
+14. **Pure layers stay pure — no inline helpers** — services, useCases, components never declare pure utilities inline (formatters, parsers, predicates, label maps). Extract to the nearest `utils/`. Allowed inline: `Props`/`Deps` interfaces, callbacks bound to local state, sub-components <30 lines used only here.
+15. **Component size soft-limit ~150 lines** — `.tsx` > 150 is a smell, > 250 a defect. Break via sibling sub-components, extract helpers to `utils/`, lift state into `use{Name}State`.
+16. **No nested function declarations** — `function inner(){}` inside `function outer(){}` is forbidden except a genuine closure over local vars, or a React handler bound to component state.
+17. **No-V2 by default** — nothing is deferred to "later" / "phase 2" on the AI's initiative. Doubts, gaps and edge cases are asked and resolved in the first pass. V2 exists only when the user says so. Only legitimate exclusion: the README's explicit "O que NÃO fazer" list.
+18. **Destructive commands need explicit user approval** — `rm -rf` outside `/tmp|node_modules|ios/Pods|.gradle|DerivedData|metro-cache|build`, `git reset --hard` / `clean -f` / force-push / `branch -D`, simulator erase / `adb pm clear`. Enforced by `hooks/bash-guard.sh`; blocked means ask, never work around the guard.
+19. **Graph first** — architecture/impact/exploration questions start at `graphify-out/`, not at Grep. Graph missing or stale → rebuild (`graphify .` / `graphify update .`) then proceed.
+
+## Brain fallback
+
+- **`.claude/` always wins** over `~/.claude/brain/`. Brain is a reference library, not auto-loaded.
+- **Read brain only when:** (a) the user explicitly invokes it; (b) `.claude/` is silent — declare "Topic not covered in .claude/. Falling back to brain." before reading; (c) two local files disagree (brain breaks the tie, then fix the local conflict).
+- **After fallback:** apply the rule, then propose adding it to `.claude/standards/*` — never a silent write.
+- Precedence: `prds/active/<feature>` > `standards/*` > `memory/decisions.md` > brain developer > brain personal. Full rules in `../precedence.md`.
+
+## See also
+
+- Active ADRs: `../memory/decisions-index.md` (full text in `decisions.md`)
+- Routing manifest: `_index.md` (not auto-loaded — `route-prompt.sh` handles routing)
