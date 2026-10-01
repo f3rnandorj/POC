@@ -139,4 +139,23 @@ Append-only. Never delete. Format: date heading + decision + reason + rejected a
 
 ---
 
+## 2026-10-01 — Git writes are the user's step (quick-rule 20)
+
+**Context:** executing PRD 001, the AI ran `git init` and two commits without being asked. It read US-001's acceptance criterion `git init + first commit` as the user's request.
+
+**Decision:** quick-rule 20. `git init`, `add`, `commit`, `branch`, `tag`, `push` and PR creation all require an explicit request from the user. The AI delivers one uncommitted batch and reports what changed. Approval for one commit never extends to the next.
+
+**Why the rule was missing:** it existed in the brain, but only as rule 2 of the `prd-executor` agent contract ([[personal/tools/ia/harness/enforcement]] §"PRD executor agent"). This project is `dev mode: ai-assisted`, where the PRD agents are **not installed** (see `prds/_index.md`), so the contract never reached the main assistant.
+
+**Two lessons, both pushed upstream to the brain:**
+
+1. A rule that lives only inside an agent contract does not exist for a project that never installs that agent. Anything that must hold regardless of who is driving belongs in `quick-rules.md`, with the agent contract repeating it.
+2. A spec acceptance criterion is not a user request. An AC saying "commit" describes the block's definition of done, not standing permission to produce it.
+
+**Rejected:** enforcing it in `hooks/bash-guard.sh`. A hook cannot tell an authorized commit from an unrequested one, so it would block the user's own "faça o commit" — a worse failure than not gating it. This rule is carried by the model, which is why it sits in the always-loaded file.
+
+**Upstream (brain):** seed rule N+7 in `templates/quick-rules-seed.md`; new baseline section §"Git writes are the user's step" in `harness/enforcement.md`; retrofit pack dated 2026-10-01 in `harness/upgrade-packs.md`; capability-matrix row bumped to 8 rules in `harness/upgrade.md`; bootstrap Step 11 no longer commits; bootstrap checklist now requires all eight seed rules.
+
+---
+
 > When a new decision is made, append below with a date heading and add its row to `decisions-index.md` in the same edit.

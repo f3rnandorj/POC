@@ -1,11 +1,11 @@
 # Graph Report - /Users/fernandohenrique/Desktop/projects/POC  (2026-10-01)
 
 ## Corpus Check
-- 35 files · ~6,473 words
+- 37 files · ~7,893 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 53 nodes · 21 edges · 35 communities detected
+- 55 nodes · 21 edges · 37 communities detected
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
@@ -45,6 +45,8 @@
 - [[_COMMUNITY_Community 32|Community 32]]
 - [[_COMMUNITY_Community 33|Community 33]]
 - [[_COMMUNITY_Community 34|Community 34]]
+- [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 36|Community 36]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `ReactNativeDelegate` - 5 edges
@@ -61,20 +63,20 @@
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.5
-Nodes (2): ReactNativeDelegate, RCTDefaultReactNativeFactoryDelegate
+Cohesion: 0.4
+Nodes (3): AppDelegate, UIApplicationDelegate, UIResponder
 
 ### Community 1 - "Community 1"
 Cohesion: 0.5
-Nodes (3): AppDelegate, UIApplicationDelegate, UIResponder
+Nodes (1): MainActivity
 
 ### Community 2 - "Community 2"
 Cohesion: 0.5
 Nodes (2): AppStack(), useAppTheme()
 
 ### Community 3 - "Community 3"
-Cohesion: 0.5
-Nodes (1): MainActivity
+Cohesion: 0.67
+Nodes (2): ReactNativeDelegate, RCTDefaultReactNativeFactoryDelegate
 
 ### Community 4 - "Community 4"
 Cohesion: 0.67
@@ -200,28 +202,36 @@ Nodes (0):
 Cohesion: 1.0
 Nodes (0): 
 
+### Community 35 - "Community 35"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 36 - "Community 36"
+Cohesion: 1.0
+Nodes (0): 
+
 ## Knowledge Gaps
 - **Thin community `Community 5`** (2 nodes): `App()`, `App.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 6`** (2 nodes): `HomeScreen()`, `HomeScreen.tsx`
+- **Thin community `Community 6`** (2 nodes): `Router()`, `Router.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 7`** (2 nodes): `Router()`, `Router.tsx`
+- **Thin community `Community 7`** (2 nodes): `HomeScreen()`, `HomeScreen.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 8`** (1 nodes): `index.js`
+- **Thin community `Community 8`** (1 nodes): `react-native.config.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 9`** (1 nodes): `metro.config.js`
+- **Thin community `Community 9`** (1 nodes): `index.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 10`** (1 nodes): `babel.config.js`
+- **Thin community `Community 10`** (1 nodes): `metro.config.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 11`** (1 nodes): `queryClient.ts`
+- **Thin community `Community 11`** (1 nodes): `babel.config.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 12`** (1 nodes): `index.ts`
+- **Thin community `Community 12`** (1 nodes): `queryClient.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 13`** (1 nodes): `infraTypes.ts`
+- **Thin community `Community 13`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 14`** (1 nodes): `env.d.ts`
+- **Thin community `Community 14`** (1 nodes): `infraTypes.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 15`** (1 nodes): `index.ts`
+- **Thin community `Community 15`** (1 nodes): `env.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 16`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -231,41 +241,43 @@ Nodes (0):
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 19`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 20`** (1 nodes): `ProductListScreen.tsx`
+- **Thin community `Community 20`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 21`** (1 nodes): `index.ts`
+- **Thin community `Community 21`** (1 nodes): `ProductListScreen.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 22`** (1 nodes): `Box.tsx`
+- **Thin community `Community 22`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 23`** (1 nodes): `PressableBox.tsx`
+- **Thin community `Community 23`** (1 nodes): `Box.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 24`** (1 nodes): `Text.tsx`
+- **Thin community `Community 24`** (1 nodes): `PressableBox.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 25`** (1 nodes): `colors.ts`
+- **Thin community `Community 25`** (1 nodes): `Text.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 26`** (1 nodes): `textVariants.ts`
+- **Thin community `Community 26`** (1 nodes): `colors.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 27`** (1 nodes): `palette.ts`
+- **Thin community `Community 27`** (1 nodes): `fonts.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 28`** (1 nodes): `index.ts`
+- **Thin community `Community 28`** (1 nodes): `textVariants.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 29`** (1 nodes): `theme.ts`
+- **Thin community `Community 29`** (1 nodes): `palette.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 30`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 31`** (1 nodes): `index.ts`
+- **Thin community `Community 31`** (1 nodes): `theme.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 32`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 33`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 34`** (1 nodes): `navigationTypes.ts`
+- **Thin community `Community 34`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 35`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 36`** (1 nodes): `navigationTypes.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `ReactNativeDelegate` connect `Community 0` to `Community 1`?**
-  _High betweenness centrality (0.013) - this node is a cross-community bridge._
-- **Why does `AppDelegate` connect `Community 1` to `Community 0`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **Why does `ReactNativeDelegate` connect `Community 3` to `Community 0`?**
+  _High betweenness centrality (0.012) - this node is a cross-community bridge._

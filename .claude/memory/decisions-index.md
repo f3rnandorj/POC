@@ -20,3 +20,4 @@
 | 2026-10-01 | Inter linked as a real font asset; weight selected by face (`fontFamily`), never `fontWeight` |
 | 2026-10-01 | Graph scoped by `.graphifyignore` — `ios/Pods` was burying the app's own nodes; `graphify-out/cache/` gitignored |
 | 2026-10-01 | Design validation no longer requires a small+large device matrix — one simulator is enough |
+| 2026-10-01 | Git writes (`init`/`add`/`commit`/`push`/PR) need an explicit user request — a PRD acceptance criterion is not one; not hook-enforced, carried by the model |
