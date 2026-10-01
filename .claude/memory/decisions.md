@@ -158,4 +158,22 @@ Append-only. Never delete. Format: date heading + decision + reason + rejected a
 
 ---
 
+## 2026-10-01 — PRD 002 (Shopify Product Data Layer) execution decisions
+
+1. **No HTTP dependency.** `fetch` is built into React Native; the Storefront client is a POST with two headers. Quick-rule #1 allows axios or `graphql-request`, neither of which earns its install for one endpoint.
+
+2. **Fragments split into `ProductCore` and `ProductCard`.** The first cut put `images(first: 1)` in the shared card fragment while the detail query asked for `images(first: 10)`. GraphQL rejects a document where one field carries two argument sets — `Field 'images' has an argument conflict` — and the whole detail query failed, silently, because the list query still worked. `ProductCore` now holds what both screens share **except** images; each query selects its own page size. Lesson: a shared fragment may only contain fields whose arguments every consumer agrees on.
+
+3. **Metafield identifiers live in `merchantConfig.metafieldIdentifiers`**; `fragments.ts` renders them into the GraphQL selection. A merchant whose keys differ is a config change, not a query edit (standards/shopify.md rule 4).
+
+4. **`merchantConfig` throws on a missing env var**, naming the key and never the value. An empty token otherwise surfaces as a 401 three screens later, which reads like a code bug.
+
+5. **The adapter indexes metafields by `key`, never by position.** Verified against the live store: the Everyday Tee returns `[null, null, null, null, null]` and Northstar Essential a trailing `null`. This was the block's highest-risk line and it is now the one place that knows the array is positional.
+
+**Verified on the simulator:** both products from the live store, metafields rendered only where present, the Everyday Tee with none and no crash, and the detail hook flagging the Blue variant as sold out.
+
+**Open for PRD 006:** `care_instructions` returns `null` for both products — the definition is absent or not published to the Storefront API, and it must be fixed in the Shopify admin before that block starts. The `json` parse branch lands with it.
+
+---
+
 > When a new decision is made, append below with a date heading and add its row to `decisions-index.md` in the same edit.

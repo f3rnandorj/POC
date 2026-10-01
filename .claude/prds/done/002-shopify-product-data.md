@@ -1,6 +1,7 @@
 # PRD: Shopify Product Data Layer
 
-**Status:** draft
+**Status:** done
+**Completed:** 2026-10-01
 **Started:** 2026-10-01
 **Source:** README — CASE 1 "Requisito técnico" (Storefront API + GraphQL)
 
@@ -45,12 +46,12 @@ As a developer, I want the store domain, token and API version read from the env
 **Complexity:** 3/10
 
 **Acceptance Criteria:**
-- [ ] `react-native-config` installed and wired on iOS
-- [ ] `.env` holds `SHOPIFY_STORE_DOMAIN`, `SHOPIFY_STOREFRONT_TOKEN`, `SHOPIFY_API_VERSION`; `.env` is gitignored
-- [ ] `.env.example` is tracked and holds key names only, no values
-- [ ] `config/merchant/merchantConfig.ts` is the single consumer of those vars
-- [ ] `config/merchant/merchantTypes.ts` declares `MerchantConfig` with `credentials`, `theme`, `features`
-- [ ] No token literal anywhere in the tree
+- [x] `react-native-config` installed and wired on iOS
+- [x] `.env` holds `SHOPIFY_STORE_DOMAIN`, `SHOPIFY_STOREFRONT_TOKEN`, `SHOPIFY_API_VERSION`; `.env` is gitignored
+- [x] `.env.example` is tracked and holds key names only, no values
+- [x] `config/merchant/merchantConfig.ts` is the single consumer of those vars
+- [x] `config/merchant/merchantTypes.ts` declares `MerchantConfig` with `credentials`, `theme`, `features`
+- [x] No token literal anywhere in the tree
 
 ### US-002: Storefront client
 
@@ -60,12 +61,12 @@ As a developer, I want one HTTP client for the Storefront API so that every quer
 **Complexity:** 4/10
 
 **Acceptance Criteria:**
-- [ ] `api/shopify/client.ts` posts to `https://{domain}/api/{version}/graphql.json`
-- [ ] Headers: `X-Shopify-Storefront-Access-Token` + `Content-Type: application/json`
-- [ ] API version comes from config and is pinned, never templated from user input
-- [ ] A response carrying a top-level `errors` array **throws**, even on HTTP 200
-- [ ] The thrown error carries a message safe to display; the raw payload is not attached
-- [ ] No logging of headers or full request
+- [x] `api/shopify/client.ts` posts to `https://{domain}/api/{version}/graphql.json`
+- [x] Headers: `X-Shopify-Storefront-Access-Token` + `Content-Type: application/json`
+- [x] API version comes from config and is pinned, never templated from user input
+- [x] A response carrying a top-level `errors` array **throws**, even on HTTP 200
+- [x] The thrown error carries a message safe to display; the raw payload is not attached
+- [x] No logging of headers or full request
 
 ### US-003: Query documents and fragments
 
@@ -75,11 +76,11 @@ As a developer, I want the GraphQL documents isolated so that no query string li
 **Complexity:** 3/10
 
 **Acceptance Criteria:**
-- [ ] `domain/Product/productQueries.ts` exports `PRODUCT_LIST_QUERY` and `PRODUCT_BY_HANDLE_QUERY`
-- [ ] `api/shopify/fragments.ts` holds the shared product-card selection and the metafield identifier list
-- [ ] The metafield selection requests `custom.badge`, `custom.material`, `custom.promotion_text`, `custom.is_winter_collection` by explicit identifier
-- [ ] Detail query returns images, `priceRange`, variants (`id`, `title`, `availableForSale`) and `description`
-- [ ] Zero query strings outside this file
+- [x] `domain/Product/productQueries.ts` exports `PRODUCT_LIST_QUERY` and `PRODUCT_BY_HANDLE_QUERY`
+- [x] `api/shopify/fragments.ts` holds the shared product-card selection and the metafield identifier list
+- [x] The metafield selection requests `custom.badge`, `custom.material`, `custom.promotion_text`, `custom.is_winter_collection` by explicit identifier
+- [x] Detail query returns images, `priceRange`, variants (`id`, `title`, `availableForSale`) and `description`
+- [x] Zero query strings outside this file
 
 ### US-004: Domain model and raw types
 
@@ -89,10 +90,10 @@ As a developer, I want a `Product` type the UI can consume so that no screen eve
 **Complexity:** 3/10
 
 **Acceptance Criteria:**
-- [ ] `productTypes.ts` declares `Product`, `ProductVariant`, `ProductMetafields` — domain model first
-- [ ] Raw Storefront shapes live below, suffixed `Api` (`ProductApi`, `MetafieldApi`)
-- [ ] `ProductMetafields` fields are all optional
-- [ ] `price` is `{ amount, currencyCode }` — unformatted
+- [x] `productTypes.ts` declares `Product`, `ProductVariant`, `ProductMetafields` — domain model first
+- [x] Raw Storefront shapes live below, suffixed `Api` (`ProductApi`, `MetafieldApi`)
+- [x] `ProductMetafields` fields are all optional
+- [x] `price` is `{ amount, currencyCode }` — unformatted
 
 ### US-005: Adapter
 
@@ -102,13 +103,13 @@ As a developer, I want all mapping in one pure module so that a Storefront shape
 **Complexity:** 5/10
 
 **Acceptance Criteria:**
-- [ ] `productAdapter.ts` flattens `edges`/`node` — the only file that knows those words
-- [ ] `toMetafields` tolerates a **positional array containing `null`**: it indexes by `key`, never by position
-- [ ] `value` is always a string: `boolean` → `value === 'true'`; `json` → `JSON.parse` inside try/catch
-- [ ] A parse failure yields `undefined` and does not throw
-- [ ] A missing metafield yields `undefined` — never `''`, `'—'` or `null`
-- [ ] Functions declared first, `export const productAdapter = { ... }` closes the file
-- [ ] The Everyday Tee (four `null`s) maps without a crash
+- [x] `productAdapter.ts` flattens `edges`/`node` — the only file that knows those words
+- [x] `toMetafields` tolerates a **positional array containing `null`**: it indexes by `key`, never by position
+- [x] `value` is always a string: `boolean` → `value === 'true'`; `json` → `JSON.parse` inside try/catch
+- [x] A parse failure yields `undefined` and does not throw
+- [x] A missing metafield yields `undefined` — never `''`, `'—'` or `null`
+- [x] Functions declared first, `export const productAdapter = { ... }` closes the file
+- [x] The Everyday Tee (four `null`s) maps without a crash
 
 ### US-006: Api and service
 
@@ -118,9 +119,9 @@ As a developer, I want raw calls and delegation separated so that each layer has
 **Complexity:** 2/10
 
 **Acceptance Criteria:**
-- [ ] `productApi.ts` executes the documents and returns the raw payload, zero transformation
-- [ ] `productService.ts` calls api then adapter; no React import
-- [ ] Both export their singleton object as the last statement in the file
+- [x] `productApi.ts` executes the documents and returns the raw payload, zero transformation
+- [x] `productService.ts` calls api then adapter; no React import
+- [x] Both export their singleton object as the last statement in the file
 
 ### US-007: UseCase hooks
 
@@ -130,11 +131,11 @@ As a screen, I want hooks returning UI-ready data so that I never touch the serv
 **Complexity:** 3/10
 
 **Acceptance Criteria:**
-- [ ] `useCases/useProductGetList.ts` exports `useProductGetList()` returning `{ products, isLoading, error, refetch }`
-- [ ] `useCases/useProductGetDetail.ts` exports `useProductGetDetail(handle)`
-- [ ] Query keys come from the `QueryKeys` enum
-- [ ] These are the only `useQuery` callers in the codebase
-- [ ] `domain/Product/index.ts` exports **useCases + productTypes only** — importing `productService` from `@domain` is impossible
+- [x] `useCases/useProductGetList.ts` exports `useProductGetList()` returning `{ products, isLoading, error, refetch }`
+- [x] `useCases/useProductGetDetail.ts` exports `useProductGetDetail(handle)`
+- [x] Query keys come from the `QueryKeys` enum
+- [x] These are the only `useQuery` callers in the codebase
+- [x] `domain/Product/index.ts` exports **useCases + productTypes only** — importing `productService` from `@domain` is impossible
 
 ## Functional Requirements
 
@@ -165,6 +166,14 @@ No screens, no Collection domain, no cart, no checkout, no OAuth, no metaobjects
 - **Store currency** → USD. The store was created in USD; the README's `R$` is prose, the EMV uses `$`.
 - **Metafield namespace** → `custom`, the admin default used when the four definitions were created.
 
+## Execution notes (2026-10-01)
+
+- **Which identifier the detail query uses** — kept `handle`, as assumed. Exercised live against both products.
+- **No HTTP dependency.** `fetch` is built into React Native, so the client is a plain POST with two headers — axios/`graphql-request` would have earned nothing here.
+- **Fragments are split `Core` / `Card`.** The first cut had `images` in the shared card fragment at `first: 1` while the detail query asked for `first: 10`; GraphQL rejects that outright (`Field 'images' has an argument conflict`) and the whole detail query failed. `ProductCore` now holds everything both screens share **except** `images`, and each query selects its own page size.
+- **Metafield identifiers live in `merchantConfig`** and `fragments.ts` renders them into the selection, so a merchant with different keys is a config change (standards/shopify.md rule 4).
+
 ## Open Questions
 
-- **Which identifier the detail query uses** — **Assumption:** `handle`, because it is stable, readable in a route param and already returned by the list query. Switch to `id` only if a handle collision appears.
+- **`care_instructions` returns `null` for BOTH products** on the live store — the definition is either absent or not published to the Storefront API. It is out of scope here (4 identifiers in US-003) but PRD 006 depends on it, so it has to be created/published in the admin before that block starts.
+- **No `json` metafield exists yet**, so the US-005 acceptance line about `JSON.parse` inside try/catch has no subject in this block. The parser lands with `care_instructions` in PRD 006 via `templates/metafield-feature.md`; writing it now would be a helper with no caller.
