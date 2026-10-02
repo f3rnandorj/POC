@@ -44,11 +44,7 @@ export function HomeHeader({
         </Box>
 
         {products.length === 0 ? (
-          <SectionNote
-            isLoading={isLoading}
-            error={error}
-            emptyText="No products published yet."
-          />
+          <SectionNote isLoading={isLoading} error={error} emptyText="No products published yet." />
         ) : (
           <FlatList
             horizontal

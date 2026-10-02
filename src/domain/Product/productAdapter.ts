@@ -69,6 +69,9 @@ function toVariants(node: ProductNodeApi): ProductVariant[] {
     id: edge.node.id,
     title: edge.node.title,
     isAvailable: edge.node.availableForSale,
+    image: edge.node.image
+      ? { url: edge.node.image.url, altText: edge.node.image.altText ?? undefined }
+      : undefined,
   }));
 }
 
@@ -77,7 +80,10 @@ function toVariants(node: ProductNodeApi): ProductVariant[] {
  * calling the same field `fabric_type` costs a config entry. A concept the merchant does not map
  * was never requested, and reaches the UI as `undefined` like any absent metafield.
  */
-function find(byKey: Map<string, MetafieldApi>, concept: MetafieldConcept): MetafieldApi | undefined {
+function find(
+  byKey: Map<string, MetafieldApi>,
+  concept: MetafieldConcept
+): MetafieldApi | undefined {
   const identifier = merchantConfig.metafields[concept];
 
   return identifier ? byKey.get(identifier.key) : undefined;

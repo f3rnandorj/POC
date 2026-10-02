@@ -55,7 +55,7 @@ function buildMetafieldIdentifiers(): string {
   // an explicit `undefined` in the map must not become `{ namespace: "undefined" }`.
   return Object.values(merchantConfig.metafields)
     .flatMap(identifier =>
-      identifier ? [`{ namespace: "${identifier.namespace}", key: "${identifier.key}" }`] : [],
+      identifier ? [`{ namespace: "${identifier.namespace}", key: "${identifier.key}" }`] : []
     )
     .join(' ');
 }

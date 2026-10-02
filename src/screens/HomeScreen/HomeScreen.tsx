@@ -1,4 +1,5 @@
 import { FlatList } from 'react-native';
+
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Box, CollectionCard, StoryCard } from '@components';
@@ -32,9 +33,7 @@ export function HomeScreen({ navigation }: AppScreenProps<'Home'>) {
       <FlatList
         data={collections}
         keyExtractor={keyExtractor}
-        renderItem={({ item }) => (
-          <CollectionCard collection={item} onPress={openCollection} />
-        )}
+        renderItem={({ item }) => <CollectionCard collection={item} onPress={openCollection} />}
         ListHeaderComponent={
           <HomeHeader
             // ponytail: "featured" has no Shopify concept behind it — it is the first N of

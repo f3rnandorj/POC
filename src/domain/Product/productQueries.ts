@@ -32,6 +32,10 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
             id
             title
             availableForSale
+            image {
+              url
+              altText
+            }
           }
         }
       }

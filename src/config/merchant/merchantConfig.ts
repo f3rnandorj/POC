@@ -13,7 +13,7 @@ export function getMerchantConfig(merchantId: string): MerchantConfig {
 
   if (!merchant) {
     throw new Error(
-      `Unknown merchant "${merchantId}" — add its config under config/merchant/merchants/.`,
+      `Unknown merchant "${merchantId}" — add its config under config/merchant/merchants/.`
     );
   }
 

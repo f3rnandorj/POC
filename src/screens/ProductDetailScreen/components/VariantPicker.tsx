@@ -7,6 +7,11 @@ interface VariantPickerProps {
   onSelect: (variantId: string) => void;
 }
 
+/**
+ * Owns its own absence, hairline included — the separator lives here and not in the screen,
+ * so a product with nothing to choose does not leave a rule hanging under the description
+ * (quick-rule #5), the same contract `ProductSection` follows.
+ */
 export function VariantPicker({ variants, selectedId, onSelect }: VariantPickerProps) {
   // A single-variant product arrives from Shopify as "Default Title" — a chip for it is
   // noise, so the picker renders nothing rather than one meaningless option.
@@ -15,7 +20,7 @@ export function VariantPicker({ variants, selectedId, onSelect }: VariantPickerP
   }
 
   return (
-    <Box gap="s12">
+    <Box borderTopWidth={1} borderTopColor="border" paddingTop="s16" gap="s12">
       <Text variant="titleMedium">Available in</Text>
 
       <Box flexDirection="row" flexWrap="wrap" gap="s8">
@@ -51,9 +56,7 @@ function VariantChip({ variant, isSelected, onSelect }: VariantChipProps) {
       disabled={isSoldOut}
       accessibilityRole="button"
       accessibilityState={{ selected: isSelected, disabled: isSoldOut }}
-      accessibilityLabel={
-        isSoldOut ? `${variant.title}, sold out` : variant.title
-      }
+      accessibilityLabel={isSoldOut ? `${variant.title}, sold out` : variant.title}
       onPress={() => onSelect(variant.id)}
     >
       <Text variant="badge" color={isSelected ? 'accentText' : 'text'}>

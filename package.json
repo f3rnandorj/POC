@@ -32,9 +32,12 @@
     "@react-native/eslint-config": "0.87.1",
     "@react-native/metro-config": "0.87.1",
     "@react-native/typescript-config": "0.87.1",
+    "@tanstack/eslint-plugin-query": "^5.104.0",
     "@types/react": "^19.2.0",
     "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^8.19.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.6",
     "prettier": "2.8.8",
     "typescript": "^6.0.3"
   },

@@ -36,3 +36,5 @@
 | 2026-10-01 | PRD 009: seed por `productSet` com `identifier` (sem ele não é upsert); disponibilidade por rastreamento de inventário, não quantidade; token Admin em `~/.config`, nunca no scratchpad nem no `.env` |
 | 2026-10-01 | **Foto de seed se escolhe pelo que está no quadro** — marca de terceiro, pessoa, fundo — antes de checar se o link responde. Não existe acervo grátis de peça isolada em fundo preto: catálogo padronizou no claro |
 | 2026-10-01 | Deleção de dado de loja é do usuário: a etapa foi escrita, recusada pelo harness, e feita no admin. Script de seed semeia e restiliza, nunca apaga |
+| 2026-10-02 | ESLint é o único gate e o único formatador: roda Prettier como regra, `.prettierrc` só declara o que diverge (`printWidth: 100`), editor salva via `source.fixAll.eslint`, `.eslintignore` mantém o gate rápido |
+| 2026-10-02 | PRD 010: README do projeto substitui o briefing (texto antigo descartado, vive no histórico); screenshots em `docs/screenshots/` a 420px, capturadas por rota temporária e nunca por input sintético; defeito achado no run-through se conserta onde mora, não no README |

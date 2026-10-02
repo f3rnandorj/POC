@@ -34,6 +34,8 @@
 19. **Graph first** — architecture/impact/exploration questions start at `graphify-out/`, not at Grep. Graph missing or stale → rebuild (`graphify .` / `graphify update .`) then proceed.
 20. **Git write operations need an explicit request from the user** — `git init`, `add`, `commit`, `branch`, `tag`, `push`, PR creation. The AI delivers **one uncommitted batch** and reports what changed; staging and history are the user's step. A PRD acceptance criterion that says "commit" is **not** the user's request — it describes the block's definition of done, and the user still has to ask. Approval for one commit never extends to the next. Not hook-enforced: a guard cannot tell an authorized commit from an unrequested one, so this rule is on the model.
 
+21. **ESLint is the only gate and the only formatter** — `yarn lint` must pass, `yarn lint --fix` is the only thing that reformats. ESLint runs Prettier as a rule (`plugin:prettier/recommended`); no second formatter, no format-on-save from the Prettier extension. A formatting diff in a file the task never touched is a broken setup, not a commit. See `code-style.md`.
+
 ## Brain fallback
 
 - **`.claude/` always wins** over `~/.claude/brain/`. Brain is a reference library, not auto-loaded.

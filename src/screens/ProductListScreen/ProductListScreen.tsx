@@ -1,4 +1,5 @@
 import { FlatList } from 'react-native';
+
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BackControl, Box, ProductCard, Text } from '@components';

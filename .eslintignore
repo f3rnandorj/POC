@@ -1,0 +1,10 @@
+# ESLint is the repo's gate, so it has to stay fast: everything below is either generated,
+# vendored or native build output — none of it is ours to lint.
+node_modules/
+ios/Pods/
+ios/build/
+android/build/
+android/app/build/
+android/.gradle/
+vendor/
+graphify-out/

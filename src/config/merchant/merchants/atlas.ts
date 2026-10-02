@@ -1,5 +1,6 @@
-import { northstar } from './northstar';
 import type { MerchantConfig } from '../merchantTypes';
+
+import { northstar } from './northstar';
 
 /**
  * A second merchant, fictional. It exists to prove the claim that onboarding one is a config

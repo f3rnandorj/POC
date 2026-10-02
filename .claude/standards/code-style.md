@@ -1,6 +1,23 @@
 # Code Style
 
-TypeScript, 2-space indent, single quotes, semicolons, trailing commas (Prettier defaults — no config restating them).
+TypeScript, 2-space indent, single quotes, semicolons, trailing commas, 100-column width.
+
+## ESLint is the gate (MANDATORY)
+
+**Code is written to whatever `yarn lint` accepts — nothing else.** ESLint carries the logic rules *and* runs Prettier as a rule (`plugin:prettier/recommended`), so there is exactly one command that has to pass and exactly one command that reformats:
+
+```bash
+yarn lint        # the gate
+yarn lint --fix  # the only thing allowed to reformat
+```
+
+Rules:
+
+1. **One writer.** Prettier never runs as a separate formatter — not from the CLI, not as the editor's format-on-save. `.vscode/settings.json` sets `editor.formatOnSave: false` + `source.fixAll.eslint`, and disables the Prettier extension. Two formatters writing the same file on save is what silently reflowed files nobody edited.
+2. **`.prettierrc.js` declares only what diverges from Prettier's defaults** — `arrowParens: 'avoid'`, `singleQuote`, `printWidth: 100`. Restating a default is noise; omitting `printWidth` is a defect, because the default (80) is not the width this code was written to.
+3. **Never hand-format to satisfy a reviewer or a hook.** If the formatter and the written style disagree, `--fix` wins and the config is what gets discussed.
+4. **A formatting diff in a file the task never touched is a bug in the setup**, not something to commit. Stop and fix the setup.
+5. `.eslintignore` keeps the gate fast — native build output, Pods, vendor and generated artifacts are not ours to lint. A gate that takes two minutes stops being run.
 
 ## Imports
 

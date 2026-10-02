@@ -8,7 +8,7 @@ import type { GraphQLResponseApi } from './shopifyTypes';
  */
 async function request<TData>(
   document: string,
-  variables?: Record<string, unknown>,
+  variables?: Record<string, unknown>
 ): Promise<TData> {
   const { storeDomain, storefrontToken, apiVersion } = merchantConfig.credentials;
 
@@ -30,7 +30,10 @@ async function request<TData>(
   // Storefront reports query errors with HTTP 200 + a top-level `errors` array, so
   // `response.ok` above is not error handling on its own (standards/shopify.md).
   if (payload.errors?.length) {
-    throw new ShopifyError('Não foi possível carregar os dados da loja.', payload.errors[0].message);
+    throw new ShopifyError(
+      'Não foi possível carregar os dados da loja.',
+      payload.errors[0].message
+    );
   }
 
   if (!payload.data) {

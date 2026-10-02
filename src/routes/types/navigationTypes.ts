@@ -8,5 +8,7 @@ export type AppStackParamList = {
   ProductDetail: { handle: string };
 };
 
-export type AppScreenProps<TRoute extends keyof AppStackParamList> =
-  NativeStackScreenProps<AppStackParamList, TRoute>;
+export type AppScreenProps<TRoute extends keyof AppStackParamList> = NativeStackScreenProps<
+  AppStackParamList,
+  TRoute
+>;

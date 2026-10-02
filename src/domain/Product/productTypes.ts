@@ -26,6 +26,8 @@ export interface ProductVariant {
   id: string;
   title: string;
   isAvailable: boolean;
+  /** Only variants the merchant gave their own photo carry one. */
+  image?: ProductImage;
 }
 
 /**
@@ -63,6 +65,7 @@ export interface ProductVariantNodeApi {
   id: string;
   title: string;
   availableForSale: boolean;
+  image?: ImageApi | null;
 }
 
 export interface ProductListApi {

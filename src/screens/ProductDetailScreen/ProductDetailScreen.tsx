@@ -1,16 +1,9 @@
 import { useState } from 'react';
 import { Image, ScrollView } from 'react-native';
+
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import {
-  BackControl,
-  Box,
-  PressableBox,
-  ProductBadge,
-  ProductMetadata,
-  ProductSection,
-  Text,
-} from '@components';
+import { BackControl, Box, ProductBadge, ProductMetadata, ProductSection, Text } from '@components';
 import { merchantConfig } from '@config';
 import { useProductGetDetail } from '@domain';
 import type { AppScreenProps } from '@routes';
@@ -23,9 +16,6 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
   const { top, bottom } = useSafeAreaInsets();
   const { product, isLoading, error, refetch } = useProductGetDetail(route.params.handle);
   const [selectedId, setSelectedId] = useState<string>();
-  // The CTA floats over the scroll, so the content has to end above it. Measured rather
-  // than guessed — safe area, font scaling and the "Sold out" label all change its height.
-  const [footerHeight, setFooterHeight] = useState(0);
 
   if (!product) {
     return (
@@ -40,8 +30,11 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
 
   const selected = product.variants.find(variant => variant.id === selectedId);
   const preselected = selected ?? product.variants.find(variant => variant.isAvailable);
-  const canAddToCart = Boolean(preselected?.isAvailable) || product.variants.length === 0;
-  const [image] = product.images;
+  // The cover is the product's own photo until the user picks a variant — the
+  // preselected chip must not change it, or the detail opens on a different image
+  // than the grid card that led here. `image` also falls back for a variant whose
+  // photo the merchant never set.
+  const image = selected?.image ?? product.images[0];
   // The merchant flag gates the capability, the metafield gates the product. Absent
   // metafield stays `undefined` here, so `ProductBadge` keeps owning the empty case.
   const winterBadge =
@@ -60,7 +53,7 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: footerHeight }}
+        contentContainerStyle={{ paddingBottom: bottom + 24 }}
       >
         <Box backgroundColor="surface" aspectRatio={1} width="100%">
           {image && (
@@ -108,8 +101,6 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
             ]}
           />
 
-          <Box height={1} backgroundColor="border" marginVertical="s16" />
-
           <VariantPicker
             variants={product.variants}
             selectedId={preselected?.id}
@@ -117,33 +108,6 @@ export function ProductDetailScreen({ route, navigation }: AppScreenProps<'Produ
           />
         </Box>
       </ScrollView>
-
-      <Box
-        paddingHorizontal="s16"
-        paddingTop="s12"
-        borderTopWidth={1}
-        borderTopColor="border"
-        style={{ paddingBottom: bottom + 12 }}
-        onLayout={event => setFooterHeight(event.nativeEvent.layout.height)}
-      >
-        {/* ponytail: local feedback only — cart and checkout are out of scope for the POC
-            (README "O que NÃO fazer"). Wire a cart service here when one exists. */}
-        <PressableBox
-          backgroundColor={canAddToCart ? 'accent' : 'surface'}
-          borderRadius="s2"
-          paddingVertical="s16"
-          alignItems="center"
-          disabled={!canAddToCart}
-          accessibilityRole="button"
-          accessibilityState={{ disabled: !canAddToCart }}
-          accessibilityLabel={canAddToCart ? 'Add to cart' : 'Sold out'}
-          onPress={() => undefined}
-        >
-          <Text variant="badge" color={canAddToCart ? 'accentText' : 'textMuted'}>
-            {canAddToCart ? 'Add to cart' : 'Sold out'}
-          </Text>
-        </PressableBox>
-      </Box>
     </Box>
   );
 }

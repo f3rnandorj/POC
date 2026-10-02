@@ -13,7 +13,8 @@ export function AppStack() {
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: colors.background },
-      }}>
+      }}
+    >
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="ProductList" component={ProductListScreen} />
       <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />

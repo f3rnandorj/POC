@@ -44,7 +44,7 @@ function requireEnv(key: keyof typeof Config): string {
 
   if (!value) {
     throw new Error(
-      `Missing ${String(key)} in .env — copy .env.example and fill it from the Shopify admin.`,
+      `Missing ${String(key)} in .env — copy .env.example and fill it from the Shopify admin.`
     );
   }
 
