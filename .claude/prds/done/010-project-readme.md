@@ -1,6 +1,6 @@
 # PRD: Project README and Demo
 
-**Status:** executed 2026-10-02 — one criterion open (clean-clone run)
+**Status:** done 2026-10-02
 **Started:** 2026-10-01
 **Scope note:** the README is a **general project document** — what the app is, how it works, how to run it. Nothing is handed in and nothing is being answered.
 **Reference shape:** the author's own `buzzvel-challenge` repo README (https://github.com/f3rnandorj/buzzvel-challenge) — About / Technologies / Requirements / How to Run / Project Structure / Key Features / How to Use / Contact.
@@ -69,8 +69,7 @@ As a developer, I want to run the app so that I can see it work.
 
 **Acceptance Criteria:**
 - [x] Prerequisites: Node version, yarn, Xcode / Android Studio, Ruby + bundler for Pods
-- [~] Clone → `yarn` → `yarn pods` → `yarn ios` / `yarn android` — documented and true of the
-      committed scripts, but **not** replayed from a fresh clone in a clean directory
+- [x] Clone → `yarn` → `yarn pods` → `yarn ios` / `yarn android`, verified from a clean clone
 - [x] `.env` setup from `.env.example`: which Storefront variables exist and where to get each one
 - [x] Shopify side: Headless channel, the public Storefront token, the three scopes, and the metafield definitions **with Storefront access enabled** — flagged as the step that silently breaks the app when skipped
 - [x] How to build the APK that gets shared
@@ -163,5 +162,11 @@ No architecture diagrams beyond ASCII, no screenshot gallery, no produced video,
   README: a hairline separator rendered unconditionally above the variant picker, leaving a rule
   hanging under the description on a product with nothing to choose. `VariantPicker` now owns its
   own separator, the way `ProductSection` already did.
-- Remaining gap: nobody has run the README end to end from a fresh `git clone` into an empty
-  directory. Until that happens the install section is documented, not proven.
+- The clean-clone run was performed (2026-10-02): fresh `git clone` into an empty directory,
+  `yarn` → `yarn pods` → `.env` → `yarn ios`, ending on the home screen with live Storefront
+  data. It paid for itself by finding two defects the working copy could not expose:
+  - `eslint-plugin-prettier@5` requires `prettier>=3` while the repo is on the RN template's
+    2.8.8 — a peer-dependency warning on every fresh `yarn`. Pinned to the v4 line.
+  - `bundle exec pod install` died with `GemNotFound`: the `Gemfile` is committed but the gems
+    are not, and the README sent the reader straight to `yarn pods`. `bundle install` is now
+    part of the script, so the step cannot be skipped.

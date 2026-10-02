@@ -38,3 +38,4 @@
 | 2026-10-01 | Deleção de dado de loja é do usuário: a etapa foi escrita, recusada pelo harness, e feita no admin. Script de seed semeia e restiliza, nunca apaga |
 | 2026-10-02 | ESLint é o único gate e o único formatador: roda Prettier como regra, `.prettierrc` só declara o que diverge (`printWidth: 100`), editor salva via `source.fixAll.eslint`, `.eslintignore` mantém o gate rápido |
 | 2026-10-02 | PRD 010: README do projeto substitui o briefing (texto antigo descartado, vive no histórico); screenshots em `docs/screenshots/` a 420px, capturadas por rota temporária e nunca por input sintético; defeito achado no run-through se conserta onde mora, não no README |
+| 2026-10-02 | Clone limpo é gate de README, não formalidade: achou peer dep do `eslint-plugin-prettier` (v5 exige prettier>=3, repo no 2.8.8) e `pod install` sem `bundle install` — dois defeitos invisíveis na cópia de trabalho |
