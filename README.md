@@ -60,7 +60,7 @@ is the single thing that has to pass and `yarn lint --fix` is the only thing tha
 | Node | `>= 22.11.0` |
 | Yarn | 1.x |
 | Xcode | 16+, with an iOS simulator installed |
-| Ruby + Bundler | for CocoaPods (`Gemfile` is committed) |
+| Ruby + Bundler | for CocoaPods. The `Gemfile` is committed and `yarn pods` runs `bundle install` for you — you only need Ruby and the `bundler` gem on PATH |
 | Android Studio | only if you want the Android build |
 
 You also need a Shopify store you can administer — see [Shopify setup](#shopify-setup).
@@ -73,7 +73,7 @@ You also need a Shopify store you can administer — see [Shopify setup](#shopif
 git clone <this-repo>
 cd POC
 yarn
-yarn pods           # bundle exec pod install, iOS only
+yarn pods           # bundle install + pod install, iOS only
 cp .env.example .env   # then fill it in — see below
 yarn ios            # or: yarn android
 ```
