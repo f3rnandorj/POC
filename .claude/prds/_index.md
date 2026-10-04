@@ -31,15 +31,21 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
       └──→ 009 catalog-seed           (content, not code; needs 007 for collection covers)
                     ↓
             010 project README        (needs every other block shipped)
+                    ↓
+            012 merchant content blocks   (supersedes 008's variation model)
 ```
 
 005, 006, 007 and 008 depend only on 004 and can be reordered. 009 seeds the store so the app looks filled — content only, no source change. 010 is last by definition: a general project README for a developer visiting the repo.
+
+013 follows 012: the block model made a merchant's **content** their own, and this one does the same for their **palette** — the two axes of "one app, many merchants". It supersedes the "one accent" half of the 2026-09-30 identity ADR.
+
+012 reopens 008's subject after the fact: it needs 008 and 011 shipped, because it generalizes the metafield map **and** the metaobject map at once. It is a refactor with a negative diff, not a feature — it adds nothing to the demo journey, it removes the deploy from merchant onboarding.
 
 ## Active PRDs
 
 | # | Feature | File | Depends on | Source | Status |
 |---|---|---|---|---|---|
-| 010 | Project README and Demo | `active/010-project-readme.md` | 005-009 | general project doc | draft |
+| — | _nenhuma PRD ativa_ | — | — | — | — |
 
 ## Done PRDs
 
@@ -55,6 +61,10 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
 | 008 Multi-Merchant Config | 2026-10-01 | `done/008-multi-merchant-config.md` |
 | 011 Brand Story Metaobject | 2026-10-01 | `done/011-brand-story.md` — optional bonus |
 | 009 Catalog Seed | 2026-10-01 | `done/009-catalog-seed.md` |
+| 010 Project README and Demo | 2026-10-02 | `done/010-project-readme.md` — validated on a clean clone |
+| 012 Merchant Content Blocks | 2026-10-02 | `done/012-merchant-content-blocks.md` — supersedes 008; unblocked the iOS 27 scene crash |
+| 013 Merchant Brand Palette | 2026-10-03 | `done/013-merchant-brand-palette.md` — state colors became derived, not overridable |
+| 014 Merchant Layout | 2026-10-03 | `done/014-merchant-layout.md` — arrangement per merchant; gallery uses images fetched since 002 |
 
 ## How to author a new PRD
 

@@ -1,15 +1,17 @@
+import type { MetaobjectFieldMap } from "@config";
+
 import type {
   BrandStory,
   BrandStoryApi,
   MetaobjectFieldApi,
   MetaobjectNodeApi,
-} from './brandStoryTypes';
+} from "./brandStoryTypes";
 
-/**
- * The field array is flat and its order is not a contract, so this indexes by key — the same
- * reason the product adapter never reads a metafield positionally.
- */
-function toBrandStory(response: BrandStoryApi): BrandStory | undefined {
+/** The field array's order is not a contract, so this indexes by key. */
+function toBrandStory(
+  response: BrandStoryApi,
+  fields: MetaobjectFieldMap,
+): BrandStory | undefined {
   const [edge] = response.metaobjects.edges;
 
   if (!edge) {
@@ -19,10 +21,17 @@ function toBrandStory(response: BrandStoryApi): BrandStory | undefined {
   const byKey = indexByKey(edge.node);
 
   return {
-    title: readText(byKey.get('title')),
-    description: readText(byKey.get('description')),
-    image: readImage(byKey.get('image')),
+    title: readText(find(byKey, fields.title)),
+    body: readText(find(byKey, fields.body)),
+    image: readImage(find(byKey, fields.image)),
   };
+}
+
+function find(
+  byKey: Map<string, MetaobjectFieldApi>,
+  key?: string,
+): MetaobjectFieldApi | undefined {
+  return key ? byKey.get(key) : undefined;
 }
 
 function indexByKey(node: MetaobjectNodeApi): Map<string, MetaobjectFieldApi> {
@@ -35,7 +44,7 @@ function indexByKey(node: MetaobjectNodeApi): Map<string, MetaobjectFieldApi> {
   return byKey;
 }
 
-/** An empty string is an absent value, not a value to render (quick-rule #5). */
+/** An empty string is an absent value, not a value to render. */
 function readText(field?: MetaobjectFieldApi): string | undefined {
   const value = field?.value?.trim();
 
@@ -43,10 +52,12 @@ function readText(field?: MetaobjectFieldApi): string | undefined {
 }
 
 /** `value` is a gid here — only the resolved reference is renderable. */
-function readImage(field?: MetaobjectFieldApi): BrandStory['image'] {
+function readImage(field?: MetaobjectFieldApi): BrandStory["image"] {
   const image = field?.reference?.image;
 
-  return image ? { url: image.url, altText: image.altText ?? undefined } : undefined;
+  return image
+    ? { url: image.url, altText: image.altText ?? undefined }
+    : undefined;
 }
 
 export const brandStoryAdapter = {

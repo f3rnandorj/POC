@@ -1,0 +1,154 @@
+import { Modal, Pressable } from "react-native";
+
+import { AnimatedBox, Box, PressableBox, Text } from "@components";
+import type { MerchantId } from "@config";
+import { merchantIds } from "@config";
+import { motion } from "@theme";
+
+interface MerchantSwitchDialogProps {
+  isOpen: boolean;
+  activeId: MerchantId;
+  error?: string;
+  onSelect: (merchantId: MerchantId) => void;
+  onClose: () => void;
+}
+
+/** Says what it is before it offers anything: the switch is scaffolding, not a store feature. */
+export function MerchantSwitchDialog({
+  isOpen,
+  activeId,
+  error,
+  onSelect,
+  onClose,
+}: MerchantSwitchDialogProps) {
+  return (
+    <Modal
+      visible={isOpen}
+      transparent
+      animationType="fade"
+      statusBarTranslucent
+      onRequestClose={onClose}
+    >
+      <Box flex={1} justifyContent="center" padding="s24">
+        {/* The scrim is the merchant's own background, so the dialog reads as the app receding. */}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Close"
+          style={BACKDROP}
+          onPress={onClose}
+        >
+          <Box flex={1} backgroundColor="background" opacity={0.94} />
+        </Pressable>
+
+        <AnimatedBox
+          entering={motion.cardEnter}
+          backgroundColor="surface"
+          borderRadius="s4"
+          borderWidth={1}
+          borderColor="border"
+          padding="s24"
+          gap="s24"
+        >
+          <Box gap="s12">
+            <Text variant="titleMedium" color="textMuted">
+              Demo only
+            </Text>
+
+            <Text variant="displayLarge">Two stores, one build</Text>
+
+            <Text variant="body" color="textMuted">
+              No real storefront app has this — a build talks to one merchant
+              and never shows one in the interface. It is here so you can watch
+              the same screens and the same components draw another store: its
+              own catalog, palette, layout and content.
+            </Text>
+          </Box>
+
+          <Box gap="s8">
+            {merchantIds.map(merchantId => (
+              <MerchantOption
+                key={merchantId}
+                merchantId={merchantId}
+                isActive={merchantId === activeId}
+                onSelect={onSelect}
+              />
+            ))}
+
+            {error ? (
+              <Text variant="caption" color="danger">
+                {error}
+              </Text>
+            ) : (
+              <Text variant="caption">
+                Picking a store reopens the app on it.
+              </Text>
+            )}
+          </Box>
+
+          <PressableBox
+            accessibilityRole="button"
+            alignItems="center"
+            paddingVertical="s8"
+            onPress={onClose}
+          >
+            <Text variant="titleMedium" color="textMuted">
+              Close
+            </Text>
+          </PressableBox>
+        </AnimatedBox>
+      </Box>
+    </Modal>
+  );
+}
+
+interface MerchantOptionProps {
+  merchantId: MerchantId;
+  isActive: boolean;
+  onSelect: (merchantId: MerchantId) => void;
+}
+
+/**
+ * The store you are *not* on is the filled one: the loud element is the action, not the state.
+ * `titleMedium` already uppercases, so the id is passed as it is declared.
+ */
+function MerchantOption({
+  merchantId,
+  isActive,
+  onSelect,
+}: MerchantOptionProps) {
+  return (
+    <PressableBox
+      backgroundColor={isActive ? "background" : "accent"}
+      borderWidth={1}
+      borderColor={isActive ? "border" : "accent"}
+      borderRadius="s2"
+      flexDirection="row"
+      alignItems="center"
+      justifyContent="space-between"
+      paddingVertical="s16"
+      paddingHorizontal="s16"
+      gap="s12"
+      accessibilityRole="button"
+      accessibilityState={{ selected: isActive }}
+      onPress={() => onSelect(merchantId)}
+    >
+      <Text variant="titleMedium" color={isActive ? "textMuted" : "accentText"}>
+        {merchantId}
+      </Text>
+
+      {isActive ? (
+        <Text variant="badge" color="textMuted">
+          Current
+        </Text>
+      ) : null}
+    </PressableBox>
+  );
+}
+
+const BACKDROP = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+} as const;

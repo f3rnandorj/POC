@@ -1,4 +1,4 @@
-import { PRODUCT_CARD_FRAGMENT, PRODUCT_CORE_FRAGMENT } from '@api';
+import { PRODUCT_CARD_FRAGMENT, PRODUCT_CORE_FRAGMENT } from "@api";
 
 export const PRODUCT_LIST_QUERY = /* GraphQL */ `
   query ProductList($first: Int!) {

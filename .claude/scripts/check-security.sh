@@ -25,9 +25,11 @@ fi
 # 2 — vulnerable deps
 if [ -f package.json ]; then
   if [ -f yarn.lock ]; then
-    # yarn 1: exit code is a BITMASK of every severity found (8=high, 16=critical);
-    # --level only filters the output. Gate on the bit, not the flag.
-    run_or_skip yarn "corepack enable" bash -c 'if yarn --version | grep -q "^1\."; then out=$(yarn audit 2>&1); rc=$?; [ $((rc & 24)) -eq 0 ] || { echo "$out" | tail -40; exit 1; }; else yarn npm audit --severity high; fi'
+    # yarn 1: o exit code é um BITMASK de toda severidade encontrada (8=high, 16=critical)
+    # e `--level` só filtra a saída, então não dá pra gatear pelo código de saída sem
+    # bloquear em advisory que não tem patch. `audit-gate.js` decide pelo campo
+    # `patched_versions`: com patch bloqueia, sem patch reporta. Ver o cabeçalho dele.
+    run_or_skip yarn "corepack enable" bash -c 'if yarn --version | grep -q "^1\."; then yarn audit --json 2>/dev/null | node .claude/scripts/audit-gate.js; else yarn npm audit --severity high; fi'
   else
     run_or_skip npm "install node" npm audit --audit-level=high
   fi

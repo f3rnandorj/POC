@@ -1,8 +1,8 @@
-import type { ComponentProps } from 'react';
+import type { ComponentProps } from "react";
 
-import { createText } from '@shopify/restyle';
+import { createText } from "@shopify/restyle";
 
-import type { Theme } from '@theme';
+import type { Theme } from "@theme";
 
 export const Text = createText<Theme>();
 

@@ -1,0 +1,7 @@
+npx tsc --noEmit
+
+# Gate de seguranca local (mesmo desenho do food-balance): sem CI hospedado, o
+# pre-push e a ultima casa antes do remoto. Requer gitleaks + semgrep
+# (brew install gitleaks semgrep) — sem scanner o script falha, ausencia nunca
+# conta como "limpo".
+bash .claude/scripts/check-security.sh

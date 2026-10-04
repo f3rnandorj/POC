@@ -1,19 +1,32 @@
-import { StatusBar } from 'react-native';
+import { StatusBar } from "react-native";
 
-import { ThemeProvider } from '@shopify/restyle';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ThemeProvider } from "@shopify/restyle";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { queryClient } from '@infra';
-import { Router } from '@routes';
-import { theme } from '@theme';
+import { useActiveMerchantId } from "@config";
+import { queryClient } from "@infra";
+import { Router } from "@routes";
+import { buildTheme, isLight } from "@theme";
 
 export default function App() {
+  const merchantId = useActiveMerchantId();
+  const theme = buildTheme();
+
+  // `key`: switching stores reopens the app on the other merchant — a remount is what drops the
+  // navigation stack and every screen's local state, so nothing from the previous store survives.
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider key={merchantId} theme={theme}>
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
-          <StatusBar barStyle="light-content" />
+          {/* Derived like `accentText`: a merchant on a light background needs dark glyphs. */}
+          <StatusBar
+            barStyle={
+              isLight(theme.colors.background)
+                ? "dark-content"
+                : "light-content"
+            }
+          />
           <Router />
         </SafeAreaProvider>
       </QueryClientProvider>

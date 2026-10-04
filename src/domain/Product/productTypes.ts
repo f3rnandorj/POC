@@ -1,4 +1,5 @@
-import type { EdgesApi, ImageApi, MetafieldApi, MoneyV2Api } from '@api';
+import type { EdgesApi, ImageApi, MetafieldApi, MoneyV2Api } from "@api";
+import type { ProductDetailArea } from "@config";
 
 export interface Product {
   id: string;
@@ -8,10 +9,10 @@ export interface Product {
   price: ProductPrice;
   images: ProductImage[];
   variants: ProductVariant[];
-  metafields: ProductMetafields;
+  content: ProductContent;
 }
 
-/** Unformatted on purpose — formatting happens at render, not in the adapter. */
+/** Unformatted on purpose — `formatPrice` runs at render, not in the adapter. */
 export interface ProductPrice {
   amount: string;
   currencyCode: string;
@@ -26,29 +27,42 @@ export interface ProductVariant {
   id: string;
   title: string;
   isAvailable: boolean;
-  /** Only variants the merchant gave their own photo carry one. */
   image?: ProductImage;
 }
 
-/**
- * Every field optional, and absent means `undefined` — never `''`, `'—'` or `null`.
- * The component returns `null` on a missing value (quick-rule #5).
- */
-export interface ProductMetafields {
-  badge?: string;
-  material?: string;
-  promotionText?: string;
-  isWinterCollection?: boolean;
-  careInstructions?: ProductCareInstructions;
+/** Resolved blocks grouped by the detail area they render into; an empty area is absent. */
+export type ProductContent = Partial<
+  Record<ProductDetailArea, ResolvedBlock[]>
+>;
+
+export type ResolvedBlock =
+  | ResolvedBadge
+  | ResolvedTextLine
+  | ResolvedLabelValueSection;
+
+export interface ResolvedBadge {
+  id: string;
+  kind: "badge";
+  text: string;
 }
 
-/** Merchant-authored JSON. Both keys optional — the merchant may fill only one. */
-export interface ProductCareInstructions {
-  washing?: string;
-  drying?: string;
+export interface ResolvedTextLine {
+  id: string;
+  kind: "textLine";
+  text: string;
 }
 
-// ── raw Storefront shapes ────────────────────────────────────────────────────
+export interface ResolvedLabelValueSection {
+  id: string;
+  kind: "labelValueSection";
+  title: string;
+  items: ResolvedItem[];
+}
+
+export interface ResolvedItem {
+  label: string;
+  value: string;
+}
 
 export interface ProductNodeApi {
   id: string;
@@ -58,7 +72,8 @@ export interface ProductNodeApi {
   priceRange: { minVariantPrice: MoneyV2Api };
   images: EdgesApi<ImageApi>;
   variants?: EdgesApi<ProductVariantNodeApi>;
-  metafields: (MetafieldApi | null)[] | null;
+  /** Absent when the merchant declared no metafield-backed block — see `fragments.ts`. */
+  metafields?: (MetafieldApi | null)[] | null;
 }
 
 export interface ProductVariantNodeApi {

@@ -1,41 +1,96 @@
-import type { MerchantConfig } from '../merchantTypes';
+import Config from "react-native-config";
 
-import { northstar } from './northstar';
+import type { MerchantConfig } from "../merchantTypes";
 
-/**
- * A second merchant, fictional. It exists to prove the claim that onboarding one is a config
- * entry — every layer of variation is exercised at once:
- *
- * - **accent** overridden, so the identity changes without a theme edit;
- * - **`winterCollection` off**, so a capability this merchant did not buy leaves no trace;
- * - **`material` mapped to `fabric_type`**, a key this catalogue does not define — the line
- *   disappears, which is what proves the adapter resolves through the map and not through a
- *   hardcoded key.
- *
- * ponytail: credentials are reused from the live merchant because the POC has exactly one dev
- * store. That is a stand-in, not a claim — a real second merchant brings its own store and
- * token, and both arrive from the platform endpoint described in `getMerchantConfig`.
- */
+/** A fictional second merchant, declared to exercise every axis of variation at once. */
 export const atlas: MerchantConfig = {
-  id: 'atlas',
-  credentials: northstar.credentials,
+  id: "atlas",
+  credentials: {
+    storeDomain: Config.ATLAS_STORE_DOMAIN ?? "",
+    storefrontToken: Config.ATLAS_STOREFRONT_TOKEN ?? "",
+    apiVersion: Config.SHOPIFY_API_VERSION ?? "",
+  },
   theme: {
-    primaryColor: '#4D7CFE',
+    primaryColor: "#F04E23",
+    background: "#FFF8F0",
+    surface: "#F7E3CE",
+    text: "#1C1814",
+    textMuted: "#6B6054",
+    border: "#E8D5BE",
   },
-  features: {
-    winterCollection: false,
-    productCare: true,
-    brandStory: false,
+  layout: {
+    detail: "gallery",
   },
-  metafields: {
-    badge: { namespace: 'custom', key: 'badge' },
-    material: { namespace: 'custom', key: 'fabric_type' },
-    promotionText: { namespace: 'custom', key: 'promotion_text' },
-    careInstructions: { namespace: 'custom', key: 'care_instructions' },
-  },
-  metaobjects: {},
-  labels: {
-    winterCollection: 'SEASONAL',
-    productCare: 'Care guide',
+  // No `belowDescription` and no `home` at all: this merchant bought neither, and both areas
+  // collapse — the absent case lives in the config, not in a flag.
+  screens: {
+    productDetail: {
+      badgeRow: [
+        {
+          id: "badge",
+          kind: "badge",
+          source: {
+            from: "metafield",
+            namespace: "custom",
+            key: "badge",
+            as: "text",
+          },
+        },
+      ],
+      underPrice: [
+        {
+          id: "fabric",
+          kind: "textLine",
+          source: {
+            from: "metafield",
+            namespace: "custom",
+            key: "fabric_type",
+            as: "text",
+          },
+        },
+        {
+          id: "promotion",
+          kind: "textLine",
+          source: {
+            from: "metafield",
+            namespace: "custom",
+            key: "promotion_text",
+            as: "text",
+          },
+        },
+      ],
+      aboveDescription: [
+        {
+          id: "fit",
+          kind: "labelValueSection",
+          label: "Fit guide",
+          source: {
+            from: "metafield",
+            namespace: "custom",
+            key: "fit_guide",
+            as: "json",
+          },
+          fields: [
+            { key: "cut", label: "Cut" },
+            { key: "length", label: "Length" },
+          ],
+        },
+        {
+          id: "care",
+          kind: "labelValueSection",
+          label: "Care guide",
+          source: {
+            from: "metafield",
+            namespace: "custom",
+            key: "care_instructions",
+            as: "json",
+          },
+          fields: [
+            { key: "washing", label: "Wash" },
+            { key: "drying", label: "Dry" },
+          ],
+        },
+      ],
+    },
   },
 };

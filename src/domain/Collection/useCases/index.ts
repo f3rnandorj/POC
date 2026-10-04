@@ -1,2 +1,2 @@
-export * from './useCollectionGetList';
-export * from './useCollectionGetProducts';
+export * from "./useCollectionGetList";
+export * from "./useCollectionGetProducts";

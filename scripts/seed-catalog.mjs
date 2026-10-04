@@ -1,54 +1,75 @@
 #!/usr/bin/env node
 /**
- * Seeds the dev store so every screen has something to show.
+ * Seeds one merchant's dev store so every screen has something to show.
  *
  * Dev tooling, not app code: nothing under `src/` imports this, and the app keeps talking only
  * to the Storefront API (ADR 2026-09-30 — the Admin API never reaches the device).
  *
- * Run:
+ * Run (the merchant id is required — there is no default, because seeding the wrong store is
+ * expensive to undo):
  *   set -a; . ./.env; . ~/.config/northstar-poc/admin-token.sh; set +a
- *   node scripts/seed-catalog.mjs
+ *   node scripts/seed-catalog.mjs northstar
  *
- * The Admin token is read from the environment and never written to `.env`, the repo, or any
- * tracked file (standards/security.md).
+ * Store domain comes from that merchant's own `.env` key, the same one the app reads. The Admin
+ * token is read from the environment and never written to `.env`, the repo, or any tracked file
+ * (standards/security.md) — source the matching `~/.config/<merchant>-poc/admin-token.sh`.
  *
  * Idempotent: `productSet` upserts on handle, so a second run updates the same products
  * instead of creating `heavyweight-hoodie-1`.
  */
 
-import { COLLECTIONS, PRODUCTS, RESTYLED } from './catalog.mjs';
+const MERCHANT_ID = process.argv[2];
 
-const { SHOPIFY_STORE_DOMAIN, SHOPIFY_API_VERSION, SHOPIFY_ADMIN_TOKEN } = process.env;
+/**
+ * What differs per store. The catalogue is a module path rather than an import so that adding a
+ * merchant never loads another merchant's content.
+ */
+const MERCHANTS = {
+  northstar: {
+    publication: "Northstar Poc Headless",
+    vendor: "Northstar",
+    catalog: "./catalog.mjs",
+  },
+  atlas: {
+    publication: "Atlas Headless",
+    vendor: "Atlas",
+    catalog: "./catalog-atlas.mjs",
+  },
+};
 
-const PUBLICATION_NAME = 'Northstar Poc Headless';
-const SIZE_OPTION = 'Size';
+const { SHOPIFY_API_VERSION, SHOPIFY_ADMIN_TOKEN } = process.env;
+
+const SIZE_OPTION = "Size";
 // A single-variant product still needs an option: Shopify rejects variants with no
 // `productOptions`, so the default pair Shopify itself generates is passed explicitly.
-const DEFAULT_OPTION = 'Title';
-const DEFAULT_VALUE = 'Default Title';
+const DEFAULT_OPTION = "Title";
+const DEFAULT_VALUE = "Default Title";
 
 async function main() {
-  requireEnv();
+  const merchant = requireMerchant();
+  const { COLLECTIONS, PRODUCTS, RESTYLED } = await import(merchant.catalog);
 
-  const publicationId = await findPublicationId();
-  console.log(`→ publishing to "${PUBLICATION_NAME}" (${publicationId})\n`);
+  console.log(`→ seeding "${MERCHANT_ID}" at ${storeDomain()}\n`);
 
-  const collectionIds = await findCollectionIds();
+  const publicationId = await findPublicationId(merchant.publication);
+  console.log(`→ publishing to "${merchant.publication}" (${publicationId})\n`);
+
+  const collectionIds = await findCollectionIds(COLLECTIONS);
 
   for (const product of PRODUCTS) {
-    const id = await upsertProduct(product, collectionIds);
+    const id = await upsertProduct(product, collectionIds, merchant.vendor);
     await publish(id, publicationId);
     console.log(`  ✓ ${product.handle}`);
   }
 
-  console.log('');
+  console.log("");
 
   for (const { handle, image } of RESTYLED) {
     await restylePhoto(handle, image);
     console.log(`  ✓ restyled ${handle}`);
   }
 
-  console.log('');
+  console.log("");
 
   for (const collection of COLLECTIONS) {
     const id = await setCollectionImage(collection);
@@ -56,7 +77,9 @@ async function main() {
     console.log(`  ✓ collection ${collection.handle}`);
   }
 
-  console.log('\nSeed complete. Verify through the Storefront API, not the admin.');
+  console.log(
+    "\nSeed complete. Verify through the Storefront API, not the admin.",
+  );
 }
 
 /**
@@ -66,7 +89,7 @@ async function main() {
  * `identifier` is what makes it an upsert — without it the mutation always creates, and a second
  * run fails on "handle already in use" instead of updating.
  */
-async function upsertProduct(product, collectionIds) {
+async function upsertProduct(product, collectionIds, vendor) {
   const data = await admin(
     `mutation Upsert($identifier: ProductSetIdentifiers!, $input: ProductSetInput!) {
       productSet(synchronous: true, identifier: $identifier, input: $input) {
@@ -74,19 +97,24 @@ async function upsertProduct(product, collectionIds) {
         userErrors { field message }
       }
     }`,
-    { identifier: { handle: product.handle }, input: toProductInput(product, collectionIds) },
+    {
+      identifier: { handle: product.handle },
+      input: toProductInput(product, collectionIds, vendor),
+    },
   );
 
   const { product: saved, userErrors } = data.productSet;
 
   if (userErrors.length > 0) {
-    throw new Error(`${product.handle}: ${userErrors.map(formatError).join('; ')}`);
+    throw new Error(
+      `${product.handle}: ${userErrors.map(formatError).join("; ")}`,
+    );
   }
 
   return saved.id;
 }
 
-function toProductInput(product, collectionIds) {
+function toProductInput(product, collectionIds, vendor) {
   const sizes = product.sizes ?? [];
 
   return {
@@ -94,24 +122,36 @@ function toProductInput(product, collectionIds) {
     // Membership is declared here rather than through `collectionAddProducts`, so a product
     // moved between collections in `catalog.mjs` is corrected on the next run instead of
     // accumulating in both.
-    collections: (product.collections ?? []).map(handle => collectionIds[handle]),
+    collections: (product.collections ?? []).map(
+      handle => collectionIds[handle],
+    ),
     title: product.title,
     descriptionHtml: `<p>${product.description}</p>`,
     productType: product.productType,
-    vendor: 'Northstar',
-    status: 'ACTIVE',
-    files: [{ originalSource: product.image, contentType: 'IMAGE', alt: product.title }],
+    vendor,
+    status: "ACTIVE",
+    files: [
+      {
+        originalSource: product.image,
+        contentType: "IMAGE",
+        alt: product.title,
+      },
+    ],
     metafields: toMetafields(product.metafields),
     productOptions:
       sizes.length > 0
         ? [{ name: SIZE_OPTION, values: sizes.map(toOptionValue) }]
         : [{ name: DEFAULT_OPTION, values: [{ name: DEFAULT_VALUE }] }],
-    variants: sizes.length > 0 ? sizes.map(size => toVariant(product, size)) : [toVariant(product)],
+    variants:
+      sizes.length > 0
+        ? sizes.map(size => toVariant(product, size))
+        : [toVariant(product)],
   };
 }
 
 function toVariant(product, size) {
-  const isSoldOut = size !== undefined && (product.soldOut ?? []).includes(size);
+  const isSoldOut =
+    size !== undefined && (product.soldOut ?? []).includes(size);
 
   return {
     price: product.variantPrices?.[size] ?? product.price,
@@ -119,7 +159,7 @@ function toVariant(product, size) {
       size === undefined
         ? [{ optionName: DEFAULT_OPTION, name: DEFAULT_VALUE }]
         : [{ optionName: SIZE_OPTION, name: size }],
-    inventoryPolicy: 'DENY',
+    inventoryPolicy: "DENY",
     // ponytail: availability is expressed by tracking, not by stock counts. A tracked variant
     // starts at zero and reads as sold out; an untracked one is always available. Writing real
     // quantities needs `read_locations` plus a location id, which buys nothing for a demo —
@@ -130,10 +170,10 @@ function toVariant(product, size) {
 
 function toMetafields(metafields = {}) {
   return Object.entries(metafields).map(([key, value]) => ({
-    namespace: 'custom',
+    namespace: "custom",
     key,
     type: TYPES[key],
-    value: typeof value === 'string' ? value : JSON.stringify(value),
+    value: typeof value === "string" ? value : JSON.stringify(value),
   }));
 }
 
@@ -144,7 +184,9 @@ async function setCollectionImage(collection) {
   );
 
   if (!found.collectionByHandle) {
-    throw new Error(`collection "${collection.handle}" does not exist — create it in the admin first`);
+    throw new Error(
+      `collection "${collection.handle}" does not exist — create it in the admin first`,
+    );
   }
 
   const data = await admin(
@@ -154,12 +196,19 @@ async function setCollectionImage(collection) {
         userErrors { field message }
       }
     }`,
-    { input: { id: found.collectionByHandle.id, image: { src: collection.image } } },
+    {
+      input: {
+        id: found.collectionByHandle.id,
+        image: { src: collection.image },
+      },
+    },
   );
 
   if (data.collectionUpdate.userErrors.length > 0) {
     throw new Error(
-      `${collection.handle}: ${data.collectionUpdate.userErrors.map(formatError).join('; ')}`,
+      `${collection.handle}: ${data.collectionUpdate.userErrors
+        .map(formatError)
+        .join("; ")}`,
     );
   }
 
@@ -181,7 +230,9 @@ async function publish(id, publicationId) {
   );
 
   if (data.publishablePublish.userErrors.length > 0) {
-    throw new Error(data.publishablePublish.userErrors.map(formatError).join('; '));
+    throw new Error(
+      data.publishablePublish.userErrors.map(formatError).join("; "),
+    );
   }
 }
 
@@ -198,7 +249,9 @@ async function restylePhoto(handle, image) {
   );
 
   if (!found.productByHandle) {
-    throw new Error(`product "${handle}" does not exist — it is expected to predate this script`);
+    throw new Error(
+      `product "${handle}" does not exist — it is expected to predate this script`,
+    );
   }
 
   const { id } = found.productByHandle;
@@ -210,11 +263,18 @@ async function restylePhoto(handle, image) {
         mediaUserErrors { field message }
       }
     }`,
-    { id, media: [{ originalSource: image, mediaContentType: 'IMAGE', alt: handle }] },
+    {
+      id,
+      media: [
+        { originalSource: image, mediaContentType: "IMAGE", alt: handle },
+      ],
+    },
   );
 
   if (created.productCreateMedia.mediaUserErrors.length > 0) {
-    throw new Error(created.productCreateMedia.mediaUserErrors.map(formatError).join('; '));
+    throw new Error(
+      created.productCreateMedia.mediaUserErrors.map(formatError).join("; "),
+    );
   }
 
   const data = await admin(
@@ -223,24 +283,31 @@ async function restylePhoto(handle, image) {
         userErrors { field message }
       }
     }`,
-    { id, moves: [{ id: created.productCreateMedia.media[0].id, newPosition: '0' }] },
+    {
+      id,
+      moves: [{ id: created.productCreateMedia.media[0].id, newPosition: "0" }],
+    },
   );
 
   if (data.productReorderMedia.userErrors.length > 0) {
-    throw new Error(data.productReorderMedia.userErrors.map(formatError).join('; '));
+    throw new Error(
+      data.productReorderMedia.userErrors.map(formatError).join("; "),
+    );
   }
 }
 
-async function findCollectionIds() {
+async function findCollectionIds(collections) {
   const entries = await Promise.all(
-    COLLECTIONS.map(async ({ handle }) => {
+    collections.map(async ({ handle }) => {
       const data = await admin(
         `query Find($handle: String!) { collectionByHandle(handle: $handle) { id } }`,
         { handle },
       );
 
       if (!data.collectionByHandle) {
-        throw new Error(`collection "${handle}" does not exist — create it in the admin first`);
+        throw new Error(
+          `collection "${handle}" does not exist — create it in the admin first`,
+        );
       }
 
       return [handle, data.collectionByHandle.id];
@@ -250,12 +317,18 @@ async function findCollectionIds() {
   return Object.fromEntries(entries);
 }
 
-async function findPublicationId() {
-  const data = await admin(`{ publications(first: 20) { edges { node { id name } } } }`);
-  const match = data.publications.edges.find(edge => edge.node.name === PUBLICATION_NAME);
+async function findPublicationId(publicationName) {
+  const data = await admin(
+    `{ publications(first: 20) { edges { node { id name } } } }`,
+  );
+  const match = data.publications.edges.find(
+    edge => edge.node.name === publicationName,
+  );
 
   if (!match) {
-    throw new Error(`publication "${PUBLICATION_NAME}" not found — check the store's sales channels`);
+    throw new Error(
+      `publication "${publicationName}" not found — check the store's sales channels`,
+    );
   }
 
   return match.node.id;
@@ -263,12 +336,12 @@ async function findPublicationId() {
 
 async function admin(query, variables) {
   const response = await fetch(
-    `https://${SHOPIFY_STORE_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`,
+    `https://${storeDomain()}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`,
     {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
-        'Content-Type': 'application/json',
+        "X-Shopify-Access-Token": SHOPIFY_ADMIN_TOKEN,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ query, variables }),
     },
@@ -289,28 +362,55 @@ function toOptionValue(size) {
 }
 
 function formatError(error) {
-  return `${(error.field ?? []).join('.')} ${error.message}`.trim();
+  return `${(error.field ?? []).join(".")} ${error.message}`.trim();
 }
 
-function requireEnv() {
-  const missing = ['SHOPIFY_STORE_DOMAIN', 'SHOPIFY_API_VERSION', 'SHOPIFY_ADMIN_TOKEN'].filter(
-    key => !process.env[key],
-  );
+/** The same key the app reads for this merchant, so the script can never target another store. */
+function storeDomain() {
+  return process.env[`${MERCHANT_ID.toUpperCase()}_STORE_DOMAIN`];
+}
+
+function requireMerchant() {
+  const known = Object.keys(MERCHANTS).join(", ");
+
+  if (!MERCHANT_ID) {
+    throw new Error(
+      `Usage: node scripts/seed-catalog.mjs <merchant>   (known: ${known})`,
+    );
+  }
+
+  const merchant = MERCHANTS[MERCHANT_ID];
+
+  if (!merchant) {
+    throw new Error(`Unknown merchant "${MERCHANT_ID}" — known: ${known}`);
+  }
+
+  const missing = [
+    `${MERCHANT_ID.toUpperCase()}_STORE_DOMAIN`,
+    "SHOPIFY_API_VERSION",
+    "SHOPIFY_ADMIN_TOKEN",
+  ].filter(key => !process.env[key]);
 
   if (missing.length > 0) {
     throw new Error(
-      `Missing ${missing.join(', ')} — source .env and ~/.config/northstar-poc/admin-token.sh first.`,
+      `Missing ${missing.join(
+        ", ",
+      )} — source .env and ~/.config/${MERCHANT_ID}-poc/admin-token.sh first.`,
     );
   }
+
+  return merchant;
 }
 
 /** Must match each definition in the admin; a mismatch is rejected rather than coerced. */
 const TYPES = {
-  badge: 'single_line_text_field',
-  material: 'single_line_text_field',
-  promotion_text: 'single_line_text_field',
-  is_winter_collection: 'boolean',
-  care_instructions: 'json',
+  badge: "single_line_text_field",
+  material: "single_line_text_field",
+  fabric_type: "single_line_text_field",
+  promotion_text: "single_line_text_field",
+  is_winter_collection: "boolean",
+  care_instructions: "json",
+  fit_guide: "json",
 };
 
 main().catch(error => {

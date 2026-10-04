@@ -1,37 +1,105 @@
-import { createTheme } from '@shopify/restyle';
+import { createTheme } from "@shopify/restyle";
 
-import { merchantConfig } from '@config';
+import { merchantConfig } from "@config";
 
-import { colors } from './colors';
-import { pickContrastText } from './contrast';
-import { textVariants } from './textVariants';
+import { colors } from "./colors";
+import { contrastRatio, isLight, pickContrastText } from "./contrast";
+import { palette } from "./palette";
+import { spacing } from "./spacing";
+import { textVariants } from "./textVariants";
 
-// The accent is the only merchant-overridable token (design.md). `accentText` is not a second
-// override — it is derived, so a merchant brand color can never produce an unreadable label.
-const accent = merchantConfig.theme.primaryColor ?? colors.accent;
+/**
+ * Built per merchant rather than at import: the app root rebuilds it when the demo switch
+ * changes stores, which is also what remounts the tree.
+ */
+export function buildTheme() {
+  const merchant = merchantConfig();
 
-export const theme = createTheme({
-  colors: {
+  // One expression per token rather than a spread: a spread would silently accept a typo'd key
+  // as a new token instead of failing.
+  const brand = merchant.theme;
+  const accent = brand.primaryColor ?? colors.accent;
+  const background = brand.background ?? colors.background;
+  const surface = brand.surface ?? colors.surface;
+  const text = brand.text ?? colors.text;
+  const textMuted = brand.textMuted ?? colors.textMuted;
+  const border = brand.border ?? colors.border;
+
+  // Derived, never overridable: the state colors follow the background a merchant chose.
+  const onLight = isLight(background);
+
+  const merchantColors: MerchantColors = {
     ...colors,
     accent,
     accentText: pickContrastText(accent),
-  },
-  spacing: {
-    s4: 4,
-    s8: 8,
-    s12: 12,
-    s16: 16,
-    s24: 24,
-    s32: 32,
-  },
-  borderRadii: {
-    s2: 4,
-    s4: 8,
-  },
-  // Elevation is contrast, not shadow — the scale stays empty on purpose (design.md).
-  shadowVariants: {},
-  breakpoints: {},
-  textVariants,
-});
+    background,
+    surface,
+    text,
+    textMuted,
+    border,
+    success: onLight ? palette.moss : palette.mint,
+    danger: onLight ? palette.clay : palette.ember,
+  };
 
-export type Theme = typeof theme;
+  assertReadable(merchantColors, merchant.id);
+
+  return createTheme({
+    colors: merchantColors,
+    spacing,
+    borderRadii: {
+      s2: 4,
+      s4: 8,
+    },
+    // Elevation is contrast, not shadow — the scale stays empty on purpose (design.md).
+    shadowVariants: {},
+    breakpoints: {},
+    textVariants,
+  });
+}
+
+export type Theme = ReturnType<typeof buildTheme>;
+
+/** The base tokens with merchant values: widened, since `palette` literals are `as const`. */
+type MerchantColors = Record<keyof typeof colors, string>;
+
+/**
+ * A merchant palette fails by being invisible, not by throwing — so this throws, in dev only.
+ * `success` and `danger` are checked because they stay fixed while the background moves.
+ */
+function assertReadable(
+  merchantColors: MerchantColors,
+  merchantId: string,
+): void {
+  if (!__DEV__) {
+    return;
+  }
+
+  const { text, textMuted, surface, background } = merchantColors;
+
+  const pairs: [string, string, string, number][] = [
+    ["text", text, background, 4.5],
+    ["textMuted", textMuted, background, 4.5],
+    ["text on surface", text, surface, 4.5],
+    ["success", merchantColors.success, background, 3],
+    ["danger", merchantColors.danger, background, 3],
+  ];
+
+  const failed = pairs
+    .filter(
+      ([, foreground, over, minimum]) =>
+        contrastRatio(foreground, over) < minimum,
+    )
+    .map(
+      ([name, foreground, over, minimum]) =>
+        `${name} ${contrastRatio(foreground, over).toFixed(
+          2,
+        )}:1 (needs ${minimum}:1)`,
+    );
+
+  if (failed.length > 0) {
+    throw new Error(
+      `Merchant "${merchantId}" palette is unreadable — ${failed.join(", ")}. ` +
+        `Fix the brand colors in config/merchant/merchants/${merchantId}.ts.`,
+    );
+  }
+}

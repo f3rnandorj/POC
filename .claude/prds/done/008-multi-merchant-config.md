@@ -4,6 +4,7 @@
 **Shipped:** 2026-10-01
 **Started:** 2026-10-01
 **Source:** platform requirement — one codebase, many merchants ("the same feature for another 10 merchants")
+**Superseded by:** PRD 012 — the three-layer model (credentials + feature flags + theme) became credentials + theme accent + a content block declaration. The concept map this PRD introduced made *where* a concept lives merchant data; 012 does the same for *which* concepts exist. `accentText` derived from luminance and the brand hex living in merchant config both survive. Shipped as written; not rewritten.
 
 ## Overview
 

@@ -1,23 +1,26 @@
 # Code Style
 
-TypeScript, 2-space indent, single quotes, semicolons, trailing commas, 100-column width.
+TypeScript, 2-space indent, **double quotes**, semicolons, trailing commas (`all`), 80-column width. Same config as `bennu/food-balance` — the two repos are kept byte-identical on lint and format so a rule learned in one transfers to the other.
 
-## ESLint is the gate (MANDATORY)
+## ESLint is the gate, Prettier is the formatter (MANDATORY)
 
-**Code is written to whatever `yarn lint` accepts — nothing else.** ESLint carries the logic rules *and* runs Prettier as a rule (`plugin:prettier/recommended`), so there is exactly one command that has to pass and exactly one command that reformats:
+Two tools, two jobs, no overlap — the `food-balance` split:
 
 ```bash
-yarn lint        # the gate
-yarn lint --fix  # the only thing allowed to reformat
+yarn lint          # the gate: logic rules + quote style + import order
+yarn lint --fix    # autofixes what ESLint owns
+npx prettier --write <glob>   # formatting, one-off; normally the editor does it on save
 ```
 
 Rules:
 
-1. **One writer.** Prettier never runs as a separate formatter — not from the CLI, not as the editor's format-on-save. `.vscode/settings.json` sets `editor.formatOnSave: false` + `source.fixAll.eslint`, and disables the Prettier extension. Two formatters writing the same file on save is what silently reflowed files nobody edited.
-2. **`.prettierrc.js` declares only what diverges from Prettier's defaults** — `arrowParens: 'avoid'`, `singleQuote`, `printWidth: 100`. Restating a default is noise; omitting `printWidth` is a defect, because the default (80) is not the width this code was written to.
-3. **Never hand-format to satisfy a reviewer or a hook.** If the formatter and the written style disagree, `--fix` wins and the config is what gets discussed.
-4. **A formatting diff in a file the task never touched is a bug in the setup**, not something to commit. Stop and fix the setup.
-5. `.eslintignore` keeps the gate fast — native build output, Pods, vendor and generated artifacts are not ours to lint. A gate that takes two minutes stops being run.
+1. **Prettier owns whitespace, ESLint owns everything else.** `eslint-plugin-prettier` is *not* installed — ESLint does not reflow code. `.vscode/settings.json` sets `editor.formatOnSave: true` with `esbenp.prettier-vscode` as the formatter, plus `source.fixAll.eslint` for the lint autofixes. One writer per concern is why they no longer fight.
+2. **`.prettierrc.js` declares only what diverges from Prettier's defaults** — `arrowParens: 'avoid'`, `singleQuote: false`, `trailingComma: 'all'`. `printWidth` is omitted on purpose: the default 80 *is* the width, and restating a default is noise.
+3. **Quote style is an ESLint error, not a Prettier preference** — `quotes: ['error', 'double']` means a single-quoted string fails the gate, so the rule survives even if someone's editor has no Prettier.
+4. **Never hand-format to satisfy a reviewer or a hook.** If the formatter and the written style disagree, the formatter wins and the config is what gets discussed.
+5. **A formatting diff in a file the task never touched** means the editor and `.prettierrc.js` disagree. Stop and fix the setup.
+6. `.eslintignore` keeps the gate fast — native build output, Pods, `vendor/` and `graphify-out/` are not ours to lint. A gate that takes two minutes stops being run. (This file has no counterpart in `food-balance`, which has neither `vendor/` nor a graph artifact.)
+7. **Git hooks are the backstop, not the gate.** `.husky/pre-commit` runs `yarn lint`; `.husky/pre-push` runs `tsc --noEmit` then `.claude/scripts/check-security.sh` (needs `gitleaks` + `semgrep` on PATH — a missing scanner fails the push, it never counts as clean). Same two hooks as `food-balance`.
 
 ## Imports
 
@@ -88,6 +91,6 @@ Everything else → top-level in the same file (below the main export) or extrac
 
 ## Types
 
-- Domain types are domain-prefixed to avoid collisions: `Product`, `ProductVariant`, `ProductMetafields`; raw Storefront types carry the `Api` suffix: `ProductApi`, `MetafieldApi`.
+- Domain types are domain-prefixed to avoid collisions: `Product`, `ProductVariant`, `ProductContent`; raw Storefront types carry the `Api` suffix: `ProductApi`, `MetafieldApi`.
 - Optional means optional: `badge?: string`, never `badge: string | null`. The adapter normalizes `null` → `undefined` so the UI has exactly one absent-value check.
 - No `any`. An unknown Storefront shape is typed `unknown` and narrowed in the adapter.

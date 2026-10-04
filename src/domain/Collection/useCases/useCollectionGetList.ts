@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import { QueryKeys } from '@infra';
+import { QueryKeys } from "@infra";
 
-import { collectionService } from '../collectionService';
+import { collectionService } from "../collectionService";
 
 export function useCollectionGetList() {
   const { data, isLoading, error, refetch } = useQuery({

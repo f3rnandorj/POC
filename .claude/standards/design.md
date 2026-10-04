@@ -1,27 +1,38 @@
-# Design identity — Northstar (streetwear / bold basic)
+# Design identity — base (streetwear / bold basic)
 
 The identity contract. Every UI task executes **inside** these tokens. A new color, font, radius or shadow is an ADR in `memory/decisions.md`, not an inline value. UI skills (impeccable, ui-ux-pro-max) are executors within this identity — they never invent a new one.
 
 ## Direction
 
-Reference feel: **streetwear / bold basic** (Nike SNKRS, Stüssy). High contrast, absolute black, product photo carrying the screen, type doing the talking. Chrome is minimal: no cards around everything, no decorative borders, no shadows as decoration.
+Reference feel of the base identity: **streetwear / bold basic** (Nike SNKRS, Stüssy). High contrast, absolute black, product photo carrying the screen, type doing the talking. Chrome is minimal: no cards around everything, no decorative borders, no shadows as decoration.
 
-## Palette — neutral + one accent
+## Palette — a base identity a merchant tints
 
-Semantic tokens (`src/theme/palette.ts` → `src/theme/theme.ts`). The **accent is the only per-merchant color** — `merchantConfig.theme.primaryColor` overrides it and nothing else.
+Semantic tokens (`src/theme/palette.ts` → `src/theme/theme.ts`). The base is near-black; it is the
+**platform default a merchant inherits**, not a constant. Each token is one of three kinds, and the
+kind is the rule:
 
-| Token | Role |
-|---|---|
-| `background` | app background — near-black |
-| `surface` | raised block (variant chip, sheet) |
-| `text` | primary copy — near-white on dark |
-| `textMuted` | secondary copy: material, promo text |
-| `border` | hairline, 1px — the only separator |
-| `accent` | merchant primary — badge fill, CTA, selected variant |
-| `accentText` | copy on top of `accent` |
-| `success` / `danger` | availability in stock / sold out |
+| Token | Role | Kind |
+|---|---|---|
+| `background` | app background | **merchant** |
+| `surface` | raised block (variant chip, sheet) | **merchant** |
+| `text` | primary copy | **merchant** |
+| `textMuted` | secondary copy | **merchant** |
+| `border` | hairline, 1px — the only separator | **merchant** |
+| `accent` | badge fill, CTA, selected variant | **merchant** (`theme.primaryColor`) |
+| `accentText` | copy on top of `accent` | derived from the accent's luminance |
+| `success` / `danger` | in stock / sold out | derived from the **background's** luminance |
 
-Rules: no gradient as a brand device, no purple-on-white default, no color introduced at the call site.
+Rules:
+
+- A merchant overrides values, never the token list. An omitted token falls back to the base.
+- **Derived tokens are never overridable.** `accentText` cannot produce an unreadable label, and
+  `success`/`danger` pick between two fixed values so a state color tuned for near-black does not
+  vanish on a light brand — `mint` reads 1.68:1 on cream, which is what forced the derivation.
+- Theme construction **throws in `__DEV__`** when a merchant palette falls below 4.5:1 for copy or
+  3:1 for state, naming the pair and the measured ratio. A palette fails by being invisible, so it
+  is measured rather than eyeballed.
+- No gradient as a brand device, no purple-on-white default, no color introduced at the call site.
 
 ## Typography — geometric sans, wide scale
 
@@ -40,7 +51,7 @@ Uppercase is a **variant**, never `.toUpperCase()` in a component.
 
 ## Density — compact
 
-Spacing scale base 4: `s4 s8 s12 s16 s24 s32`. Screen gutter `s16`. Product grid: **2 columns**, `s8` gap. Product Detail sections separated by a single hairline `border` + `s16` above/below — not by cards.
+Spacing scale base 4: `s4 s8 s12 s16 s24 s32`. Screen gutter `s16`, and it goes **inside** the scroller — `screenGutter` in a list's `contentContainerStyle`, never padding on the frame that wraps it, because iOS clips a scroller to its frame and a bleeding row dies there. `sNegative16` is the gutter negated — the one negative token, for a horizontal row that must scroll to the device edge (`marginHorizontal="sNegative16"` plus `paddingHorizontal: 16` on the row's content). Product grid: **2 columns**, `s8` gap. Product Detail sections separated by a single hairline `border` + `s16` above/below — not by cards.
 
 Radius: **one** scale — `s2` (4) for chips and buttons, `s4` (8) for image containers. Nothing rounder. Shadow scale: **none** (elevation is contrast, not shadow).
 
@@ -61,6 +72,29 @@ A second badge variant (outline) is allowed only when two badges must coexist on
 - Layout rhythm varies — the Product Detail is image → title → price → badge → metadata → description → sections, not six identical cards.
 - ONE radius scale, ONE (empty) shadow scale. Mixed scales = drift.
 - Loading, empty and error states are designed with this identity: type + accent, no spinner-on-white, no library default.
+
+## Layout — a closed set of arrangements
+
+A merchant picks how each section is arranged, from alternatives the app already knows how to draw
+(`merchantConfig.layout`, resolved in `merchantLayout`). An omitted key falls back to the base.
+
+| Section | Values | Base |
+|---|---|---|
+| `featured` | `single` — one scrolling row · `double` — two stacked rows, the same products split | `single` |
+| `collections` | `inline` — stacked wide rows · `horizontal` — one scrolling row of tiles | `inline` |
+| `detail` | `single` — one cover photo · `gallery` — a paged run through every photo | `single` |
+
+Rules:
+
+- **The values are a union in the source, never a string from config.** A merchant cannot express an
+  arrangement the renderer cannot draw; the type rejects it at compile time.
+- A component that gains a shape gains a **named variant** (`CollectionCard` `row` | `tile`), never a
+  layout object at the call site.
+- `double` splits the products it already has — an arrangement is not a second query.
+- Two scrollers on one axis fight: the horizontal collections row renders inside the list header and
+  the stacked list receives no data, rather than being nested.
+- A new value here is a **platform** change — it ships code and a verification pass for every
+  merchant — not a merchant change.
 
 ## Validation
 

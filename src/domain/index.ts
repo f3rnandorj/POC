@@ -1,3 +1,3 @@
-export * from './BrandStory';
-export * from './Collection';
-export * from './Product';
+export * from "./BrandStory";
+export * from "./Collection";
+export * from "./Product";

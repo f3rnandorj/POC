@@ -1,52 +1,97 @@
-import Config from 'react-native-config';
+import Config from "react-native-config";
 
-import type { MerchantConfig } from '../merchantTypes';
+import type { MerchantConfig } from "../merchantTypes";
 
-/**
- * The live merchant. The only config whose credentials come from the environment — the
- * Storefront token never appears in a tracked file (standards/security.md).
- */
+/** Credentials come from the environment: the Storefront token never sits in a tracked file. */
 export const northstar: MerchantConfig = {
-  id: 'northstar',
+  id: "northstar",
   credentials: {
-    storeDomain: requireEnv('SHOPIFY_STORE_DOMAIN'),
-    storefrontToken: requireEnv('SHOPIFY_STOREFRONT_TOKEN'),
-    apiVersion: requireEnv('SHOPIFY_API_VERSION'),
+    storeDomain: Config.NORTHSTAR_STORE_DOMAIN ?? "",
+    storefrontToken: Config.NORTHSTAR_STOREFRONT_TOKEN ?? "",
+    apiVersion: Config.SHOPIFY_API_VERSION ?? "",
   },
   theme: {},
-  features: {
-    winterCollection: true,
-    productCare: true,
-    brandStory: true,
+  layout: {
+    featured: "double",
+    collections: "horizontal",
+    detail: "gallery",
   },
-  metafields: {
-    badge: { namespace: 'custom', key: 'badge' },
-    material: { namespace: 'custom', key: 'material' },
-    promotionText: { namespace: 'custom', key: 'promotion_text' },
-    isWinterCollection: { namespace: 'custom', key: 'is_winter_collection' },
-    careInstructions: { namespace: 'custom', key: 'care_instructions' },
-  },
-  metaobjects: {
-    brandStory: 'brand_story',
-  },
-  labels: {
-    winterCollection: 'WINTER COLLECTION',
-    productCare: 'How to care',
+  // One key per screen, then one per area, in render order. A key left out renders nothing.
+  screens: {
+    productDetail: {
+      badgeRow: [
+        {
+          id: "badge",
+          kind: "badge",
+          source: {
+            from: "metafield",
+            namespace: "custom",
+            key: "badge",
+            as: "text",
+          },
+        },
+        {
+          id: "winter",
+          kind: "badge",
+          label: "WINTER COLLECTION",
+          source: {
+            from: "metafield",
+            namespace: "custom",
+            key: "is_winter_collection",
+            as: "boolean",
+          },
+        },
+      ],
+      underPrice: [
+        {
+          id: "material",
+          kind: "textLine",
+          source: {
+            from: "metafield",
+            namespace: "custom",
+            key: "material",
+            as: "text",
+          },
+        },
+        {
+          id: "promotion",
+          kind: "textLine",
+          source: {
+            from: "metafield",
+            namespace: "custom",
+            key: "promotion_text",
+            as: "text",
+          },
+        },
+      ],
+      belowDescription: [
+        {
+          id: "care",
+          kind: "labelValueSection",
+          label: "How to care",
+          source: {
+            from: "metafield",
+            namespace: "custom",
+            key: "care_instructions",
+            as: "json",
+          },
+          fields: [
+            { key: "washing", label: "Washing" },
+            { key: "drying", label: "Drying" },
+          ],
+        },
+      ],
+    },
+    home: {
+      footer: {
+        id: "story",
+        kind: "story",
+        source: {
+          from: "metaobject",
+          type: "brand_story",
+          fields: { title: "title", body: "description", image: "image" },
+        },
+      },
+    },
   },
 };
-
-/**
- * Fails loudly at startup instead of letting an empty token reach the Storefront as a
- * 401 three screens later. The message names the key only — never the value.
- */
-function requireEnv(key: keyof typeof Config): string {
-  const value = Config[key];
-
-  if (!value) {
-    throw new Error(
-      `Missing ${String(key)} in .env — copy .env.example and fill it from the Shopify admin.`
-    );
-  }
-
-  return value;
-}

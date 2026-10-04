@@ -1,9 +1,9 @@
 export enum QueryKeys {
-  ProductList = 'ProductList',
-  ProductDetail = 'ProductDetail',
-  CollectionList = 'CollectionList',
-  CollectionDetail = 'CollectionDetail',
-  BrandStory = 'BrandStory',
+  ProductList = "ProductList",
+  ProductDetail = "ProductDetail",
+  CollectionList = "CollectionList",
+  CollectionDetail = "CollectionDetail",
+  BrandStory = "BrandStory",
 }
 
 export interface MutationOptions<TData> {

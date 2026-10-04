@@ -13,6 +13,7 @@ The project's identity standard. Load it for anything touching Shopify, metafiel
 - One client in `src/api/shopify/client.ts`. Headers: `X-Shopify-Storefront-Access-Token` + `Content-Type: application/json`.
 - **Pin the API version** in the endpoint (`/api/2026-01/graphql.json`). An unpinned endpoint silently changes shape.
 - Store domain + token come from `src/config/merchant/merchantConfig.ts`, never from a literal in the api file. See `security.md`.
+- `fragments.ts` renders the metafield selection from `productMetafieldBlocks`. A merchant with no metafield-backed block selects `id` instead — Shopify rejects `identifiers: []` (1..250 required) and a fragment with no selection is invalid.
 - Errors: Storefront returns HTTP 200 with a top-level `errors` array. The client **must** inspect `errors` and throw — a 200 is not success.
 
 ## Query conventions
@@ -24,36 +25,35 @@ The project's identity standard. Load it for anything touching Shopify, metafiel
 
 ## Metafields — the contract
 
-Query them explicitly by identifier (Storefront does not return them by default):
+Query them explicitly by identifier (Storefront does not return them by default). The identifier
+list is **rendered from the active merchant's declared areas**, never hardcoded:
 
 ```graphql
 metafields(identifiers: [
   { namespace: "custom", key: "badge" }
   { namespace: "custom", key: "material" }
-  { namespace: "custom", key: "promotion_text" }
-  { namespace: "custom", key: "is_winter_collection" }
-  { namespace: "custom", key: "care_instructions" }
-]) { key value type }
+  # … one per metafield-backed block the merchant declared
+]) { namespace key value type }
 ```
 
 Rules:
 
 1. **The returned array is positional and contains `null`** for every identifier the product does not define. The adapter must tolerate `null` entries — indexing blindly is a crash, not a missing value.
-2. **The adapter owns all parsing.** `value` is always a string: `boolean` → `value === 'true'`, `json` → `JSON.parse` inside a try/catch, `number_integer` → `Number(...)`. A parse failure yields `undefined`, never a throw that kills the screen.
-3. **Absent means absent** — the adapter emits `undefined` for a missing metafield and the component returns `null`. No `''`, no `'—'`, no `'undefined'`, no default text. This is quick-rule #5.
-4. **Identifiers are declared once**, in `src/config/merchant/merchantConfig.ts` (`features` + metafield keys), so a new merchant with different keys is a config change.
+2. **The adapter owns all parsing.** `value` is always a string: `boolean` → `value === 'true'`, `json` → `JSON.parse` inside a try/catch, `number_integer` → `Number(...)`. A parse failure yields `undefined`, never a throw that kills the screen. A JSON payload that parses to something other than an object is also absent — merchant JSON is untrusted input, not a typed shape.
+3. **Absent means absent** — a block whose source the product does not define produces no resolved block, and an area that collected nothing is omitted from `content` entirely. No `''`, no `'—'`, no `'undefined'`, no default text, and no empty array that renders an empty container. This is quick-rule #5, now held in the adapter as well as in each component.
+4. **Sources are declared once**, as blocks under `screens.{screen}.{area}` in `src/config/merchant/merchants/{merchant}.ts`. The query is rendered from them and the adapter resolves through them, so a merchant with different keys — or a different set of concepts altogether — is a config change. See **Content blocks** below.
 5. The metafield must be **published to the Storefront API** in the Shopify admin (Settings → Custom data → the definition → "Storefront access"). A correct query against an unpublished definition returns `null` — check this before debugging the app.
+6. **Index by `namespace:key`, never by `key` alone.** `custom.badge` and `promo.badge` are two different metafields; once merchants declare their own sources, indexing by `key` silently merges them. That is why the selection includes `namespace`.
 
-Domain model shape (`productTypes.ts`):
+Domain model shape (`productTypes.ts`) — resolved blocks grouped by area, not a concept record:
 
 ```ts
-type ProductMetafields = {
-  badge?: string;
-  material?: string;
-  promotionText?: string;
-  isWinterCollection?: boolean;
-  careInstructions?: { washing?: string; drying?: string };
-};
+type ProductContent = Partial<Record<ProductDetailArea, ResolvedBlock[]>>;
+
+type ResolvedBlock =
+  | { id: string; kind: 'badge'; text: string }
+  | { id: string; kind: 'textLine'; text: string }
+  | { id: string; kind: 'labelValueSection'; title: string; items: { label: string; value: string }[] };
 ```
 
 ## Generic components, never merchant-named
@@ -61,27 +61,78 @@ type ProductMetafields = {
 A merchant requirement becomes a **generic component + a config flag**, never a named component:
 
 ```tsx
-// ✅ reusable for every merchant
-<ProductBadge text={product.metafields.badge} />
-<ProductBadge text={features.winterCollection && product.metafields.isWinterCollection ? 'WINTER COLLECTION' : undefined} />
-<ProductMetadata material={...} promotion={...} />
-<ProductSection title="HOW TO CARE" items={careItems} />
+// ✅ the screen renders areas; it never names a concept
+<ContentBlocks blocks={content.badgeRow} direction="row" gap="s8" />
+<ContentBlocks blocks={content.belowDescription} />
+
+// ✅ the primitives, driven only by their shape
+<ProductBadge text={...} />
+<ProductSection title={...} items={...} />
+<StoryCard title={...} body={...} image={...} />
 
 // ❌ forbidden
 <NorthstarWinterBadge />
+<ProductBadge text={features.winterCollection ? 'WINTER COLLECTION' : undefined} />
 ```
 
-`ProductBadge` returns `null` on a falsy `text`. That single behavior is what makes every "if the info doesn't exist, don't show the section" requirement a one-liner.
+Every component of this family returns `null` on a falsy value, and `ContentBlocks` returns `null`
+for an empty area. That single behavior is what makes every "if the info doesn't exist, don't show
+the section" requirement structural instead of a conditional in the screen.
 
 ## Multi-merchant strategy (50 merchants, one app)
 
-Three layers of variation, in order of preference:
+**The app owns the grammar; the merchant owns the words.** A merchant fills a map of **screens**
+and, inside each, the **areas** that screen draws — nothing else varies in code:
 
-1. **Credentials** — store domain + Storefront token per merchant (`merchantConfig`).
-2. **Feature flags** — `features: { winterCollection, productCare, brandStory }`. A screen renders a section only when the flag is on **and** the data exists.
-3. **Theme tokens** — `theme.primaryColor` and friends override the base Restyle theme. See `design.md`.
+```ts
+screens: {
+  productDetail: {
+    badgeRow: [ /* badges, in render order */ ],
+    underPrice: [ /* text lines */ ],
+    aboveDescription: [ /* label/value sections */ ],
+    belowDescription: [ /* text lines and label/value sections */ ],
+  },
+  home: { footer: { /* one story */ } },
+}
+```
 
-Anything that cannot be expressed in those three is a platform feature, not a merchant feature: build it generically and flag it off for everyone else. **A merchant name appearing anywhere outside `config/merchant/` is a defect.**
+The key path is the position (so no block carries a `slot`), the array index is the render order
+(so no block carries an `order`), and the element type is what that area accepts. A key left out is
+an area that renders nothing — that is the whole optional/required mechanism.
+
+**"Area", not "section".** `labelValueSection` is a block *kind* and `ProductSection` is the
+component that draws it; a section is something you put *in* an area. Naming both the same thing is
+how `content.detailBelowDescription` stopped saying which screen it belonged to.
+
+| Owned by the app (source, closed) | Owned by the merchant (config, open) |
+|---|---|
+| the block `kind`s — `badge`, `textLine`, `labelValueSection`, `story` | which blocks exist |
+| the areas themselves — which exist, on which screen, drawn where | which areas it fills, what goes in each, and in what order |
+| parsing per `as` — `text`, `boolean`, `json` | where the data lives (`namespace`/`key`, or metaobject `type` + field map) |
+| the primitives that draw each kind | every label and heading |
+
+Plus two axes that are not blocks:
+
+- **credentials** — store domain + Storefront token, keyed per merchant in `.env`
+- **theme and layout** — a closed set of brand tokens, and one arrangement per screen section.
+  Both follow the same split as the blocks: the app owns the alternatives, the merchant picks.
+  See `design.md` for the token kinds and the layout values.
+
+Consequences worth stating:
+
+- **A new concept is one array entry.** A merchant with `fit_guide` costs no type, adapter, screen or
+  query edit. If a change needs one of those, the *kind* is missing — and a new kind is a platform
+  change, not a merchant one.
+- **A capability a merchant did not buy is an absent block**, not a `false` flag. There are no
+  feature flags: a flag and a block were the same statement made twice.
+- **Each area's element type is closed**, so a merchant cannot express an arrangement the renderer
+  cannot draw: `badgeRow` takes badges, `underPrice` takes text lines, `home.footer` takes exactly
+  one story. That is the containment for letting config decide content.
+- **Cross-area order is the app's.** The detail areas are defined against fixed content (under the
+  price, above/below the description), so the screen places them; the merchant orders what is
+  *inside* an area.
+- **A merchant name appearing anywhere outside `config/merchant/` is a defect.** So is a concept
+  name — `winterCollection` was one merchant's campaign with an API name.
 
 ## Out of scope by decision (README "O que NÃO fazer")
 

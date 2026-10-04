@@ -4,6 +4,7 @@
 **Shipped:** 2026-10-01
 **Started:** 2026-10-01
 **Source:** merchant request — a How-to-care section fed by the `care_instructions` metafield
+**Generalized by:** PRD 012 — the section is now a `labelValueSection` block whose rows come from the merchant's `fields` declaration, so `'Washing'` / `'Drying'` moved out of the screen. Shipped as written; not rewritten.
 
 ## Overview
 

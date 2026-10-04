@@ -4,6 +4,7 @@
 **Shipped:** 2026-10-01
 **Started:** 2026-10-01
 **Source:** merchant request — "a special badge for Winter Collection products"
+**Generalized by:** PRD 012 — the badge now ships as a `badge` block with a `boolean` source and a `label`, with no feature flag and no concept of its own. The finding about the empty flex row eating the column gap is what `ContentBlocks` returning `null` now handles structurally. Shipped as written; not rewritten.
 
 ## Overview
 

@@ -1,8 +1,8 @@
-import type { EdgesApi, ImageApi } from '@api';
+import type { EdgesApi, ImageApi } from "@api";
 
 export interface BrandStory {
   title?: string;
-  description?: string;
+  body?: string;
   image?: BrandStoryImage;
 }
 
@@ -10,8 +10,6 @@ export interface BrandStoryImage {
   url: string;
   altText?: string;
 }
-
-// ── raw Storefront shapes ────────────────────────────────────────────────────
 
 /**
  * A metaobject field holding a file carries a gid in `value`; only `reference` resolves to

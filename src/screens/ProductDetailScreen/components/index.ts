@@ -1,2 +1,2 @@
-export * from './ProductDetailFeedback';
-export * from './VariantPicker';
+export * from "./ProductDetailFeedback";
+export * from "./VariantPicker";

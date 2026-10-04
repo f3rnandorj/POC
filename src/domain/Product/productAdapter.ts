@@ -1,28 +1,31 @@
-import type { MetafieldApi } from '@api';
-import type { MetafieldConcept } from '@config';
-import { merchantConfig } from '@config';
+import type { MetafieldApi } from "@api";
+import type { BadgeBlock, LabelValueBlock, ProductBlock } from "@config";
+import { productDetailAreas } from "@config";
 
 import type {
   Product,
   ProductByHandleApi,
-  ProductCareInstructions,
+  ProductContent,
   ProductImage,
   ProductListApi,
-  ProductMetafields,
   ProductNodeApi,
   ProductVariant,
-} from './productTypes';
+  ResolvedBadge,
+  ResolvedBlock,
+  ResolvedItem,
+  ResolvedLabelValueSection,
+} from "./productTypes";
 
 function toProduct(node: ProductNodeApi): Product {
   return {
     id: node.id,
     handle: node.handle,
     title: node.title,
-    description: node.description ?? '',
+    description: node.description ?? "",
     price: node.priceRange.minVariantPrice,
     images: toImages(node),
     variants: toVariants(node),
-    metafields: toMetafields(node.metafields),
+    content: toContent(node.metafields),
   };
 }
 
@@ -35,26 +38,89 @@ function toProductDetail(response: ProductByHandleApi): Product | undefined {
 }
 
 /**
- * The array is POSITIONAL and holds `null` for every identifier the product does not
- * define — the live Everyday Tee returns five nulls. Indexing by position crashes there,
- * so this builds a key→value map first and reads by key.
+ * Shopify returns a POSITIONAL array holding `null` for every identifier the product does not
+ * define, so this indexes by identifier and reads by block.
  */
-function toMetafields(raw: (MetafieldApi | null)[] | null | undefined): ProductMetafields {
-  const byKey = new Map<string, MetafieldApi>();
+function toContent(
+  raw: (MetafieldApi | null)[] | null | undefined,
+): ProductContent {
+  const byIdentifier = indexByIdentifier(raw);
+  const content: ProductContent = {};
 
-  for (const entry of raw ?? []) {
-    if (entry) {
-      byKey.set(entry.key, entry);
+  for (const [area, blocks] of productDetailAreas()) {
+    for (const block of blocks) {
+      const resolved = resolveBlock(
+        block,
+        byIdentifier.get(toIdentifier(block.source)),
+      );
+
+      if (resolved) {
+        (content[area] ??= []).push(resolved);
+      }
     }
   }
 
-  return {
-    badge: readText(find(byKey, 'badge')),
-    material: readText(find(byKey, 'material')),
-    promotionText: readText(find(byKey, 'promotionText')),
-    isWinterCollection: readBoolean(find(byKey, 'isWinterCollection')),
-    careInstructions: readJson<ProductCareInstructions>(find(byKey, 'careInstructions')),
-  };
+  return content;
+}
+
+function resolveBlock(
+  block: ProductBlock,
+  metafield?: MetafieldApi,
+): ResolvedBlock | undefined {
+  switch (block.kind) {
+    case "badge":
+      return resolveBadge(block, metafield);
+
+    case "textLine": {
+      const text = readText(metafield);
+
+      return text ? { id: block.id, kind: "textLine", text } : undefined;
+    }
+
+    case "labelValueSection":
+      return resolveSection(block, metafield);
+  }
+}
+
+function resolveBadge(
+  block: BadgeBlock,
+  metafield?: MetafieldApi,
+): ResolvedBadge | undefined {
+  const text =
+    block.source.as === "boolean"
+      ? readFlagLabel(block, metafield)
+      : readText(metafield);
+
+  return text ? { id: block.id, kind: "badge", text } : undefined;
+}
+
+/** `true` renders the block's own label; `false` and absent both render nothing. */
+function readFlagLabel(
+  block: BadgeBlock,
+  metafield?: MetafieldApi,
+): string | undefined {
+  return readBoolean(metafield) ? block.label : undefined;
+}
+
+function resolveSection(
+  block: LabelValueBlock,
+  metafield?: MetafieldApi,
+): ResolvedLabelValueSection | undefined {
+  const parsed = readJson(metafield);
+
+  if (!parsed) {
+    return undefined;
+  }
+
+  const items = block.fields.flatMap<ResolvedItem>(field => {
+    const value = readFieldValue(parsed[field.key]);
+
+    return value ? [{ label: field.label, value }] : [];
+  });
+
+  return items.length > 0
+    ? { id: block.id, kind: "labelValueSection", title: block.label, items }
+    : undefined;
 }
 
 function toImages(node: ProductNodeApi): ProductImage[] {
@@ -70,23 +136,29 @@ function toVariants(node: ProductNodeApi): ProductVariant[] {
     title: edge.node.title,
     isAvailable: edge.node.availableForSale,
     image: edge.node.image
-      ? { url: edge.node.image.url, altText: edge.node.image.altText ?? undefined }
+      ? {
+          url: edge.node.image.url,
+          altText: edge.node.image.altText ?? undefined,
+        }
       : undefined,
   }));
 }
 
-/**
- * Resolves a domain concept through the merchant's map instead of a hardcoded key, so a merchant
- * calling the same field `fabric_type` costs a config entry. A concept the merchant does not map
- * was never requested, and reaches the UI as `undefined` like any absent metafield.
- */
-function find(
-  byKey: Map<string, MetafieldApi>,
-  concept: MetafieldConcept
-): MetafieldApi | undefined {
-  const identifier = merchantConfig.metafields[concept];
+/** `key` alone is not an identifier: `custom.badge` and `promo.badge` are different metafields. */
+function toIdentifier(source: { namespace: string; key: string }): string {
+  return `${source.namespace}:${source.key}`;
+}
 
-  return identifier ? byKey.get(identifier.key) : undefined;
+function indexByIdentifier(raw: (MetafieldApi | null)[] | null | undefined) {
+  const byIdentifier = new Map<string, MetafieldApi>();
+
+  for (const entry of raw ?? []) {
+    if (entry) {
+      byIdentifier.set(toIdentifier(entry), entry);
+    }
+  }
+
+  return byIdentifier;
 }
 
 /** An empty string is an absent value, not a value to render. */
@@ -98,28 +170,48 @@ function readText(metafield?: MetafieldApi): string | undefined {
 
 /** `value` is a string for every metafield type — `"true"` is not `true`. */
 function readBoolean(metafield?: MetafieldApi): boolean | undefined {
-  return metafield ? metafield.value === 'true' : undefined;
+  return metafield ? metafield.value === "true" : undefined;
 }
 
-/**
- * A JSON metafield is merchant-authored free-form text that reaches the device unvalidated.
- * A malformed value degrades to an absent section — never to a throw that kills the screen.
- */
-function readJson<T>(metafield?: MetafieldApi): T | undefined {
+/** Merchant-authored and unvalidated: malformed or non-object degrades to absent, never throws. */
+function readJson(
+  metafield?: MetafieldApi,
+): Record<string, unknown> | undefined {
   if (!metafield?.value) {
     return undefined;
   }
 
   try {
-    return JSON.parse(metafield.value) as T;
+    const parsed: unknown = JSON.parse(metafield.value);
+
+    return isRecord(parsed) ? parsed : undefined;
   } catch {
     return undefined;
   }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/** Only text and finite numbers are renderable: a non-string child crashes `<Text>` in RN. */
+function readFieldValue(value: unknown): string | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return String(value);
+  }
+
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const trimmed = value.trim();
+
+  return trimmed ? trimmed : undefined;
 }
 
 export const productAdapter = {
   toProduct,
   toProductList,
   toProductDetail,
-  toMetafields,
+  toContent,
 };

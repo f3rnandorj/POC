@@ -329,3 +329,240 @@ Então o catálogo padronizou **no claro**: UI preta, tile de produto claro, com
 **Regra que fica:** foto de seed se escolhe pelo que está no quadro — marca de terceiro, pessoa, fundo — antes de se checar se o link responde.
 
 **Deleção é do usuário.** Trocar a linha deixou seis produtos órfãos. A etapa de delete foi escrita e recusada pelo harness; o usuário removeu pelo admin. O script semeia e restiliza, nunca apaga — que é a forma certa para ele de qualquer jeito.
+
+## 2026-10-02 — PRD 012: variação de lojista é uma lista de content blocks
+
+**Contexto.** A PRD 008 tornou *onde* um conceito mora na Shopify um dado do lojista: `material` pode ser `custom.material` ou `acme.fabric_type` e o app não se importa. Ela deixou *quais* conceitos existem em código — `MetafieldConcept` era uma união fechada de cinco, `features` e `labels` eram booleanos e strings **obrigatórios** nomeados por eles, e a `ProductDetailScreen` colocava cada um à mão. Esses cinco eram exatamente o que estava configurado no admin do Northstar. Lojista com `fit_guide` custava edição de tipo, de adapter e de tela — um deploy por lojista.
+
+**Decisão.** O vocabulário de conceitos sai do código. Cada lojista declara uma lista de blocos; o bloco diz de onde vem o dado, como parsear, qual primitiva desenha, em que slot e em que ordem. **O app é dono da gramática** (os `kind`, os `slot`, o parsing, as primitivas). **O lojista é dono das palavras** (quais blocos existem, source, labels, posição).
+
+**Morreram:** `MetafieldConcept`, `MerchantMetafieldMap`, `MerchantMetaobjectMap`, `MerchantFeatures`, `MerchantLabels`, `ProductMetafields`, `ProductCareInstructions`, e a fiação conceito-a-conceito na tela de detalhe. O diff é negativo.
+
+**Decisões técnicas.**
+
+1. **Config manda em `slot` e `order`, não só em quais blocos existem.** Escolhido pelo usuário em 2026-10-02 sobre as duas alternativas (app fixa o layout; config escolhe só o slot). O lojista rearranja a página sem deploy. A contenção é que `kind` e `slot` são **pareados numa união discriminada** — par ilegal é erro de compilação, não tela quebrada em produção. `story` só existe em `homeFooter`: um segundo lugar significaria uma segunda query numa tela que nenhum lojista pediu.
+
+2. **Colisão de `order` custou uma linha, não um branch de validação.** `Array.prototype.sort` é estável, então ordenar só por `order` faz duplicata cair na ordem de declaração e número fora de faixa virar apenas uma posição. A normalização que eu tinha estimado não existe.
+
+3. **Adapter indexa por `namespace:key`, não por `key`.** Revoga a escolha da PRD 008. `key` sozinho não é identificador: com lojista declarando as próprias sources, `custom.badge` e `promo.badge` eram dois metafields caindo num slot. `namespace` entrou na seleção GraphQL.
+
+4. **Dois níveis de confiança, e só um é fronteira.** O arquivo de config é nosso: tipado, compilado, erro de tipo se errado. Os **valores** de metafield são do lojista, chegando como string do admin — essa é a fronteira, e `readText`/`readBoolean`/`readJson` a guardam. `readJson` agora também rejeita payload que não é objeto, e cada linha de seção rejeita o que não é string nem número finito: objeto dentro de `<Text>` quebra o RN. Quando o config vier como JSON do endpoint da plataforma ele deixa de ser nosso e precisa do próprio parse — fora de escopo, anotado no `ponytail:` do `merchantConfig.ts`.
+
+5. **Tipo estático do JSON de metafield foi perdido, e isso é correção e não regressão.** `careInstructions?: { washing?, drying? }` *afirmava* um shape sobre uma string escrita pelo lojista; nunca garantiu nenhum. O `fields` do bloco troca a afirmação pelo lojista declarando quais chaves ele realmente preencheu — e é o que levou `'Washing'`/`'Drying'` da tela para o config, a última cópia de lojista hardcoded.
+
+6. **Flags não viraram `Partial`, foram deletadas.** Flag e bloco sempre foram a mesma frase dita duas vezes; o Atlas provava isso carregando `features.winterCollection: false` ao lado de um `labels.winterCollection` que não podia renderizar. Ausência do bloco diz uma vez.
+
+7. **`isWinterCollection` deixou de ser caso especial.** Consumia um conceito, uma flag e um label para expressar "mais um badge, condicional". Como bloco `badge` com source `boolean` e um `label`, é indistinguível de qualquer outro badge — que é o ponto: nunca foi conceito de plataforma, era a campanha de um lojista com nome de API.
+
+8. **Adapter por loja foi recusado.** A leitura literal de "um adapter por loja" são 50 módulos para shippar e um deploy por onboarding. Um adapter que lê a declaração da loja entrega o mesmo sem código por loja. Se uma loja genuinamente irregular precisar de lógica, a porta é uma função `parse?` no bloco — não um módulo, e não antes de alguma loja precisar.
+
+9. **`ContentBlocks` devolvendo `null` tornou estrutural o achado da PRD 005.** A linha de badges não precisa mais do condicional de layout na tela: slot vazio não desenha container, então o `gap` da coluna não abre buraco. O bug virou impossível em vez de contornado.
+
+**Consequência.** Conceito novo é uma entrada de array no arquivo do lojista. Se exigir tipo, adapter, query ou tela, o **kind** é que está faltando — e kind novo é mudança de plataforma, não de lojista.
+
+## 2026-10-02 — iOS 27 exige UIScene: o app não subia, e não era o JS
+
+**Contexto.** O gate de simulador da PRD 012 travou: `yarn ios` compilava e instalava com exit 0, e o processo morria no launch. O Metro servia o bundle normalmente (HTTP 200, 5.3 MB) e **nunca recebia request do device** — ou seja, o app morria antes de buscar o JS. O crash report apontava `EXC_BREAKPOINT` em `__UIApplicationEvaluateRuntimeIssueForNoSceneLifecycleAdoption_block_invoke`.
+
+**Causa.** O iOS 26+ encerra no launch qualquer app que não adotou o UIScene lifecycle. O `ios/Fuego/Info.plist` não tinha `UIApplicationSceneManifest` e o `AppDelegate.swift` era o template clássico `UIApplicationDelegate` + `UIWindow` que o React Native 0.87 ainda entrega. Defeito pré-existente: quebrava igual no `main`, sem uma linha da PRD 012. Só existe runtime iOS 27.0 instalado, então não havia device mais antigo para contornar.
+
+**Decisão.** Adotar scenes com a menor superfície possível:
+
+1. **`SceneDelegate` mora dentro de `AppDelegate.swift`.** Um `SceneDelegate.swift` separado teria de ser registrado no Sources build phase do target, o que significa editar `project.pbxproj` na mão — risco real por ganho zero. O `Info.plist` referencia a classe por nome (`$(PRODUCT_MODULE_NAME).SceneDelegate`), e variável de build já é expandida ali, como o resto do arquivo mostra.
+
+2. **`didFinishLaunchingWithOptions` deixou de criar a window.** Sob scenes a window pertence à scene, não à aplicação. O método agora só monta o `RCTReactNativeFactory` (uma vez por processo) e guarda as `launchOptions`; quem cria a `UIWindow(windowScene:)` e chama `startReactNative` é o `scene(_:willConnectTo:options:)`.
+
+3. **Nada mais mudou no startup.** `startReactNative(withModuleName:in:launchOptions:)` já seta o `rootViewController` e chama `makeKeyAndVisible` — a troca é apenas de quem fornece a window.
+
+**Primeira hipótese, errada, e por que vale registrar:** o Metro tinha morrido junto com a task de background que rodou o `yarn ios` (era processo filho dela), então a primeira leitura foi "build Debug sem bundle server". Subir o Metro destacado não resolveu — o que separou as duas causas foi o Metro não registrar **nenhum** request do device. Bundle server morto e crash nativo pré-bundle parecem iguais de fora; o log do Metro é o que distingue.
+
+**Consequência operacional.** `yarn ios` disparado como task de background leva o Metro junto quando termina. Para verificação em simulador, subir o Metro destacado antes (`nohup npx react-native start &`) e só então buildar.
+
+## 2026-10-03 — PRD 013: a paleta é do lojista, o que garante leitura é derivado
+
+**Contexto.** A PRD 012 tornou o *conteúdo* de um lojista dele. A *aparência* continuava a um accent de distância de ser idêntica: `MerchantTheme` era `{ primaryColor }` e o `design.md` afirmava isso como contrato — "o accent é a única cor por lojista" — num app cujo arquivo de identidade levava o nome do primeiro cliente.
+
+**Decisão.** `background`, `surface`, `text`, `textMuted` e `border` entram como override, ao lado do accent. O que **não** entra: `accentText`, que já era derivado, e `success`/`danger`, que carregam estado e não marca.
+
+**O defeito que a PRD previu como hipótese e se confirmou.** Com fundo claro, o verde `mint` (`#3DDC84`) lê **1.68:1** — invisível. Trocar o verde base consertaria o Atlas e estragaria o Northstar, que a PRD exigia pixel-idêntico. A saída foi derivar: `success` e `danger` escolhem entre dois valores fixos conforme a luminância do fundo, exatamente o padrão que o `accentText` já usava. Northstar fica em `mint`/`ember`, Atlas recebe `moss`/`clay` a 4.73:1 e 5.13:1. Nenhuma superfície nova para o lojista quebrar — ele não escolhe cor de estado.
+
+**Guard, não vistoria.** O tema estoura em `__DEV__` nomeando o par e a razão medida quando a cópia cai abaixo de 4.5:1 ou o estado abaixo de 3:1. Uma paleta falha ficando invisível, não estourando — então é medida, não olhada. Com 50 lojistas entrando sem desenvolvedor, screenshot não é gate que alguém roda.
+
+**Uma expressão por token, nunca spread.** `{ ...colors, ...merchantConfig.theme }` aceitaria silenciosamente uma chave que o app não possui e leria um typo como token novo.
+
+**Consequência.** A paleta base deixa de ser "a paleta do Northstar" e passa a ser o default que um lojista que não declara nada herda.
+
+## 2026-10-03 — PRD 014: layout por lojista, com a mesma gramática dos blocos
+
+**Contexto.** Cor sozinha não separa duas lojas: lado a lado, as duas Homes eram a mesma tela com outro tom. Faltava o arranjo.
+
+**Decisão.** `merchantConfig.layout` declara uma escolha por seção, de um conjunto fechado: `featured` (`single` | `double`), `collections` (`inline` | `horizontal`), `detail` (`single` | `gallery`). Chave omitida cai no default, então o Northstar não declara nada e não mudou.
+
+É a mesma linha dos blocos de conteúdo: **o app é dono da gramática, o lojista escolhe entre alternativas que o app sabe desenhar.** Os valores são união no código, não string vinda do config — arranjo que o renderer não desenha é erro de compilação. Foi a contenção que permitiu recusar a opção de layout livre: config descrevendo posição é um page builder, e aí o `design.md` deixa de ser contrato.
+
+**Decisões técnicas.**
+
+1. **Variante de componente é prop nomeada.** `CollectionCard` ganhou `variant: "row" | "tile"`. Enum fechado, não objeto de layout no call site — o `design.md` já antecipava isso no badge outline.
+
+2. **`double` divide, não busca.** São os mesmos produtos em duas fileiras; contagem ímpar deixa o extra na primeira. Arranjo não é segunda query.
+
+3. **Dois scrollers no mesmo eixo brigam.** No modo `horizontal`, a fileira de coleções é desenhada dentro do `ListHeaderComponent` e a lista empilhada recebe `data` vazia, em vez de aninhar um scroller horizontal dentro do vertical.
+
+4. **Galeria com sincronia de mão única.** Escolher variante move o pager; arrastar o pager **não** muda a variante — mão dupla significaria um arrasto trocando calado qual tamanho vai para o carrinho. Variante cuja foto não está entre as do produto deixa a galeria onde está.
+
+5. **A galeria só rende onde o catálogo tem foto.** Os produtos do Atlas têm **uma** foto cada, enquanto `northstar-essential` tem 6 e `everyday-tee` tem 4, acumuladas das passadas de restyle. Em catálogo de foto única ela degrada para imagem única sem indicador — correto, porém invisível. É fato de catálogo a pesar na hora de atribuir o valor, não regra que o código imponha. A query já pedia `images(first: 10)` e a tela usava uma — havia dado sendo buscado e descartado desde a PRD 002.
+
+**Rótulo "Featured" removido.** O comentário `ponytail:` já admitia que não existe conceito Shopify por trás: eram os primeiros N do catálogo com nome de curadoria. Trocar por outra palavra manteria o problema; "Collections" ficou, porque é conceito real.
+
+---
+
+## 2026-10-03 — `Screen` é o container de toda tela, e o gutter mora nele
+
+**Contexto.** Cada tela repetia o mesmo preâmbulo: `Box flex={1} backgroundColor="background" style={{ paddingTop: top }}`, `BackControl` montado à mão, bloco de título próprio, e `paddingHorizontal: 16` enfiado no `contentContainerStyle` da lista. Esse último detalhe era o defeito visível: com o gutter aplicado no container de conteúdo da `FlatList`, as linhas horizontais da Home terminavam 16pt antes da borda — o card sumia no meio do nada em vez de correr até a extremidade do aparelho.
+
+**Decisão.**
+
+1. **`src/components/Screen/Screen.tsx`** — safe area, background, gutter, back control e título em um lugar só. A tela declara o que quer por prop (`scrollable`, `gutter`, `title`, `eyebrow`, `onGoBack`, `floatingBack`) e compõe apenas o próprio conteúdo. Modelado no `Screen` do `bennu/food-balance`, sem o que este POC não tem: nada de `KeyboardAvoidingView`, header animado, imagem de fundo, `ScreenRef` imperativo ou estados de loading/erro — cada tela já resolve os seus.
+2. **O gutter nunca vai no *frame* de um scroller.** No iOS um `ScrollView`/`FlatList` recorta no próprio frame: padding no `Box` que envolve a lista encolhe o frame, e aí o filho com margem negativa é cortado no gutter em vez de correr até a borda — foi exatamente o que aconteceu na primeira tentativa (card cortado a 48px = 16pt da borda, medido no screenshot). O gutter mora **dentro** do scroller: `Screen` o aplica no `contentContainerStyle` do próprio `ScrollView` quando `scrollable`, e a tela que traz a própria lista espalha `screenGutter` no `contentContainerStyle` dela. O `Screen` pada só o bloco de título.
+3. **`sNegative16: -16`** entra na escala de spacing. É o gutter negado, não uma escala negativa livre: só `s16` ganha par. Quem precisa furar o gutter faz `marginHorizontal="sNegative16"` e reaplica `paddingHorizontal: 16` no `contentContainerStyle` — o primeiro card continua alinhado com a tela e o último rola até a borda real.
+4. **`gutter={false}` é para a tela que abre em foto sangrada** (o detalhe), que então pada os próprios blocos de texto. Um filho isolado que precisa da borda usa o margin negativo; não desliga o gutter da tela inteira.
+
+**Verificado no simulador em mãos** (iPhone 17, rota inicial temporária revertida): Home com as duas linhas horizontais correndo até a borda, lista 2 colunas com gutter, detalhe com galeria sangrada e back flutuante.
+
+---
+
+## 2026-10-03 — Reanimated entra, e o movimento vira token
+
+**Contexto.** O app não tinha movimento nenhum: card aparecia pronto, toque não devolvia nada, o dot da galeria trocava de cor em corte seco. Pedido foi instalar `react-native-reanimated` e animar o app.
+
+**Decisão.**
+
+1. **`react-native-reanimated` 4.7.1 + `react-native-worklets` 0.13.0.** No RN 0.87 o worklets é pacote separado e peer obrigatório — não é dependência transitiva. O plugin canônico passou a ser `react-native-worklets/plugin`; `react-native-reanimated/plugin` hoje é só um reexport dele. Vai **por último** na lista de plugins, depois do `module-resolver`.
+
+2. **O feedback de toque mora no `PressableBox`, não em cada card.** Todo elemento tocável do app já roteava por ele — card de produto, card de coleção (row e tile), chip de variante, back control. Uma dip de 3% num arquivo cobre os quatro; repetir `onPressIn` em cada chamador seria o diff maior e o que deixa um tocável de fora amanhã. `onPressIn`/`onPressOut` do consumidor continuam sendo chamados depois dos nossos.
+
+3. **`src/theme/motion.ts` — duração e curva são token, pelo mesmo motivo que cor é.** Card entrando em 260ms ao lado de card entrando em 500ms lê como bug, não como variedade. Dois presets, só: `cardEnter` (fade + sobe 25pt) e `resize` (mudança de tamanho/posição entre renders).
+
+4. **`AnimatedBox` exportado do `Box.tsx`.** View animada continua falando em token de restyle (`backgroundColor="accent"`, `borderRadius="s2"`) em vez de cair para `style={{}}` só porque ganhou `entering`/`layout`. Usado no `StoryCard` e no dot da galeria.
+
+5. **Tipagem: `AnimatedProps<T>` alarga toda prop para "ou um shared value"**, o que torna `onPressIn` não-chamável. Os handlers voltam de `PressableProps` por `Omit` + `Pick`; sem isso só sai cast.
+
+**Armadilha — Metro lê `babel.config.js` uma vez, na subida.** Com o dev server já rodando desde antes do plugin existir, o bundle veio sem a transformação de worklet e o app abriu em tela vermelha: `[Worklets] Unpackers were compiled...` / `Cannot read property 'bytecode' of undefined` em `NativeWorklets.native.ts:444`. O erro se parece com build nativo quebrado — fala de bytecode, unpacker e stack nativa — mas é cache de bundler: `yarn start --reset-cache` resolve sozinho. **Instalar dependência com worklet = reiniciar o Metro, sempre.** Rebuild nativo não cobre isso.
+
+**Verificado no simulador em mãos** (iPhone 17, o que já estava de pé): app sobe sem tela vermelha, e a gravação do launch a 15fps pega o frame intermediário — fotos lavadas, títulos ainda cinza, preços ainda fora — contra o frame assentado. Entrada de card está rodando. Dip de toque e dot da galeria ficaram verificados só pelo caminho de código: exigiriam input sintético, que é proibido aqui.
+
+---
+
+## 2026-10-03 — Lottie no loading do detalhe, e o fill repintado em JS
+
+**Contexto.** O estado de loading do `ProductDetail` eram duas linhas de texto parado. O usuário trouxe o asset pronto (`src/assets/animations/loading.json`) e pediu para ligar ali.
+
+**Decisão.**
+
+1. **`lottie-react-native` 7.5.0 entra como dependência nativa.** Reanimated já estava instalado e cobriria uma entrada de fade/scale sem pod novo, mas o pedido era tocar um documento Lottie — e isso exige um renderer Lottie. Alternativa foi oferecida e recusada.
+
+2. **O fill é repintado em JS (`src/theme/lottieTint.ts`), não pelo `colorFilters` nativo.** O asset vem preenchido de preto, que some no fundo quase-preto da base; e o accent só existe em runtime, por lojista. O `colorFilters` casa camada por **keypath** — aqui, nomes em cirílico que o designer exportou do After Effects. Reescrever `{ ty: "fl" }` no documento funciona independente de como as camadas foram nomeadas. Reusa `toChannels` do `contrast.ts` (que já devolve canais 0–1, o formato que o Lottie quer) em vez de reimplementar parse de hex — por isso o helper mora no módulo `theme`, não em `utils`.
+
+3. **`@assets` vira alias de verdade** (babel + tsconfig + `pathGroups` do `import/order`), com barrel em `src/assets/index.ts`. Sem isso o único acesso ao asset era caminho relativo fundo, que a quick-rule #10 proíbe.
+
+4. **O recorte da arte é medido, não chutado.** A arte é um canvas 1000×1000 com os três quadrados numa faixa fina (x 190–801, y 440–559) — ~85% é vazio. `resizeMode="cover"` numa caixa baixa corta o vazio vertical; o vazio horizontal que sobra é parelho dos dois lados (190 contra 199), então centralizar a caixa centraliza os quadrados.
+
+5. **O bloco de loading é centralizado; o de erro continua no gutter.** São coisas diferentes: loading é uma mensagem, erro é uma coluna de ações. A centralização mora no `Box` do ramo de loading, não no container que os dois compartilham. Sobra um detalhe da própria arte: em repouso a faixa fica ~8pt à esquerda do centro e em movimento ~7pt à direita — o desenho oscila em torno do centro do canvas ao longo do loop, e compensar uma das poses pioraria a outra.
+
+**Armadilha — o build iOS quebrou no pod, não no JS.** `lottie-ios` gera um bundle de privacy-info declarando `IPHONEOS_DEPLOYMENT_TARGET` 13.0, abaixo do piso de 15.0 do Xcode atual: `xcodebuild` sai com 65 e a mensagem aponta um target do projeto `Pods`, não o app. O `post_install` do Podfile agora sobe qualquer target abaixo de `min_ios_version_supported` — relativo ao piso do projeto, não um número fixo, para continuar valendo quando o piso subir.
+
+**Verificado no simulador em mãos** (iPhone 17, rota inicial temporária + `isLoading` forçado, ambos revertidos e app reiniciado): nos dois lojistas — volt sobre quase-preto no northstar, `#F04E23` sobre creme no atlas — com 16 capturas distintas seguidas confirmando que a animação roda, e o primeiro quadrado alinhado ao gutter.
+
+---
+
+## 2026-10-03 — O warning de package exports é bug do próprio React Native
+
+**Contexto.** Todo bundle imprimia `Attempted to import the module ".../react-native/src/private/featureflags/ReactNativeFeatureFlags" which is not listed in the "exports"`. Parecia dependência de terceiro importando interno da RN.
+
+**Decisão.** Não é terceiro: `@react-native/virtualized-lists@0.87.1` — pacote da própria React Native, versão casada — importa esse subpath, e o `exports` do `react-native@0.87.1` não o declara. Não há nada do app nem de lib instalada no caminho. Ainda não declarado no `0.88.0-rc.3`, então esperar release não é caminho, e subir major de RN por um warning cosmético é desproporcional.
+
+`metro.config.js` resolve **esse especificador exato** direto para o arquivo, pulando o lookup de exports que gera o aviso. Descartado: `unstable_enablePackageExports: false` (desliga exports para todo pacote, muda semântica de resolução do projeto inteiro) e `patch-package` (devDep + postinstall para um aviso). O comentário no arquivo carrega a condição de remoção — quando o `exports` do `react-native` cobrir `./src/private/*`.
+
+**Verificado por bundle limpo** (`react-native bundle --reset-cache`, iOS, dev): 1 warning antes, 0 depois, e os dois bundles saem com **md5 idêntico** — a resolução não mudou, só o caminho que emitia o aviso.
+
+---
+
+## 2026-10-03 — Variação de lojista é um mapa de telas e áreas, não uma lista plana de blocos
+
+**Contexto.** A PRD 012 trocou flags por uma lista plana: `blocks: ContentBlock[]`, cada bloco carregando `slot` e `order`. Lendo o config do northstar não dava para responder "o que aparece na linha de badges?" sem varrer os seis blocos e cruzar `slot` com `order` na cabeça. Pior: dois eixos de posicionamento (`slot`, `order`) configurados item por item quando posicionamento é propriedade do grupo.
+
+**Decisão.** `screens: MerchantScreens` — uma chave por tela, e dentro dela uma chave por **área** que aquela tela desenha:
+
+```ts
+screens: {
+  productDetail: { badgeRow: [...], underPrice: [...], aboveDescription: [...], belowDescription: [...] },
+  home: { footer: {...} },
+}
+```
+
+- **O caminho de chaves é o lugar**, então nenhum bloco carrega `slot`.
+- **O índice do array é a ordem**, então nenhum bloco carrega `order` — `byOrder`/sort saiu junto.
+- **O tipo do elemento é o que a área aceita**: `badgeRow?: BadgeBlock[]`, `underPrice?: TextLineBlock[]`, `belowDescription?: (TextLineBlock | LabelValueBlock)[]`. Substitui a união discriminada que pareava `kind` com `slot` — a contenção agora é o próprio tipo da área, e o erro do compilador aponta a chave errada em vez de uma união inteira.
+- **`home.footer?: StoryBlock`** é bloco único, não lista: o rodapé da Home desenha um card. Antes era `blocks.find(isStoryBlock)`, que descartava um segundo story em silêncio.
+
+**"Área", nunca "seção".** Primeira volta nomeou as posições de `sections`, e colidiu de frente com o que o projeto já chamava de seção: o kind `labelValueSection` e o componente `ProductSection`. Uma seção é algo que se coloca *dentro* de uma área. Mesma razão pela qual o prefixo `detail` sumiu das chaves — `content.detailBelowDescription` repetia a tela em cada nome em vez de agrupá-la; aninhar por tela diz qual é a tela uma vez só.
+
+**Opcional é a chave ausente, e é o mecanismo inteiro.** Nada de `required`/`optional` declarado: área que o lojista não preenche não existe no literal, não resolve bloco nenhum e não rende nada — a regra #5 de sempre, agora visível na forma do config. O atlas exercita isso sem `belowDescription` e sem `home`.
+
+**Ordem *entre* áreas continua sendo do app.** As áreas do detalhe são definidas contra conteúdo fixo (sob o preço, acima/abaixo da descrição), então a tela as coloca; o lojista ordena o que está *dentro*. Dar ordem entre áreas exigiria colapsar os três ancoradouros do detalhe num só, com `description` virando um `kind` posicionável — mudança de tela e de grammar, não de config.
+
+**Consequências no código.** `productDetailAreas: ProductDetailAreaBlocks[]` (pares `[área, blocos]`, em ordem de declaração) substitui `productBlocks` pré-ordenado como o que o adapter percorre; `productMetafieldBlocks` sobrou achatado só para os identificadores do fragment; `storyBlock` virou `homeFooterStory`. O adapter virou dois `for` aninhados e perdeu a leitura de `block.slot`. `ProductSlot` saiu do domínio — `ProductContent` indexa por `ProductDetailArea`, que vem do config. Separar `home` de `productDetail` matou o `const { homeFooter, ...resto }` que filtrava o story antes de percorrer.
+
+**Custo de um conceito novo não mudou:** uma entrada de array. Só ficou óbvio em qual array.
+
+**Verificado no simulador em mãos** (iPhone 17, rota inicial temporária, revertida): Northstar Essential com as três áreas na ordem declarada — `BEST SELLER` + `WINTER COLLECTION`, "Organic Cotton" + "Free shipping above $199", "HOW TO CARE" — e Cotton Cap, sem metafield nenhum, sem rastro: nem título, nem divisória, nem vão.
+
+---
+
+## 2026-10-03 — Animação de layout e feedback de toque na mesma view se atropelam
+
+**Decisão:** quando o `PressableBox` recebe `entering`/`exiting`/`layout`, ele mesmo embrulha o pressable num `AnimatedBox` e passa a animação para o wrapper. Nenhum caller muda.
+
+**Causa.** O press scale vive num `useAnimatedStyle` que escreve `transform`; `FadeInDown` escreve `transform` também. O Reanimated avisa em runtime ("Property 'transform' of AnimatedComponent(Pressable) may be overwritten by a layout animation") e manda embrulhar — `ProductCard` e `CollectionCard` (row e tile) passavam `entering={motion.cardEnter}` direto no tocável.
+
+**Por que no `PressableBox` e não nos cards:** é o ponto por onde todo tocável já roteia (quick-rule #12). Corrigir nos dois callers deixaria o terceiro quebrado no dia em que aparecer.
+
+**Como apareceu:** toast amarelo de LogBox nas capturas de tela do README — warning de JS não sobe pro log nativo do simulador, então foi preciso um hook temporário de `console.warn` postando pra um sink HTTP local (`index.js`, revertido) pra ler a mensagem. Fica o método: screenshot limpo é gate de defeito, não cosmético.
+
+**Verificado no simulador em mãos:** Northstar (home com duas fileiras + tiles, grid 2 colunas) e Atlas (home com fileira única + banners) sem toast e sem mudança de layout do card.
+
+---
+
+## 2026-10-03 — Troca de loja em runtime: afordância de demo, com o custo contido
+
+**Decisão:** o app passa a trocar de lojista em runtime, por um controle na linha do título da Home que abre um diálogo explicando que isso não é comportamento de app real e oferece as lojas declaradas. Existe por causa do APK: quem baixa não vai recompilar com outro `.env` pra conferir a tese do README.
+
+**O que a troca obriga.** O id ativo virou estado mutável (`config/merchant/activeMerchant.ts`, `useSyncExternalStore`), e com isso **nada derivado do lojista pode ser constante de módulo** — `merchantConfig`, `merchantLayout`, `productDetailAreas` e `homeFooterStory` viraram funções, e `theme` virou `buildTheme()`. O root remonta com `key={merchantId}`: remontar é o que derruba a pilha de navegação e o estado local das telas, que é o "abrir o app de novo" pedido.
+
+**A exceção, e por que ela é segura.** O documento GraphQL é template literal montado uma vez no import — não dá pra torná-lo função sem transformar fragment e query em funções em cinco arquivos. Então `queriedMetafieldBlocks` passa a ser a união dos blocos de **todos** os lojistas declarados. O adapter já indexava por `namespace:key` e resolve só os blocos do lojista ativo; identificador que o produto não define volta `null` e é descartado. Teto: os 250 identificadores por query da Shopify — passando disso, documento por lojista.
+
+**Cache e credenciais.** `queryKey` não carrega o lojista, então o catálogo da loja anterior seria servido do cache pra nova e o `staleTime` o manteria lá: a troca chama `queryClient.clear()` antes de mudar o id. E valida as credenciais **antes** de trocar — faltando chave, `merchantConfig()` estoura durante o build do tema, que num release é app morto em vez de mensagem; agora é um alerta e a troca não acontece.
+
+**O diálogo é tela do app, não `Alert` do sistema.** A primeira volta usou `Alert.alert` — zero código, e feio: tipografia do sistema, botões empilhados, nenhuma relação com a marca que a tela ao lado está provando que existe. O diálogo agora é `Modal` transparente com card em `surface`, scrim no `background` do próprio lojista a 0.94 (a tese é "o app muda de marca inteira" — um scrim preto fixo a contradiria no atlas claro), e a loja **não** ativa é a preenchida em accent: o elemento alto é a ação, não o estado. Erro de credencial virou linha em `danger` dentro do card, não um segundo alerta. Fica legível nas duas paletas e sem teto de três botões.
+
+**A status bar é derivada do fundo do lojista**, com o mesmo `isLight` que já decide `accentText` e os estados: fundo claro pede glifo escuro, e no atlas a barra branca sumia no creme. `backgroundColor` da `StatusBar` ficou de fora de propósito — é deprecada no Android com edge-to-edge e o aviso apareceria justo no APK.
+
+**Ícone sem dependência:** três pontos desenhados com `Box`. Glifo de engrenagem em `Text` renderiza como emoji colorido em parte dos Androids — defeito garantido justo no APK que motivou a feature.
+
+**Verificado no simulador em mãos** (iPhone 17, efeito temporário no lugar do toque, revertido): diálogo com `NORTHSTAR (current)` e `ATLAS`; escolhendo atlas o app reabre em creme com o catálogo de linho; detalhe do atlas resolve `fabric_type` e `fit_guide` (identificadores que o northstar não declara) com o fragment compartilhado. Cold start limpo volta no northstar, sem LogBox.
+
+---
+
+## 2026-10-03 — O flash branco entre telas no Android é a janela, e quem tapa é o root do app
+
+**Decisão:** o `Router` embrulha o `NavigationContainer` num `Box flex={1} backgroundColor="background"`. `android:windowBackground` fica como está.
+
+**Causa.** O `react-native-screens` dá os primeiros frames da tela entrando antes do React ter pintado ela; o que estiver atrás aparece. Toda a cadeia de ancestrais em JS era transparente (`SafeAreaProvider` e `NavigationContainer` não pintam), então atrás havia a janela do Android — `Theme.AppCompat.DayNight.NoActionBar` em aparelho no modo claro, isto é, branco. `contentStyle` e o tema do `NavigationContainer` já estavam certos e não alcançam esse frame: eles pintam a tela, não o que está atrás dela.
+
+**Por que não `styles.xml`:** o background é do lojista e é escolhido em runtime (troca de loja) — ink no northstar, creme no atlas. Cor fixa no recurso nativo troca um flash errado por outro. O root em JS é o único lugar que conhece o tema ativo e está atrás da pilha inteira.
+
+**Como foi isolado:** `screenrecord` + frames do push. Antes, o frame da transição subia a luminância média (67,9 → 69,1) com uma faixa branca na área da tela entrando. Com o aparelho forçado em modo escuro (`cmd uimode night yes`, sem rebuild) a mesma faixa saiu cinza-escura — isso é o que provou ser a janela, e não o `contentStyle`.
+
+**Fica de fora:** o cold start ainda mostra a janela branca por um frame antes do bundle subir. É o mesmo mecanismo mas não tem tema ativo ainda; resolver exige escolher uma cor fixa no `styles.xml`.
+
+**Verificado no emulador em mãos** (`sdk_gphone16k_arm64`, modo claro): push Home→detalhe, push Home→coleção e o pop de volta, sem faixa branca em nenhum frame — a luminância média cai monotônica em vez de dar o pico.

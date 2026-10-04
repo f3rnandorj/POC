@@ -1,19 +1,14 @@
-import { merchantConfig } from '@config';
+import { queriedMetafieldBlocks } from "@config";
 
 export const PRODUCT_METAFIELDS_FRAGMENT = /* GraphQL */ `
   fragment ProductMetafields on Product {
-    metafields(identifiers: [${buildMetafieldIdentifiers()}]) {
-      key
-      value
-      type
-    }
+    ${buildMetafieldSelection()}
   }
 `;
 
 /**
- * Everything both the grid and the detail need, minus `images` — the two screens want
- * different page sizes, and GraphQL rejects a document where one field carries two sets
- * of arguments ("Field 'images' has an argument conflict"). Each query selects its own.
+ * `images` is excluded: the two screens want different page sizes, and GraphQL rejects a
+ * document where one field carries two argument sets ("Field 'images' has an argument conflict").
  */
 export const PRODUCT_CORE_FRAGMENT = /* GraphQL */ `
   fragment ProductCore on Product {
@@ -46,16 +41,25 @@ export const PRODUCT_CARD_FRAGMENT = /* GraphQL */ `
   ${PRODUCT_CORE_FRAGMENT}
 `;
 
-/**
- * Rendered from `merchantConfig` rather than hardcoded, so a merchant whose keys differ
- * is a config change and not a query edit (standards/shopify.md, rule 4).
- */
+/** Shopify requires 1..250 identifiers and a fragment needs a selection, so `id` stands in. */
+function buildMetafieldSelection(): string {
+  const identifiers = buildMetafieldIdentifiers();
+
+  if (!identifiers) {
+    return "id";
+  }
+
+  return `metafields(identifiers: [${identifiers}]) { namespace key value type }`;
+}
+
 function buildMetafieldIdentifiers(): string {
-  // `flatMap` rather than `map`: a concept the merchant omits is simply never requested, and
-  // an explicit `undefined` in the map must not become `{ namespace: "undefined" }`.
-  return Object.values(merchantConfig.metafields)
-    .flatMap(identifier =>
-      identifier ? [`{ namespace: "${identifier.namespace}", key: "${identifier.key}" }`] : []
-    )
-    .join(' ');
+  // Two blocks may read one metafield, and a repeat counts against Shopify's 250 limit.
+  const identifiers = new Set(
+    queriedMetafieldBlocks.map(
+      block =>
+        `{ namespace: "${block.source.namespace}", key: "${block.source.key}" }`,
+    ),
+  );
+
+  return [...identifiers].join(" ");
 }

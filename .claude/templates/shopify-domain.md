@@ -55,7 +55,7 @@ export type Product = {
   price: { amount: string; currencyCode: string };
   images: string[];
   variants: ProductVariant[];
-  metafields: ProductMetafields;
+  content: ProductContent;
 };
 
 export type ProductVariant = {
@@ -64,12 +64,9 @@ export type ProductVariant = {
   available: boolean;
 };
 
-export type ProductMetafields = {
-  badge?: string;
-  material?: string;
-  promotionText?: string;
-  isWinterCollection?: boolean;
-};
+// The merchant's declared blocks, resolved and grouped by area — never a record of named concepts.
+// An area that collected nothing is absent, not `[]`. See shopify.md, "Metafields — the contract".
+export type ProductContent = Partial<Record<ProductDetailArea, ResolvedBlock[]>>;
 
 // ── raw Storefront shapes ──
 export type ProductApi = { /* edges/nodes as Shopify returns them */ };
@@ -103,16 +100,16 @@ function toProductList(response: ProductListApi): Product[] {
   return response.products.edges.map(edge => toProduct(edge.node));
 }
 
-function toMetafields(raw: (MetafieldApi | null)[] | undefined): ProductMetafields { /* see metafield-feature.md */ }
+function toContent(raw: (MetafieldApi | null)[] | undefined): ProductContent { /* walks productDetailAreas */ }
 
 export const productAdapter = {
   toProduct,
   toProductList,
-  toMetafields,
+  toContent,
 };
 ```
 
-The adapter is the only place that knows the words `edges` and `node`, and the only place that parses a metafield value.
+The adapter is the only place that knows the words `edges` and `node`, and the only place that parses a metafield value or resolves a merchant block.
 
 ## `{domain}Service.ts` — transform + delegate, no React
 
@@ -168,7 +165,7 @@ The service, api and adapter are module-private — a screen that can import `pr
 
 - [ ] No GraphQL string outside `{domain}Queries.ts`
 - [ ] No `edges`/`node` above the adapter
-- [ ] No metafield parsing outside the adapter
+- [ ] No metafield parsing and no block resolution outside the adapter
 - [ ] Service has no React import
 - [ ] Hook is the only `useQuery` caller
 - [ ] `index.ts` in the domain folder and in `useCases/` — and the domain barrel does NOT export the service

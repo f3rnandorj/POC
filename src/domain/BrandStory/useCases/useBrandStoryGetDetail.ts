@@ -1,25 +1,21 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import { merchantConfig } from '@config';
-import { QueryKeys } from '@infra';
+import { homeFooterStory } from "@config";
+import { QueryKeys } from "@infra";
 
-import { brandStoryService } from '../brandStoryService';
+import { brandStoryService } from "../brandStoryService";
 
-/**
- * Both gates live here: a merchant without the capability and a merchant without the
- * metaobject type configured never issue the request at all.
- */
+/** A merchant without a story block never issues the request. */
 export function useBrandStoryGetDetail() {
-  const type = merchantConfig.features.brandStory
-    ? merchantConfig.metaobjects.brandStory
-    : undefined;
+  const story = homeFooterStory();
 
-  // React Query v5 rejects `undefined` as cached data, and "this store has no brand story" is
-  // a legitimate answer — `null` crosses the cache, the UI gets `undefined` back.
+  // React Query v5 rejects `undefined` as cached data, so "no story" crosses the cache as `null`.
   const { data, isLoading, error } = useQuery({
-    queryKey: [QueryKeys.BrandStory, type],
-    queryFn: async () => (await brandStoryService.byType(String(type))) ?? null,
-    enabled: Boolean(type),
+    // The whole block, not its id: it is what the query reads, and it changes with the merchant.
+    queryKey: [QueryKeys.BrandStory, story],
+    queryFn: async () =>
+      (story ? await brandStoryService.byBlock(story) : null) ?? null,
+    enabled: Boolean(story),
   });
 
   return {

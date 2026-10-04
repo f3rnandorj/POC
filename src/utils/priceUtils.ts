@@ -1,22 +1,18 @@
-import type { ProductPrice } from '@domain';
+import type { ProductPrice } from "@domain";
 
-/**
- * Shopify returns money as a string (`"299.0"`) so the value never loses precision in
- * transit. Formatting happens here, at render time — never in the adapter.
- */
+/** Shopify returns money as a string (`"299.0"`) so the value never loses precision. */
 export function formatPrice({ amount, currencyCode }: ProductPrice): string {
   const value = Number(amount);
 
   if (!Number.isFinite(value)) {
-    return '';
+    return "";
   }
 
-  // Whole amounts read better without the cents on a product card ("$299", not
-  // "$299.00"); anything with a fraction keeps both digits.
+  // Whole amounts read better without cents on a card ("$299"); a fraction keeps both digits.
   const fractionDigits = Number.isInteger(value) ? 0 : 2;
 
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
     currency: currencyCode,
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,

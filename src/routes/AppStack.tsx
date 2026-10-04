@@ -1,9 +1,9 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { HomeScreen, ProductDetailScreen, ProductListScreen } from '@screens';
-import { useAppTheme } from '@theme';
+import { HomeScreen, ProductDetailScreen, ProductListScreen } from "@screens";
+import { useAppTheme } from "@theme";
 
-import type { AppStackParamList } from './types/navigationTypes';
+import type { AppStackParamList } from "./types/navigationTypes";
 
 export function AppStack() {
   const { colors } = useAppTheme();

@@ -4,6 +4,7 @@
 **Shipped:** 2026-10-01
 **Started:** 2026-10-01
 **Source:** brief — "Bônus opcional / Metaobject", a `Brand Story` metaobject (title, description, image) fetched from Shopify and shown on Home
+**Generalized by:** PRD 012 — the metaobject type and its field keys now come from a `story` block, so a merchant whose fields are `heading`/`copy`/`hero` needs no adapter edit. The `reference`-not-`value` rule for the image is unchanged. Shipped as written; not rewritten.
 
 ## Overview
 

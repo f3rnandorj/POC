@@ -1,6 +1,6 @@
-import type { EdgesApi, ImageApi } from '@api';
+import type { EdgesApi, ImageApi } from "@api";
 
-import type { Product, ProductNodeApi } from '../Product/productTypes';
+import type { Product, ProductNodeApi } from "../Product/productTypes";
 
 export interface Collection {
   id: string;
@@ -14,13 +14,10 @@ export interface CollectionImage {
   altText?: string;
 }
 
-/** What a scoped list screen needs: the collection's own title plus its products. */
 export interface CollectionProducts {
   collection: Collection;
   products: Product[];
 }
-
-// ── raw Storefront shapes ────────────────────────────────────────────────────
 
 export interface CollectionNodeApi {
   id: string;
@@ -34,5 +31,7 @@ export interface CollectionListApi {
 }
 
 export interface CollectionProductsApi {
-  collection: (CollectionNodeApi & { products: EdgesApi<ProductNodeApi> }) | null;
+  collection:
+    | (CollectionNodeApi & { products: EdgesApi<ProductNodeApi> })
+    | null;
 }

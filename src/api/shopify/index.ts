@@ -1,3 +1,3 @@
-export * from './client';
-export * from './fragments';
-export * from './shopifyTypes';
+export * from "./client";
+export * from "./fragments";
+export * from "./shopifyTypes";

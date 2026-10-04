@@ -9,7 +9,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/react-native.config.js",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_react_native_config_js",
-      "community": 24,
+      "community": 27,
       "norm_label": "react-native.config.js"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/index.js",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_index_js",
-      "community": 25,
+      "community": 28,
       "norm_label": "index.js"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/metro.config.js",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_metro_config_js",
-      "community": 26,
+      "community": 29,
       "norm_label": "metro.config.js"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/babel.config.js",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_babel_config_js",
-      "community": 27,
+      "community": 30,
       "norm_label": "babel.config.js"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_ios_fuego_appdelegate_swift",
-      "community": 4,
+      "community": 3,
       "norm_label": "appdelegate.swift"
     },
     {
@@ -54,7 +54,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
       "source_location": "L6",
       "id": "appdelegate_appdelegate",
-      "community": 4,
+      "community": 3,
       "norm_label": "appdelegate"
     },
     {
@@ -63,7 +63,7 @@
       "source_file": "",
       "source_location": "",
       "id": "uiresponder",
-      "community": 4,
+      "community": 3,
       "norm_label": "uiresponder"
     },
     {
@@ -72,25 +72,52 @@
       "source_file": "",
       "source_location": "",
       "id": "uiapplicationdelegate",
-      "community": 4,
+      "community": 3,
       "norm_label": "uiapplicationdelegate"
     },
     {
       "label": ".application()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L13",
+      "source_location": "L17",
       "id": "appdelegate_appdelegate_application",
-      "community": 4,
+      "community": 3,
       "norm_label": ".application()"
+    },
+    {
+      "label": "SceneDelegate",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L40",
+      "id": "appdelegate_scenedelegate",
+      "community": 3,
+      "norm_label": "scenedelegate"
+    },
+    {
+      "label": "UIWindowSceneDelegate",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "uiwindowscenedelegate",
+      "community": 3,
+      "norm_label": "uiwindowscenedelegate"
+    },
+    {
+      "label": ".scene()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L43",
+      "id": "appdelegate_scenedelegate_scene",
+      "community": 3,
+      "norm_label": ".scene()"
     },
     {
       "label": "ReactNativeDelegate",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L36",
+      "source_location": "L67",
       "id": "appdelegate_reactnativedelegate",
-      "community": 4,
+      "community": 3,
       "norm_label": "reactnativedelegate"
     },
     {
@@ -99,25 +126,25 @@
       "source_file": "",
       "source_location": "",
       "id": "rctdefaultreactnativefactorydelegate",
-      "community": 4,
+      "community": 3,
       "norm_label": "rctdefaultreactnativefactorydelegate"
     },
     {
       "label": ".sourceURL()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L37",
+      "source_location": "L68",
       "id": "appdelegate_reactnativedelegate_sourceurl",
-      "community": 4,
+      "community": 3,
       "norm_label": ".sourceurl()"
     },
     {
       "label": ".bundleURL()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L41",
+      "source_location": "L72",
       "id": "appdelegate_reactnativedelegate_bundleurl",
-      "community": 4,
+      "community": 3,
       "norm_label": ".bundleurl()"
     },
     {
@@ -126,7 +153,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_android_app_src_main_java_com_fuego_mainactivity_kt",
-      "community": 8,
+      "community": 11,
       "norm_label": "mainactivity.kt"
     },
     {
@@ -135,7 +162,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
       "source_location": "L8",
       "id": "mainactivity_mainactivity",
-      "community": 8,
+      "community": 11,
       "norm_label": "mainactivity"
     },
     {
@@ -144,7 +171,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
       "source_location": "L14",
       "id": "mainactivity_mainactivity_getmaincomponentname",
-      "community": 8,
+      "community": 11,
       "norm_label": ".getmaincomponentname()"
     },
     {
@@ -153,7 +180,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainActivity.kt",
       "source_location": "L20",
       "id": "mainactivity_mainactivity_createreactactivitydelegate",
-      "community": 8,
+      "community": 11,
       "norm_label": ".createreactactivitydelegate()"
     },
     {
@@ -162,7 +189,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainApplication.kt",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_android_app_src_main_java_com_fuego_mainapplication_kt",
-      "community": 10,
+      "community": 12,
       "norm_label": "mainapplication.kt"
     },
     {
@@ -171,7 +198,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainApplication.kt",
       "source_location": "L10",
       "id": "mainapplication_mainapplication",
-      "community": 10,
+      "community": 12,
       "norm_label": "mainapplication"
     },
     {
@@ -180,8 +207,17 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/android/app/src/main/java/com/fuego/MainApplication.kt",
       "source_location": "L23",
       "id": "mainapplication_mainapplication_oncreate",
-      "community": 10,
+      "community": 12,
       "norm_label": ".oncreate()"
+    },
+    {
+      "label": "catalog-atlas.mjs",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/catalog-atlas.mjs",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_scripts_catalog_atlas_mjs",
+      "community": 31,
+      "norm_label": "catalog-atlas.mjs"
     },
     {
       "label": "catalog.mjs",
@@ -189,7 +225,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/catalog.mjs",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_scripts_catalog_mjs",
-      "community": 0,
+      "community": 32,
       "norm_label": "catalog.mjs"
     },
     {
@@ -198,134 +234,143 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
-      "community": 0,
+      "community": 1,
       "norm_label": "seed-catalog.mjs"
     },
     {
       "label": "main()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L30",
+      "source_location": "L48",
       "id": "seed_catalog_main",
-      "community": 0,
+      "community": 1,
       "norm_label": "main()"
     },
     {
       "label": "upsertProduct()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L69",
+      "source_location": "L92",
       "id": "seed_catalog_upsertproduct",
-      "community": 0,
+      "community": 1,
       "norm_label": "upsertproduct()"
     },
     {
       "label": "toProductInput()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L89",
+      "source_location": "L117",
       "id": "seed_catalog_toproductinput",
-      "community": 0,
+      "community": 1,
       "norm_label": "toproductinput()"
     },
     {
       "label": "toVariant()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L113",
+      "source_location": "L152",
       "id": "seed_catalog_tovariant",
-      "community": 0,
+      "community": 1,
       "norm_label": "tovariant()"
     },
     {
       "label": "toMetafields()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L131",
+      "source_location": "L171",
       "id": "seed_catalog_tometafields",
-      "community": 0,
+      "community": 1,
       "norm_label": "tometafields()"
     },
     {
       "label": "setCollectionImage()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L140",
+      "source_location": "L180",
       "id": "seed_catalog_setcollectionimage",
-      "community": 0,
+      "community": 1,
       "norm_label": "setcollectionimage()"
     },
     {
       "label": "publish()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L173",
+      "source_location": "L222",
       "id": "seed_catalog_publish",
-      "community": 0,
+      "community": 1,
       "norm_label": "publish()"
     },
     {
       "label": "restylePhoto()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L194",
+      "source_location": "L245",
       "id": "seed_catalog_restylephoto",
-      "community": 0,
+      "community": 1,
       "norm_label": "restylephoto()"
     },
     {
       "label": "findCollectionIds()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L234",
+      "source_location": "L299",
       "id": "seed_catalog_findcollectionids",
-      "community": 0,
+      "community": 1,
       "norm_label": "findcollectionids()"
     },
     {
       "label": "findPublicationId()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L253",
+      "source_location": "L320",
       "id": "seed_catalog_findpublicationid",
-      "community": 0,
+      "community": 1,
       "norm_label": "findpublicationid()"
     },
     {
       "label": "admin()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L264",
+      "source_location": "L337",
       "id": "seed_catalog_admin",
-      "community": 0,
+      "community": 1,
       "norm_label": "admin()"
     },
     {
       "label": "toOptionValue()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L287",
+      "source_location": "L360",
       "id": "seed_catalog_tooptionvalue",
-      "community": 0,
+      "community": 1,
       "norm_label": "tooptionvalue()"
     },
     {
       "label": "formatError()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L291",
+      "source_location": "L364",
       "id": "seed_catalog_formaterror",
-      "community": 0,
+      "community": 1,
       "norm_label": "formaterror()"
     },
     {
-      "label": "requireEnv()",
+      "label": "storeDomain()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L295",
-      "id": "seed_catalog_requireenv",
-      "community": 0,
-      "norm_label": "requireenv()"
+      "source_location": "L369",
+      "id": "seed_catalog_storedomain",
+      "community": 1,
+      "norm_label": "storedomain()"
+    },
+    {
+      "label": "requireMerchant()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
+      "source_location": "L373",
+      "id": "seed_catalog_requiremerchant",
+      "community": 1,
+      "norm_label": "requiremerchant()"
     },
     {
       "label": "App.tsx",
@@ -333,16 +378,16 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/App.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_app_tsx",
-      "community": 13,
+      "community": 7,
       "norm_label": "app.tsx"
     },
     {
       "label": "App()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/App.tsx",
-      "source_location": "L11",
+      "source_location": "L12",
       "id": "app_app",
-      "community": 13,
+      "community": 7,
       "norm_label": "app()"
     },
     {
@@ -351,7 +396,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/infra/queryClient.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_infra_queryclient_ts",
-      "community": 28,
+      "community": 33,
       "norm_label": "queryclient.ts"
     },
     {
@@ -360,7 +405,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/infra/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_infra_index_ts",
-      "community": 29,
+      "community": 34,
       "norm_label": "index.ts"
     },
     {
@@ -369,7 +414,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/infra/infraTypes.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_infra_infratypes_ts",
-      "community": 30,
+      "community": 35,
       "norm_label": "infratypes.ts"
     },
     {
@@ -378,7 +423,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/types/env.d.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_types_env_d_ts",
-      "community": 31,
+      "community": 36,
       "norm_label": "env.d.ts"
     },
     {
@@ -387,7 +432,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/types/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_types_index_ts",
-      "community": 32,
+      "community": 37,
       "norm_label": "index.ts"
     },
     {
@@ -396,7 +441,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_config_index_ts",
-      "community": 33,
+      "community": 38,
       "norm_label": "index.ts"
     },
     {
@@ -405,17 +450,80 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
-      "community": 14,
+      "community": 4,
       "norm_label": "merchantconfig.ts"
+    },
+    {
+      "label": "merchantConfig()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L18",
+      "id": "merchantconfig_merchantconfig",
+      "community": 4,
+      "norm_label": "merchantconfig()"
     },
     {
       "label": "getMerchantConfig()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
-      "source_location": "L11",
+      "source_location": "L22",
       "id": "merchantconfig_getmerchantconfig",
-      "community": 14,
+      "community": 4,
       "norm_label": "getmerchantconfig()"
+    },
+    {
+      "label": "merchantLayout()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L36",
+      "id": "merchantconfig_merchantlayout",
+      "community": 4,
+      "norm_label": "merchantlayout()"
+    },
+    {
+      "label": "homeFooterStory()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L47",
+      "id": "merchantconfig_homefooterstory",
+      "community": 4,
+      "norm_label": "homefooterstory()"
+    },
+    {
+      "label": "productDetailAreas()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L55",
+      "id": "merchantconfig_productdetailareas",
+      "community": 4,
+      "norm_label": "productdetailareas()"
+    },
+    {
+      "label": "assertCredentials()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L90",
+      "id": "merchantconfig_assertcredentials",
+      "community": 4,
+      "norm_label": "assertcredentials()"
+    },
+    {
+      "label": "declaredAreas()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L111",
+      "id": "merchantconfig_declaredareas",
+      "community": 4,
+      "norm_label": "declaredareas()"
+    },
+    {
+      "label": "hasBlocks()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L117",
+      "id": "merchantconfig_hasblocks",
+      "community": 4,
+      "norm_label": "hasblocks()"
     },
     {
       "label": "merchantTypes.ts",
@@ -423,8 +531,17 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantTypes.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchanttypes_ts",
-      "community": 34,
+      "community": 39,
       "norm_label": "merchanttypes.ts"
+    },
+    {
+      "label": "merchantEnv.d.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantEnv.d.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantenv_d_ts",
+      "community": 40,
+      "norm_label": "merchantenv.d.ts"
     },
     {
       "label": "index.ts",
@@ -432,8 +549,53 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_index_ts",
-      "community": 35,
+      "community": 41,
       "norm_label": "index.ts"
+    },
+    {
+      "label": "activeMerchant.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/activeMerchant.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_activemerchant_ts",
+      "community": 7,
+      "norm_label": "activemerchant.ts"
+    },
+    {
+      "label": "getActiveMerchantId()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/activeMerchant.ts",
+      "source_location": "L17",
+      "id": "activemerchant_getactivemerchantid",
+      "community": 7,
+      "norm_label": "getactivemerchantid()"
+    },
+    {
+      "label": "setActiveMerchant()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/activeMerchant.ts",
+      "source_location": "L21",
+      "id": "activemerchant_setactivemerchant",
+      "community": 7,
+      "norm_label": "setactivemerchant()"
+    },
+    {
+      "label": "useActiveMerchantId()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/activeMerchant.ts",
+      "source_location": "L31",
+      "id": "activemerchant_useactivemerchantid",
+      "community": 7,
+      "norm_label": "useactivemerchantid()"
+    },
+    {
+      "label": "subscribe()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/activeMerchant.ts",
+      "source_location": "L35",
+      "id": "activemerchant_subscribe",
+      "community": 7,
+      "norm_label": "subscribe()"
     },
     {
       "label": "atlas.ts",
@@ -441,7 +603,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchants/atlas.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchants_atlas_ts",
-      "community": 36,
+      "community": 42,
       "norm_label": "atlas.ts"
     },
     {
@@ -450,17 +612,8 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchants/northstar.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchants_northstar_ts",
-      "community": 15,
+      "community": 43,
       "norm_label": "northstar.ts"
-    },
-    {
-      "label": "requireEnv()",
-      "file_type": "code",
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchants/northstar.ts",
-      "source_location": "L42",
-      "id": "northstar_requireenv",
-      "community": 15,
-      "norm_label": "requireenv()"
     },
     {
       "label": "index.ts",
@@ -468,7 +621,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/constants/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_constants_index_ts",
-      "community": 37,
+      "community": 44,
       "norm_label": "index.ts"
     },
     {
@@ -477,16 +630,16 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/utils/priceUtils.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_utils_priceutils_ts",
-      "community": 16,
+      "community": 17,
       "norm_label": "priceutils.ts"
     },
     {
       "label": "formatPrice()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/utils/priceUtils.ts",
-      "source_location": "L7",
+      "source_location": "L4",
       "id": "priceutils_formatprice",
-      "community": 16,
+      "community": 17,
       "norm_label": "formatprice()"
     },
     {
@@ -495,7 +648,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/utils/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_utils_index_ts",
-      "community": 38,
+      "community": 45,
       "norm_label": "index.ts"
     },
     {
@@ -504,7 +657,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_index_ts",
-      "community": 39,
+      "community": 46,
       "norm_label": "index.ts"
     },
     {
@@ -513,26 +666,17 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/ProductListScreen.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_productlistscreen_productlistscreen_tsx",
-      "community": 1,
+      "community": 10,
       "norm_label": "productlistscreen.tsx"
     },
     {
       "label": "ProductListScreen()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/ProductListScreen.tsx",
-      "source_location": "L12",
+      "source_location": "L10",
       "id": "productlistscreen_productlistscreen",
-      "community": 1,
+      "community": 10,
       "norm_label": "productlistscreen()"
-    },
-    {
-      "label": "keyExtractor()",
-      "file_type": "code",
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/ProductListScreen.tsx",
-      "source_location": "L73",
-      "id": "productlistscreen_keyextractor",
-      "community": 1,
-      "norm_label": "keyextractor()"
     },
     {
       "label": "ProductListFeedback.tsx",
@@ -540,25 +684,25 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/components/ProductListFeedback.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_productlistscreen_components_productlistfeedback_tsx",
-      "community": 11,
+      "community": 13,
       "norm_label": "productlistfeedback.tsx"
     },
     {
       "label": "ProductListFeedback()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/components/ProductListFeedback.tsx",
-      "source_location": "L14",
+      "source_location": "L10",
       "id": "productlistfeedback_productlistfeedback",
-      "community": 11,
+      "community": 13,
       "norm_label": "productlistfeedback()"
     },
     {
       "label": "toMessage()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/components/ProductListFeedback.tsx",
-      "source_location": "L69",
+      "source_location": "L65",
       "id": "productlistfeedback_tomessage",
-      "community": 11,
+      "community": 13,
       "norm_label": "tomessage()"
     },
     {
@@ -567,7 +711,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/components/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_productlistscreen_components_index_ts",
-      "community": 40,
+      "community": 47,
       "norm_label": "index.ts"
     },
     {
@@ -576,26 +720,26 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_homescreen_tsx",
-      "community": 1,
+      "community": 14,
       "norm_label": "homescreen.tsx"
     },
     {
-      "label": "HomeScreen()",
+      "label": "openProduct()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
-      "source_location": "L13",
-      "id": "homescreen_homescreen",
-      "community": 1,
-      "norm_label": "homescreen()"
+      "source_location": "L31",
+      "id": "homescreen_openproduct",
+      "community": 14,
+      "norm_label": "openproduct()"
     },
     {
-      "label": "keyExtractor()",
+      "label": "openCollection()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
-      "source_location": "L70",
-      "id": "homescreen_keyextractor",
-      "community": 1,
-      "norm_label": "keyextractor()"
+      "source_location": "L35",
+      "id": "homescreen_opencollection",
+      "community": 14,
+      "norm_label": "opencollection()"
     },
     {
       "label": "SectionNote.tsx",
@@ -603,26 +747,44 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/SectionNote.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_components_sectionnote_tsx",
-      "community": 12,
+      "community": 15,
       "norm_label": "sectionnote.tsx"
     },
     {
       "label": "SectionNote()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/SectionNote.tsx",
-      "source_location": "L13",
+      "source_location": "L9",
       "id": "sectionnote_sectionnote",
-      "community": 12,
+      "community": 15,
       "norm_label": "sectionnote()"
     },
     {
       "label": "resolve()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/SectionNote.tsx",
-      "source_location": "L23",
+      "source_location": "L19",
       "id": "sectionnote_resolve",
-      "community": 12,
+      "community": 15,
       "norm_label": "resolve()"
+    },
+    {
+      "label": "MerchantSwitch.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/MerchantSwitch.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_components_merchantswitch_tsx",
+      "community": 7,
+      "norm_label": "merchantswitch.tsx"
+    },
+    {
+      "label": "MerchantSwitch()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/MerchantSwitch.tsx",
+      "source_location": "L17",
+      "id": "merchantswitch_merchantswitch",
+      "community": 7,
+      "norm_label": "merchantswitch()"
     },
     {
       "label": "index.ts",
@@ -630,7 +792,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_components_index_ts",
-      "community": 41,
+      "community": 48,
       "norm_label": "index.ts"
     },
     {
@@ -639,7 +801,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/HomeHeader.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_components_homeheader_tsx",
-      "community": 42,
+      "community": 49,
       "norm_label": "homeheader.tsx"
     },
     {
@@ -648,7 +810,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductDetailScreen/ProductDetailScreen.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_productdetailscreen_productdetailscreen_tsx",
-      "community": 43,
+      "community": 50,
       "norm_label": "productdetailscreen.tsx"
     },
     {
@@ -657,7 +819,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductDetailScreen/components/VariantPicker.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_productdetailscreen_components_variantpicker_tsx",
-      "community": 44,
+      "community": 51,
       "norm_label": "variantpicker.tsx"
     },
     {
@@ -666,7 +828,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductDetailScreen/components/ProductDetailFeedback.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_productdetailscreen_components_productdetailfeedback_tsx",
-      "community": 45,
+      "community": 52,
       "norm_label": "productdetailfeedback.tsx"
     },
     {
@@ -675,7 +837,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductDetailScreen/components/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_screens_productdetailscreen_components_index_ts",
-      "community": 46,
+      "community": 53,
       "norm_label": "index.ts"
     },
     {
@@ -684,7 +846,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_components_index_ts",
-      "community": 47,
+      "community": 54,
       "norm_label": "index.ts"
     },
     {
@@ -693,7 +855,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/Box/Box.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_components_box_box_tsx",
-      "community": 48,
+      "community": 55,
       "norm_label": "box.tsx"
     },
     {
@@ -702,7 +864,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/BackControl/BackControl.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_components_backcontrol_backcontrol_tsx",
-      "community": 49,
+      "community": 56,
       "norm_label": "backcontrol.tsx"
     },
     {
@@ -711,16 +873,16 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductCard/ProductCard.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_components_productcard_productcard_tsx",
-      "community": 17,
+      "community": 18,
       "norm_label": "productcard.tsx"
     },
     {
       "label": "ProductCard()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductCard/ProductCard.tsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "id": "productcard_productcard",
-      "community": 17,
+      "community": 18,
       "norm_label": "productcard()"
     },
     {
@@ -729,8 +891,17 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/PressableBox/PressableBox.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_components_pressablebox_pressablebox_tsx",
-      "community": 50,
+      "community": 19,
       "norm_label": "pressablebox.tsx"
+    },
+    {
+      "label": "PressableBox()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/PressableBox/PressableBox.tsx",
+      "source_location": "L31",
+      "id": "pressablebox_pressablebox",
+      "community": 19,
+      "norm_label": "pressablebox()"
     },
     {
       "label": "StoryCard.tsx",
@@ -738,26 +909,44 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/StoryCard/StoryCard.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_components_storycard_storycard_tsx",
-      "community": 51,
+      "community": 20,
       "norm_label": "storycard.tsx"
     },
     {
-      "label": "ProductMetadata.tsx",
+      "label": "StoryCard()",
       "file_type": "code",
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductMetadata/ProductMetadata.tsx",
-      "source_location": "L1",
-      "id": "users_fernandohenrique_desktop_projects_poc_src_components_productmetadata_productmetadata_tsx",
-      "community": 18,
-      "norm_label": "productmetadata.tsx"
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/StoryCard/StoryCard.tsx",
+      "source_location": "L19",
+      "id": "storycard_storycard",
+      "community": 20,
+      "norm_label": "storycard()"
     },
     {
-      "label": "ProductMetadata()",
+      "label": "ProductGallery.tsx",
       "file_type": "code",
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductMetadata/ProductMetadata.tsx",
-      "source_location": "L14",
-      "id": "productmetadata_productmetadata",
-      "community": 18,
-      "norm_label": "productmetadata()"
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductGallery/ProductGallery.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_components_productgallery_productgallery_tsx",
+      "community": 21,
+      "norm_label": "productgallery.tsx"
+    },
+    {
+      "label": "onSettled()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductGallery/ProductGallery.tsx",
+      "source_location": "L42",
+      "id": "productgallery_onsettled",
+      "community": 21,
+      "norm_label": "onsettled()"
+    },
+    {
+      "label": "Screen.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/Screen/Screen.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_components_screen_screen_tsx",
+      "community": 57,
+      "norm_label": "screen.tsx"
     },
     {
       "label": "CollectionCard.tsx",
@@ -765,8 +954,26 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/CollectionCard/CollectionCard.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_components_collectioncard_collectioncard_tsx",
-      "community": 52,
+      "community": 22,
       "norm_label": "collectioncard.tsx"
+    },
+    {
+      "label": "CollectionCard()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/CollectionCard/CollectionCard.tsx",
+      "source_location": "L17",
+      "id": "collectioncard_collectioncard",
+      "community": 22,
+      "norm_label": "collectioncard()"
+    },
+    {
+      "label": "ContentBlocks.tsx",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ContentBlocks/ContentBlocks.tsx",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_components_contentblocks_contentblocks_tsx",
+      "community": 58,
+      "norm_label": "contentblocks.tsx"
     },
     {
       "label": "Text.tsx",
@@ -774,7 +981,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/Text/Text.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_components_text_text_tsx",
-      "community": 53,
+      "community": 59,
       "norm_label": "text.tsx"
     },
     {
@@ -783,16 +990,16 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductBadge/ProductBadge.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_components_productbadge_productbadge_tsx",
-      "community": 19,
+      "community": 23,
       "norm_label": "productbadge.tsx"
     },
     {
       "label": "ProductBadge()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductBadge/ProductBadge.tsx",
-      "source_location": "L13",
+      "source_location": "L8",
       "id": "productbadge_productbadge",
-      "community": 19,
+      "community": 23,
       "norm_label": "productbadge()"
     },
     {
@@ -801,16 +1008,16 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductSection/ProductSection.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_components_productsection_productsection_tsx",
-      "community": 20,
+      "community": 24,
       "norm_label": "productsection.tsx"
     },
     {
       "label": "ProductSection()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductSection/ProductSection.tsx",
-      "source_location": "L19",
+      "source_location": "L14",
       "id": "productsection_productsection",
-      "community": 20,
+      "community": 24,
       "norm_label": "productsection()"
     },
     {
@@ -819,7 +1026,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/colors.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_theme_colors_ts",
-      "community": 54,
+      "community": 60,
       "norm_label": "colors.ts"
     },
     {
@@ -828,43 +1035,61 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_theme_contrast_ts",
-      "community": 7,
+      "community": 2,
       "norm_label": "contrast.ts"
     },
     {
       "label": "pickContrastText()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
-      "source_location": "L11",
+      "source_location": "L7",
       "id": "contrast_pickcontrasttext",
-      "community": 7,
+      "community": 2,
       "norm_label": "pickcontrasttext()"
+    },
+    {
+      "label": "isLight()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
+      "source_location": "L11",
+      "id": "contrast_islight",
+      "community": 2,
+      "norm_label": "islight()"
+    },
+    {
+      "label": "contrastRatio()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
+      "source_location": "L16",
+      "id": "contrast_contrastratio",
+      "community": 2,
+      "norm_label": "contrastratio()"
     },
     {
       "label": "relativeLuminance()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
-      "source_location": "L15",
+      "source_location": "L27",
       "id": "contrast_relativeluminance",
-      "community": 7,
+      "community": 2,
       "norm_label": "relativeluminance()"
     },
     {
       "label": "toChannels()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
-      "source_location": "L21",
+      "source_location": "L35",
       "id": "contrast_tochannels",
-      "community": 7,
+      "community": 2,
       "norm_label": "tochannels()"
     },
     {
       "label": "toLinear()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
-      "source_location": "L38",
+      "source_location": "L52",
       "id": "contrast_tolinear",
-      "community": 7,
+      "community": 2,
       "norm_label": "tolinear()"
     },
     {
@@ -873,8 +1098,35 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/fonts.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_theme_fonts_ts",
-      "community": 55,
+      "community": 61,
       "norm_label": "fonts.ts"
+    },
+    {
+      "label": "lottieTint.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/lottieTint.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_theme_lottietint_ts",
+      "community": 2,
+      "norm_label": "lottietint.ts"
+    },
+    {
+      "label": "tintLottie()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/lottieTint.ts",
+      "source_location": "L11",
+      "id": "lottietint_tintlottie",
+      "community": 2,
+      "norm_label": "tintlottie()"
+    },
+    {
+      "label": "retint()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/lottieTint.ts",
+      "source_location": "L18",
+      "id": "lottietint_retint",
+      "community": 2,
+      "norm_label": "retint()"
     },
     {
       "label": "textVariants.ts",
@@ -882,8 +1134,17 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/textVariants.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_theme_textvariants_ts",
-      "community": 56,
+      "community": 62,
       "norm_label": "textvariants.ts"
+    },
+    {
+      "label": "motion.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/motion.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_theme_motion_ts",
+      "community": 63,
+      "norm_label": "motion.ts"
     },
     {
       "label": "palette.ts",
@@ -891,7 +1152,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/palette.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_theme_palette_ts",
-      "community": 57,
+      "community": 64,
       "norm_label": "palette.ts"
     },
     {
@@ -900,7 +1161,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_theme_index_ts",
-      "community": 58,
+      "community": 65,
       "norm_label": "index.ts"
     },
     {
@@ -909,8 +1170,35 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/theme.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_theme_theme_ts",
-      "community": 59,
+      "community": 2,
       "norm_label": "theme.ts"
+    },
+    {
+      "label": "buildTheme()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/theme.ts",
+      "source_location": "L15",
+      "id": "theme_buildtheme",
+      "community": 2,
+      "norm_label": "buildtheme()"
+    },
+    {
+      "label": "assertReadable()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/theme.ts",
+      "source_location": "L69",
+      "id": "theme_assertreadable",
+      "community": 2,
+      "norm_label": "assertreadable()"
+    },
+    {
+      "label": "spacing.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/spacing.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_theme_spacing_ts",
+      "community": 66,
+      "norm_label": "spacing.ts"
     },
     {
       "label": "useAppTheme.ts",
@@ -936,7 +1224,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/hooks/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_hooks_index_ts",
-      "community": 60,
+      "community": 67,
       "norm_label": "index.ts"
     },
     {
@@ -945,7 +1233,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_api_index_ts",
-      "community": 61,
+      "community": 68,
       "norm_label": "index.ts"
     },
     {
@@ -954,16 +1242,25 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/fragments.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_api_shopify_fragments_ts",
-      "community": 21,
+      "community": 16,
       "norm_label": "fragments.ts"
+    },
+    {
+      "label": "buildMetafieldSelection()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/fragments.ts",
+      "source_location": "L45",
+      "id": "fragments_buildmetafieldselection",
+      "community": 16,
+      "norm_label": "buildmetafieldselection()"
     },
     {
       "label": "buildMetafieldIdentifiers()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/fragments.ts",
-      "source_location": "L53",
+      "source_location": "L55",
       "id": "fragments_buildmetafieldidentifiers",
-      "community": 21,
+      "community": 16,
       "norm_label": "buildmetafieldidentifiers()"
     },
     {
@@ -972,34 +1269,34 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/client.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_api_shopify_client_ts",
-      "community": 3,
+      "community": 6,
       "norm_label": "client.ts"
     },
     {
       "label": "request()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/client.ts",
-      "source_location": "L9",
+      "source_location": "L5",
       "id": "client_request",
-      "community": 3,
+      "community": 6,
       "norm_label": "request()"
     },
     {
       "label": "ShopifyError",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/client.ts",
-      "source_location": "L51",
+      "source_location": "L52",
       "id": "client_shopifyerror",
-      "community": 3,
+      "community": 6,
       "norm_label": "shopifyerror"
     },
     {
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/client.ts",
-      "source_location": "L54",
+      "source_location": "L55",
       "id": "client_shopifyerror_constructor",
-      "community": 3,
+      "community": 6,
       "norm_label": ".constructor()"
     },
     {
@@ -1008,7 +1305,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/shopifyTypes.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_api_shopify_shopifytypes_ts",
-      "community": 62,
+      "community": 69,
       "norm_label": "shopifytypes.ts"
     },
     {
@@ -1017,7 +1314,25 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_api_shopify_index_ts",
-      "community": 63,
+      "community": 70,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/assets/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_assets_index_ts",
+      "community": 71,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/assets/animations/index.ts",
+      "source_location": "L1",
+      "id": "users_fernandohenrique_desktop_projects_poc_src_assets_animations_index_ts",
+      "community": 72,
       "norm_label": "index.ts"
     },
     {
@@ -1026,7 +1341,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_index_ts",
-      "community": 64,
+      "community": 73,
       "norm_label": "index.ts"
     },
     {
@@ -1035,7 +1350,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryQueries.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstoryqueries_ts",
-      "community": 65,
+      "community": 74,
       "norm_label": "brandstoryqueries.ts"
     },
     {
@@ -1044,7 +1359,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryTypes.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstorytypes_ts",
-      "community": 66,
+      "community": 75,
       "norm_label": "brandstorytypes.ts"
     },
     {
@@ -1060,16 +1375,25 @@
       "label": "toBrandStory()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
-      "source_location": "L12",
+      "source_location": "L11",
       "id": "brandstoryadapter_tobrandstory",
       "community": 5,
       "norm_label": "tobrandstory()"
     },
     {
+      "label": "find()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
+      "source_location": "L30",
+      "id": "brandstoryadapter_find",
+      "community": 5,
+      "norm_label": "find()"
+    },
+    {
       "label": "indexByKey()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
-      "source_location": "L28",
+      "source_location": "L37",
       "id": "brandstoryadapter_indexbykey",
       "community": 5,
       "norm_label": "indexbykey()"
@@ -1078,7 +1402,7 @@
       "label": "readText()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
-      "source_location": "L39",
+      "source_location": "L48",
       "id": "brandstoryadapter_readtext",
       "community": 5,
       "norm_label": "readtext()"
@@ -1087,7 +1411,7 @@
       "label": "readImage()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
-      "source_location": "L46",
+      "source_location": "L55",
       "id": "brandstoryadapter_readimage",
       "community": 5,
       "norm_label": "readimage()"
@@ -1102,13 +1426,13 @@
       "norm_label": "brandstoryservice.ts"
     },
     {
-      "label": "byType()",
+      "label": "byBlock()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryService.ts",
-      "source_location": "L5",
-      "id": "brandstoryservice_bytype",
+      "source_location": "L7",
+      "id": "brandstoryservice_byblock",
       "community": 5,
-      "norm_label": "bytype()"
+      "norm_label": "byblock()"
     },
     {
       "label": "index.ts",
@@ -1116,7 +1440,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_index_ts",
-      "community": 67,
+      "community": 76,
       "norm_label": "index.ts"
     },
     {
@@ -1125,7 +1449,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryApi.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstoryapi_ts",
-      "community": 3,
+      "community": 5,
       "norm_label": "brandstoryapi.ts"
     },
     {
@@ -1134,7 +1458,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryApi.ts",
       "source_location": "L6",
       "id": "brandstoryapi_bytype",
-      "community": 3,
+      "community": 5,
       "norm_label": "bytype()"
     },
     {
@@ -1143,16 +1467,16 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/useCases/useBrandStoryGetDetail.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_usecases_usebrandstorygetdetail_ts",
-      "community": 1,
+      "community": 4,
       "norm_label": "usebrandstorygetdetail.ts"
     },
     {
       "label": "useBrandStoryGetDetail()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/useCases/useBrandStoryGetDetail.ts",
-      "source_location": "L12",
+      "source_location": "L9",
       "id": "usebrandstorygetdetail_usebrandstorygetdetail",
-      "community": 1,
+      "community": 4,
       "norm_label": "usebrandstorygetdetail()"
     },
     {
@@ -1161,7 +1485,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/useCases/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_usecases_index_ts",
-      "community": 68,
+      "community": 77,
       "norm_label": "index.ts"
     },
     {
@@ -1170,25 +1494,25 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionApi.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_collectionapi_ts",
-      "community": 3,
+      "community": 6,
       "norm_label": "collectionapi.ts"
     },
     {
       "label": "list()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionApi.ts",
-      "source_location": "L6",
+      "source_location": "L12",
       "id": "collectionapi_list",
-      "community": 3,
+      "community": 6,
       "norm_label": "list()"
     },
     {
       "label": "productsByHandle()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionApi.ts",
-      "source_location": "L10",
+      "source_location": "L18",
       "id": "collectionapi_productsbyhandle",
-      "community": 3,
+      "community": 6,
       "norm_label": "productsbyhandle()"
     },
     {
@@ -1197,7 +1521,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionQueries.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_collectionqueries_ts",
-      "community": 69,
+      "community": 78,
       "norm_label": "collectionqueries.ts"
     },
     {
@@ -1206,34 +1530,34 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionAdapter.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_collectionadapter_ts",
-      "community": 6,
+      "community": 8,
       "norm_label": "collectionadapter.ts"
     },
     {
       "label": "toCollection()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionAdapter.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "id": "collectionadapter_tocollection",
-      "community": 6,
+      "community": 8,
       "norm_label": "tocollection()"
     },
     {
       "label": "toCollectionList()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionAdapter.ts",
-      "source_location": "L25",
+      "source_location": "L24",
       "id": "collectionadapter_tocollectionlist",
-      "community": 6,
+      "community": 8,
       "norm_label": "tocollectionlist()"
     },
     {
       "label": "toCollectionProducts()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionAdapter.ts",
-      "source_location": "L30",
+      "source_location": "L29",
       "id": "collectionadapter_tocollectionproducts",
-      "community": 6,
+      "community": 8,
       "norm_label": "tocollectionproducts()"
     },
     {
@@ -1242,7 +1566,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_index_ts",
-      "community": 70,
+      "community": 79,
       "norm_label": "index.ts"
     },
     {
@@ -1251,7 +1575,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionService.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_collectionservice_ts",
-      "community": 6,
+      "community": 8,
       "norm_label": "collectionservice.ts"
     },
     {
@@ -1260,7 +1584,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionService.ts",
       "source_location": "L8",
       "id": "collectionservice_list",
-      "community": 6,
+      "community": 8,
       "norm_label": "list()"
     },
     {
@@ -1269,7 +1593,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionService.ts",
       "source_location": "L14",
       "id": "collectionservice_productsbyhandle",
-      "community": 6,
+      "community": 8,
       "norm_label": "productsbyhandle()"
     },
     {
@@ -1278,7 +1602,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionTypes.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_collectiontypes_ts",
-      "community": 71,
+      "community": 80,
       "norm_label": "collectiontypes.ts"
     },
     {
@@ -1287,16 +1611,16 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/useCases/useCollectionGetProducts.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_usecases_usecollectiongetproducts_ts",
-      "community": 1,
+      "community": 10,
       "norm_label": "usecollectiongetproducts.ts"
     },
     {
       "label": "useCollectionGetProducts()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/useCases/useCollectionGetProducts.ts",
-      "source_location": "L11",
+      "source_location": "L8",
       "id": "usecollectiongetproducts_usecollectiongetproducts",
-      "community": 1,
+      "community": 10,
       "norm_label": "usecollectiongetproducts()"
     },
     {
@@ -1305,7 +1629,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/useCases/useCollectionGetList.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_usecases_usecollectiongetlist_ts",
-      "community": 1,
+      "community": 25,
       "norm_label": "usecollectiongetlist.ts"
     },
     {
@@ -1314,7 +1638,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/useCases/useCollectionGetList.ts",
       "source_location": "L7",
       "id": "usecollectiongetlist_usecollectiongetlist",
-      "community": 1,
+      "community": 25,
       "norm_label": "usecollectiongetlist()"
     },
     {
@@ -1323,7 +1647,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/useCases/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_usecases_index_ts",
-      "community": 72,
+      "community": 81,
       "norm_label": "index.ts"
     },
     {
@@ -1332,7 +1656,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productQueries.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productqueries_ts",
-      "community": 73,
+      "community": 82,
       "norm_label": "productqueries.ts"
     },
     {
@@ -1341,7 +1665,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productApi.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productapi_ts",
-      "community": 3,
+      "community": 6,
       "norm_label": "productapi.ts"
     },
     {
@@ -1350,7 +1674,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productApi.ts",
       "source_location": "L6",
       "id": "productapi_list",
-      "community": 3,
+      "community": 6,
       "norm_label": "list()"
     },
     {
@@ -1359,7 +1683,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productApi.ts",
       "source_location": "L10",
       "id": "productapi_byhandle",
-      "community": 3,
+      "community": 6,
       "norm_label": "byhandle()"
     },
     {
@@ -1368,7 +1692,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productService.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productservice_ts",
-      "community": 2,
+      "community": 0,
       "norm_label": "productservice.ts"
     },
     {
@@ -1377,7 +1701,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productService.ts",
       "source_location": "L7",
       "id": "productservice_list",
-      "community": 2,
+      "community": 0,
       "norm_label": "list()"
     },
     {
@@ -1386,7 +1710,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productService.ts",
       "source_location": "L13",
       "id": "productservice_byhandle",
-      "community": 2,
+      "community": 0,
       "norm_label": "byhandle()"
     },
     {
@@ -1395,7 +1719,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_product_index_ts",
-      "community": 74,
+      "community": 83,
       "norm_label": "index.ts"
     },
     {
@@ -1404,7 +1728,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productTypes.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_product_producttypes_ts",
-      "community": 75,
+      "community": 84,
       "norm_label": "producttypes.ts"
     },
     {
@@ -1413,98 +1737,161 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
-      "community": 2,
+      "community": 0,
       "norm_label": "productadapter.ts"
     },
     {
       "label": "toProduct()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L16",
+      "source_location": "L19",
       "id": "productadapter_toproduct",
-      "community": 2,
+      "community": 0,
       "norm_label": "toproduct()"
     },
     {
       "label": "toProductList()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L29",
+      "source_location": "L32",
       "id": "productadapter_toproductlist",
-      "community": 2,
+      "community": 0,
       "norm_label": "toproductlist()"
     },
     {
       "label": "toProductDetail()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L33",
+      "source_location": "L36",
       "id": "productadapter_toproductdetail",
-      "community": 2,
+      "community": 0,
       "norm_label": "toproductdetail()"
     },
     {
-      "label": "toMetafields()",
+      "label": "toContent()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L42",
-      "id": "productadapter_tometafields",
-      "community": 2,
-      "norm_label": "tometafields()"
+      "source_location": "L44",
+      "id": "productadapter_tocontent",
+      "community": 0,
+      "norm_label": "tocontent()"
+    },
+    {
+      "label": "resolveBlock()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L66",
+      "id": "productadapter_resolveblock",
+      "community": 0,
+      "norm_label": "resolveblock()"
+    },
+    {
+      "label": "resolveBadge()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L85",
+      "id": "productadapter_resolvebadge",
+      "community": 0,
+      "norm_label": "resolvebadge()"
+    },
+    {
+      "label": "readFlagLabel()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L98",
+      "id": "productadapter_readflaglabel",
+      "community": 0,
+      "norm_label": "readflaglabel()"
+    },
+    {
+      "label": "resolveSection()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L105",
+      "id": "productadapter_resolvesection",
+      "community": 0,
+      "norm_label": "resolvesection()"
     },
     {
       "label": "toImages()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L60",
+      "source_location": "L126",
       "id": "productadapter_toimages",
-      "community": 2,
+      "community": 0,
       "norm_label": "toimages()"
     },
     {
       "label": "toVariants()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L67",
+      "source_location": "L133",
       "id": "productadapter_tovariants",
-      "community": 2,
+      "community": 0,
       "norm_label": "tovariants()"
     },
     {
-      "label": "find()",
+      "label": "toIdentifier()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L83",
-      "id": "productadapter_find",
-      "community": 2,
-      "norm_label": "find()"
+      "source_location": "L148",
+      "id": "productadapter_toidentifier",
+      "community": 0,
+      "norm_label": "toidentifier()"
+    },
+    {
+      "label": "indexByIdentifier()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L152",
+      "id": "productadapter_indexbyidentifier",
+      "community": 0,
+      "norm_label": "indexbyidentifier()"
     },
     {
       "label": "readText()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L93",
+      "source_location": "L165",
       "id": "productadapter_readtext",
-      "community": 2,
+      "community": 0,
       "norm_label": "readtext()"
     },
     {
       "label": "readBoolean()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L100",
+      "source_location": "L172",
       "id": "productadapter_readboolean",
-      "community": 2,
+      "community": 0,
       "norm_label": "readboolean()"
     },
     {
       "label": "readJson()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L108",
+      "source_location": "L177",
       "id": "productadapter_readjson",
-      "community": 2,
+      "community": 0,
       "norm_label": "readjson()"
+    },
+    {
+      "label": "isRecord()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L193",
+      "id": "productadapter_isrecord",
+      "community": 0,
+      "norm_label": "isrecord()"
+    },
+    {
+      "label": "readFieldValue()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L198",
+      "id": "productadapter_readfieldvalue",
+      "community": 0,
+      "norm_label": "readfieldvalue()"
     },
     {
       "label": "index.ts",
@@ -1512,7 +1899,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/useCases/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_product_usecases_index_ts",
-      "community": 76,
+      "community": 85,
       "norm_label": "index.ts"
     },
     {
@@ -1521,7 +1908,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/useCases/useProductGetList.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_product_usecases_useproductgetlist_ts",
-      "community": 1,
+      "community": 10,
       "norm_label": "useproductgetlist.ts"
     },
     {
@@ -1530,7 +1917,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/useCases/useProductGetList.ts",
       "source_location": "L8",
       "id": "useproductgetlist_useproductgetlist",
-      "community": 1,
+      "community": 10,
       "norm_label": "useproductgetlist()"
     },
     {
@@ -1539,7 +1926,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/useCases/useProductGetDetail.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_domain_product_usecases_useproductgetdetail_ts",
-      "community": 22,
+      "community": 26,
       "norm_label": "useproductgetdetail.ts"
     },
     {
@@ -1548,7 +1935,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/useCases/useProductGetDetail.ts",
       "source_location": "L7",
       "id": "useproductgetdetail_useproductgetdetail",
-      "community": 22,
+      "community": 26,
       "norm_label": "useproductgetdetail()"
     },
     {
@@ -1557,17 +1944,26 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/Router.tsx",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_routes_router_tsx",
-      "community": 23,
+      "community": 9,
       "norm_label": "router.tsx"
     },
     {
       "label": "Router()",
       "file_type": "code",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/Router.tsx",
-      "source_location": "L7",
+      "source_location": "L9",
       "id": "router_router",
-      "community": 23,
+      "community": 9,
       "norm_label": "router()"
+    },
+    {
+      "label": "navigationTheme()",
+      "file_type": "code",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/Router.tsx",
+      "source_location": "L27",
+      "id": "router_navigationtheme",
+      "community": 9,
+      "norm_label": "navigationtheme()"
     },
     {
       "label": "index.ts",
@@ -1575,7 +1971,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/index.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_routes_index_ts",
-      "community": 77,
+      "community": 86,
       "norm_label": "index.ts"
     },
     {
@@ -1602,7 +1998,7 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/types/navigationTypes.ts",
       "source_location": "L1",
       "id": "users_fernandohenrique_desktop_projects_poc_src_routes_types_navigationtypes_ts",
-      "community": 78,
+      "community": 87,
       "norm_label": "navigationtypes.ts"
     }
   ],
@@ -1623,7 +2019,19 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L36",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_ios_fuego_appdelegate_swift",
+      "_tgt": "appdelegate_scenedelegate",
+      "source": "users_fernandohenrique_desktop_projects_poc_ios_fuego_appdelegate_swift",
+      "target": "appdelegate_scenedelegate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L67",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_ios_fuego_appdelegate_swift",
       "_tgt": "appdelegate_reactnativedelegate",
@@ -1659,7 +2067,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L13",
+      "source_location": "L17",
       "weight": 1.0,
       "_src": "appdelegate_appdelegate",
       "_tgt": "appdelegate_appdelegate_application",
@@ -1668,10 +2076,22 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "appdelegate_scenedelegate",
+      "_tgt": "uiresponder",
+      "source": "uiresponder",
+      "target": "appdelegate_scenedelegate",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L17",
+      "source_location": "L21",
       "weight": 1.0,
       "_src": "appdelegate_appdelegate_application",
       "_tgt": "appdelegate_reactnativedelegate",
@@ -1683,7 +2103,31 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L36",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "appdelegate_scenedelegate",
+      "_tgt": "uiwindowscenedelegate",
+      "source": "appdelegate_scenedelegate",
+      "target": "uiwindowscenedelegate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_src": "appdelegate_scenedelegate",
+      "_tgt": "appdelegate_scenedelegate_scene",
+      "source": "appdelegate_scenedelegate",
+      "target": "appdelegate_scenedelegate_scene",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
+      "source_location": "L67",
       "weight": 1.0,
       "_src": "appdelegate_reactnativedelegate",
       "_tgt": "rctdefaultreactnativefactorydelegate",
@@ -1695,7 +2139,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L37",
+      "source_location": "L68",
       "weight": 1.0,
       "_src": "appdelegate_reactnativedelegate",
       "_tgt": "appdelegate_reactnativedelegate_sourceurl",
@@ -1707,7 +2151,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L41",
+      "source_location": "L72",
       "weight": 1.0,
       "_src": "appdelegate_reactnativedelegate",
       "_tgt": "appdelegate_reactnativedelegate_bundleurl",
@@ -1719,7 +2163,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/ios/Fuego/AppDelegate.swift",
-      "source_location": "L38",
+      "source_location": "L69",
       "weight": 1.0,
       "_src": "appdelegate_reactnativedelegate_sourceurl",
       "_tgt": "appdelegate_reactnativedelegate_bundleurl",
@@ -1788,22 +2232,10 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports_from",
-      "confidence": "EXTRACTED",
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L19",
-      "weight": 1.0,
-      "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
-      "_tgt": "users_fernandohenrique_desktop_projects_poc_scripts_catalog_mjs",
-      "source": "users_fernandohenrique_desktop_projects_poc_scripts_catalog_mjs",
-      "target": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L30",
+      "source_location": "L48",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_main",
@@ -1815,7 +2247,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L69",
+      "source_location": "L92",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_upsertproduct",
@@ -1827,7 +2259,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L89",
+      "source_location": "L117",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_toproductinput",
@@ -1839,7 +2271,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L113",
+      "source_location": "L152",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_tovariant",
@@ -1851,7 +2283,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L131",
+      "source_location": "L171",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_tometafields",
@@ -1863,7 +2295,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L140",
+      "source_location": "L180",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_setcollectionimage",
@@ -1875,7 +2307,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L173",
+      "source_location": "L222",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_publish",
@@ -1887,7 +2319,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L194",
+      "source_location": "L245",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_restylephoto",
@@ -1899,7 +2331,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L234",
+      "source_location": "L299",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_findcollectionids",
@@ -1911,7 +2343,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L253",
+      "source_location": "L320",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_findpublicationid",
@@ -1923,7 +2355,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L264",
+      "source_location": "L337",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_admin",
@@ -1935,7 +2367,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L287",
+      "source_location": "L360",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_tooptionvalue",
@@ -1947,7 +2379,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L291",
+      "source_location": "L364",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
       "_tgt": "seed_catalog_formaterror",
@@ -1959,31 +2391,55 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L295",
+      "source_location": "L369",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
-      "_tgt": "seed_catalog_requireenv",
+      "_tgt": "seed_catalog_storedomain",
       "source": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
-      "target": "seed_catalog_requireenv",
+      "target": "seed_catalog_storedomain",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
+      "source_location": "L373",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
+      "_tgt": "seed_catalog_requiremerchant",
+      "source": "users_fernandohenrique_desktop_projects_poc_scripts_seed_catalog_mjs",
+      "target": "seed_catalog_requiremerchant",
       "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L31",
+      "source_location": "L49",
       "weight": 1.0,
       "_src": "seed_catalog_main",
-      "_tgt": "seed_catalog_requireenv",
+      "_tgt": "seed_catalog_requiremerchant",
       "source": "seed_catalog_main",
-      "target": "seed_catalog_requireenv",
+      "target": "seed_catalog_requiremerchant",
       "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L33",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "seed_catalog_main",
+      "_tgt": "seed_catalog_storedomain",
+      "source": "seed_catalog_main",
+      "target": "seed_catalog_storedomain",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
+      "source_location": "L54",
       "weight": 1.0,
       "_src": "seed_catalog_main",
       "_tgt": "seed_catalog_findpublicationid",
@@ -1995,7 +2451,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L36",
+      "source_location": "L57",
       "weight": 1.0,
       "_src": "seed_catalog_main",
       "_tgt": "seed_catalog_findcollectionids",
@@ -2007,7 +2463,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L39",
+      "source_location": "L60",
       "weight": 1.0,
       "_src": "seed_catalog_main",
       "_tgt": "seed_catalog_upsertproduct",
@@ -2019,7 +2475,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L40",
+      "source_location": "L61",
       "weight": 1.0,
       "_src": "seed_catalog_main",
       "_tgt": "seed_catalog_publish",
@@ -2031,7 +2487,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L47",
+      "source_location": "L68",
       "weight": 1.0,
       "_src": "seed_catalog_main",
       "_tgt": "seed_catalog_restylephoto",
@@ -2043,7 +2499,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L54",
+      "source_location": "L75",
       "weight": 1.0,
       "_src": "seed_catalog_main",
       "_tgt": "seed_catalog_setcollectionimage",
@@ -2055,7 +2511,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L70",
+      "source_location": "L93",
       "weight": 1.0,
       "_src": "seed_catalog_upsertproduct",
       "_tgt": "seed_catalog_admin",
@@ -2067,7 +2523,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L77",
+      "source_location": "L102",
       "weight": 1.0,
       "_src": "seed_catalog_upsertproduct",
       "_tgt": "seed_catalog_toproductinput",
@@ -2079,7 +2535,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L104",
+      "source_location": "L140",
       "weight": 1.0,
       "_src": "seed_catalog_toproductinput",
       "_tgt": "seed_catalog_tometafields",
@@ -2091,7 +2547,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L109",
+      "source_location": "L148",
       "weight": 1.0,
       "_src": "seed_catalog_toproductinput",
       "_tgt": "seed_catalog_tovariant",
@@ -2103,7 +2559,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L141",
+      "source_location": "L181",
       "weight": 1.0,
       "_src": "seed_catalog_setcollectionimage",
       "_tgt": "seed_catalog_admin",
@@ -2115,7 +2571,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L174",
+      "source_location": "L223",
       "weight": 1.0,
       "_src": "seed_catalog_publish",
       "_tgt": "seed_catalog_admin",
@@ -2127,7 +2583,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L195",
+      "source_location": "L246",
       "weight": 1.0,
       "_src": "seed_catalog_restylephoto",
       "_tgt": "seed_catalog_admin",
@@ -2139,7 +2595,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
-      "source_location": "L254",
+      "source_location": "L321",
       "weight": 1.0,
       "_src": "seed_catalog_findpublicationid",
       "_tgt": "seed_catalog_admin",
@@ -2155,15 +2611,27 @@
       "source_location": "L255",
       "weight": 1.0,
       "_src": "seed_catalog_findpublicationid",
-      "_tgt": "productadapter_find",
+      "_tgt": "brandstoryadapter_find",
       "source": "seed_catalog_findpublicationid",
-      "target": "productadapter_find"
+      "target": "brandstoryadapter_find"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/scripts/seed-catalog.mjs",
+      "source_location": "L339",
+      "weight": 1.0,
+      "_src": "seed_catalog_admin",
+      "_tgt": "seed_catalog_storedomain",
+      "source": "seed_catalog_admin",
+      "target": "seed_catalog_storedomain",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/App.tsx",
-      "source_location": "L11",
+      "source_location": "L12",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_app_tsx",
       "_tgt": "app_app",
@@ -2172,10 +2640,34 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/App.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_src": "app_app",
+      "_tgt": "activemerchant_useactivemerchantid",
+      "source": "app_app",
+      "target": "activemerchant_useactivemerchantid"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
-      "source_location": "L11",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "_tgt": "merchantconfig_merchantconfig",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "target": "merchantconfig_merchantconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L22",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
       "_tgt": "merchantconfig_getmerchantconfig",
@@ -2186,20 +2678,272 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchants/northstar.ts",
-      "source_location": "L42",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L36",
       "weight": 1.0,
-      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchants_northstar_ts",
-      "_tgt": "northstar_requireenv",
-      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchants_northstar_ts",
-      "target": "northstar_requireenv",
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "_tgt": "merchantconfig_merchantlayout",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "target": "merchantconfig_merchantlayout",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "_tgt": "merchantconfig_homefooterstory",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "target": "merchantconfig_homefooterstory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "_tgt": "merchantconfig_productdetailareas",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "target": "merchantconfig_productdetailareas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L90",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "_tgt": "merchantconfig_assertcredentials",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "target": "merchantconfig_assertcredentials",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L111",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "_tgt": "merchantconfig_declaredareas",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "target": "merchantconfig_declaredareas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L117",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "_tgt": "merchantconfig_hasblocks",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_merchantconfig_ts",
+      "target": "merchantconfig_hasblocks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "merchantconfig_merchantconfig",
+      "_tgt": "merchantconfig_getmerchantconfig",
+      "source": "merchantconfig_merchantconfig",
+      "target": "merchantconfig_getmerchantconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "merchantconfig_merchantlayout",
+      "_tgt": "merchantconfig_merchantconfig",
+      "source": "merchantconfig_merchantconfig",
+      "target": "merchantconfig_merchantlayout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_src": "merchantconfig_homefooterstory",
+      "_tgt": "merchantconfig_merchantconfig",
+      "source": "merchantconfig_merchantconfig",
+      "target": "merchantconfig_homefooterstory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_src": "merchantconfig_productdetailareas",
+      "_tgt": "merchantconfig_merchantconfig",
+      "source": "merchantconfig_merchantconfig",
+      "target": "merchantconfig_productdetailareas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "merchantconfig_merchantconfig",
+      "_tgt": "activemerchant_getactivemerchantid",
+      "source": "merchantconfig_merchantconfig",
+      "target": "activemerchant_getactivemerchantid"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/theme.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_src": "merchantconfig_merchantconfig",
+      "_tgt": "theme_buildtheme",
+      "source": "merchantconfig_merchantconfig",
+      "target": "theme_buildtheme"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/client.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "merchantconfig_merchantconfig",
+      "_tgt": "client_request",
+      "source": "merchantconfig_merchantconfig",
+      "target": "client_request"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_src": "merchantconfig_getmerchantconfig",
+      "_tgt": "merchantconfig_assertcredentials",
+      "source": "merchantconfig_getmerchantconfig",
+      "target": "merchantconfig_assertcredentials",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/useCases/useBrandStoryGetDetail.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "merchantconfig_homefooterstory",
+      "_tgt": "usebrandstorygetdetail_usebrandstorygetdetail",
+      "source": "merchantconfig_homefooterstory",
+      "target": "usebrandstorygetdetail_usebrandstorygetdetail"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/merchantConfig.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_src": "merchantconfig_productdetailareas",
+      "_tgt": "merchantconfig_declaredareas",
+      "source": "merchantconfig_productdetailareas",
+      "target": "merchantconfig_declaredareas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_src": "merchantconfig_productdetailareas",
+      "_tgt": "productadapter_tocontent",
+      "source": "merchantconfig_productdetailareas",
+      "target": "productadapter_tocontent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/activeMerchant.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_activemerchant_ts",
+      "_tgt": "activemerchant_getactivemerchantid",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_activemerchant_ts",
+      "target": "activemerchant_getactivemerchantid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/activeMerchant.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_activemerchant_ts",
+      "_tgt": "activemerchant_setactivemerchant",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_activemerchant_ts",
+      "target": "activemerchant_setactivemerchant",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/activeMerchant.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_activemerchant_ts",
+      "_tgt": "activemerchant_useactivemerchantid",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_activemerchant_ts",
+      "target": "activemerchant_useactivemerchantid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/config/merchant/activeMerchant.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_activemerchant_ts",
+      "_tgt": "activemerchant_subscribe",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_config_merchant_activemerchant_ts",
+      "target": "activemerchant_subscribe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/MerchantSwitch.tsx",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_src": "activemerchant_getactivemerchantid",
+      "_tgt": "merchantswitch_merchantswitch",
+      "source": "activemerchant_getactivemerchantid",
+      "target": "merchantswitch_merchantswitch"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/utils/priceUtils.ts",
-      "source_location": "L7",
+      "source_location": "L4",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_utils_priceutils_ts",
       "_tgt": "priceutils_formatprice",
@@ -2211,24 +2955,12 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/ProductListScreen.tsx",
-      "source_location": "L12",
+      "source_location": "L10",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_screens_productlistscreen_productlistscreen_tsx",
       "_tgt": "productlistscreen_productlistscreen",
       "source": "users_fernandohenrique_desktop_projects_poc_src_screens_productlistscreen_productlistscreen_tsx",
       "target": "productlistscreen_productlistscreen",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/ProductListScreen.tsx",
-      "source_location": "L73",
-      "weight": 1.0,
-      "_src": "users_fernandohenrique_desktop_projects_poc_src_screens_productlistscreen_productlistscreen_tsx",
-      "_tgt": "productlistscreen_keyextractor",
-      "source": "users_fernandohenrique_desktop_projects_poc_src_screens_productlistscreen_productlistscreen_tsx",
-      "target": "productlistscreen_keyextractor",
       "confidence_score": 1.0
     },
     {
@@ -2259,7 +2991,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/components/ProductListFeedback.tsx",
-      "source_location": "L14",
+      "source_location": "L10",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_screens_productlistscreen_components_productlistfeedback_tsx",
       "_tgt": "productlistfeedback_productlistfeedback",
@@ -2271,7 +3003,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/ProductListScreen/components/ProductListFeedback.tsx",
-      "source_location": "L69",
+      "source_location": "L65",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_screens_productlistscreen_components_productlistfeedback_tsx",
       "_tgt": "productlistfeedback_tomessage",
@@ -2283,67 +3015,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
-      "source_location": "L13",
+      "source_location": "L31",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_homescreen_tsx",
-      "_tgt": "homescreen_homescreen",
+      "_tgt": "homescreen_openproduct",
       "source": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_homescreen_tsx",
-      "target": "homescreen_homescreen",
+      "target": "homescreen_openproduct",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
-      "source_location": "L70",
+      "source_location": "L35",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_homescreen_tsx",
-      "_tgt": "homescreen_keyextractor",
+      "_tgt": "homescreen_opencollection",
       "source": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_homescreen_tsx",
-      "target": "homescreen_keyextractor",
+      "target": "homescreen_opencollection",
       "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_src": "homescreen_homescreen",
-      "_tgt": "useproductgetlist_useproductgetlist",
-      "source": "homescreen_homescreen",
-      "target": "useproductgetlist_useproductgetlist"
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "_src": "homescreen_homescreen",
-      "_tgt": "usecollectiongetlist_usecollectiongetlist",
-      "source": "homescreen_homescreen",
-      "target": "usecollectiongetlist_usecollectiongetlist"
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/HomeScreen.tsx",
-      "source_location": "L21",
-      "weight": 1.0,
-      "_src": "homescreen_homescreen",
-      "_tgt": "usebrandstorygetdetail_usebrandstorygetdetail",
-      "source": "homescreen_homescreen",
-      "target": "usebrandstorygetdetail_usebrandstorygetdetail"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/SectionNote.tsx",
-      "source_location": "L13",
+      "source_location": "L9",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_components_sectionnote_tsx",
       "_tgt": "sectionnote_sectionnote",
@@ -2355,7 +3051,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/SectionNote.tsx",
-      "source_location": "L23",
+      "source_location": "L19",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_components_sectionnote_tsx",
       "_tgt": "sectionnote_resolve",
@@ -2366,8 +3062,20 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/screens/HomeScreen/components/MerchantSwitch.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_components_merchantswitch_tsx",
+      "_tgt": "merchantswitch_merchantswitch",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_screens_homescreen_components_merchantswitch_tsx",
+      "target": "merchantswitch_merchantswitch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductCard/ProductCard.tsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_components_productcard_productcard_tsx",
       "_tgt": "productcard_productcard",
@@ -2378,20 +3086,56 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductMetadata/ProductMetadata.tsx",
-      "source_location": "L14",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/PressableBox/PressableBox.tsx",
+      "source_location": "L31",
       "weight": 1.0,
-      "_src": "users_fernandohenrique_desktop_projects_poc_src_components_productmetadata_productmetadata_tsx",
-      "_tgt": "productmetadata_productmetadata",
-      "source": "users_fernandohenrique_desktop_projects_poc_src_components_productmetadata_productmetadata_tsx",
-      "target": "productmetadata_productmetadata",
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_components_pressablebox_pressablebox_tsx",
+      "_tgt": "pressablebox_pressablebox",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_components_pressablebox_pressablebox_tsx",
+      "target": "pressablebox_pressablebox",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/StoryCard/StoryCard.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_components_storycard_storycard_tsx",
+      "_tgt": "storycard_storycard",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_components_storycard_storycard_tsx",
+      "target": "storycard_storycard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductGallery/ProductGallery.tsx",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_components_productgallery_productgallery_tsx",
+      "_tgt": "productgallery_onsettled",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_components_productgallery_productgallery_tsx",
+      "target": "productgallery_onsettled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/CollectionCard/CollectionCard.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_components_collectioncard_collectioncard_tsx",
+      "_tgt": "collectioncard_collectioncard",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_components_collectioncard_collectioncard_tsx",
+      "target": "collectioncard_collectioncard",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductBadge/ProductBadge.tsx",
-      "source_location": "L13",
+      "source_location": "L8",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_components_productbadge_productbadge_tsx",
       "_tgt": "productbadge_productbadge",
@@ -2403,7 +3147,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/components/ProductSection/ProductSection.tsx",
-      "source_location": "L19",
+      "source_location": "L14",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_components_productsection_productsection_tsx",
       "_tgt": "productsection_productsection",
@@ -2415,7 +3159,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
-      "source_location": "L11",
+      "source_location": "L7",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_contrast_ts",
       "_tgt": "contrast_pickcontrasttext",
@@ -2427,7 +3171,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
-      "source_location": "L15",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_contrast_ts",
+      "_tgt": "contrast_islight",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_theme_contrast_ts",
+      "target": "contrast_islight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_contrast_ts",
+      "_tgt": "contrast_contrastratio",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_theme_contrast_ts",
+      "target": "contrast_contrastratio",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
+      "source_location": "L27",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_contrast_ts",
       "_tgt": "contrast_relativeluminance",
@@ -2439,7 +3207,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
-      "source_location": "L21",
+      "source_location": "L35",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_contrast_ts",
       "_tgt": "contrast_tochannels",
@@ -2451,13 +3219,37 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
-      "source_location": "L38",
+      "source_location": "L52",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_contrast_ts",
       "_tgt": "contrast_tolinear",
       "source": "users_fernandohenrique_desktop_projects_poc_src_theme_contrast_ts",
       "target": "contrast_tolinear",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "contrast_pickcontrasttext",
+      "_tgt": "contrast_islight",
+      "source": "contrast_pickcontrasttext",
+      "target": "contrast_islight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/theme.ts",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "contrast_pickcontrasttext",
+      "_tgt": "theme_buildtheme",
+      "source": "contrast_pickcontrasttext",
+      "target": "theme_buildtheme"
     },
     {
       "relation": "calls",
@@ -2465,9 +3257,33 @@
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
       "source_location": "L12",
       "weight": 1.0,
-      "_src": "contrast_pickcontrasttext",
+      "_src": "contrast_islight",
       "_tgt": "contrast_relativeluminance",
-      "source": "contrast_pickcontrasttext",
+      "source": "contrast_islight",
+      "target": "contrast_relativeluminance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/theme.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_src": "contrast_islight",
+      "_tgt": "theme_buildtheme",
+      "source": "contrast_islight",
+      "target": "theme_buildtheme"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "contrast_contrastratio",
+      "_tgt": "contrast_relativeluminance",
+      "source": "contrast_contrastratio",
       "target": "contrast_relativeluminance",
       "confidence_score": 1.0
     },
@@ -2475,7 +3291,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
-      "source_location": "L16",
+      "source_location": "L28",
       "weight": 1.0,
       "_src": "contrast_relativeluminance",
       "_tgt": "contrast_tochannels",
@@ -2487,12 +3303,96 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/contrast.ts",
-      "source_location": "L18",
+      "source_location": "L31",
       "weight": 1.0,
       "_src": "contrast_relativeluminance",
       "_tgt": "contrast_tolinear",
       "source": "contrast_relativeluminance",
       "target": "contrast_tolinear",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/lottieTint.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "contrast_tochannels",
+      "_tgt": "lottietint_tintlottie",
+      "source": "contrast_tochannels",
+      "target": "lottietint_tintlottie"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/lottieTint.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_lottietint_ts",
+      "_tgt": "lottietint_tintlottie",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_theme_lottietint_ts",
+      "target": "lottietint_tintlottie",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/lottieTint.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_lottietint_ts",
+      "_tgt": "lottietint_retint",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_theme_lottietint_ts",
+      "target": "lottietint_retint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/lottieTint.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "lottietint_tintlottie",
+      "_tgt": "lottietint_retint",
+      "source": "lottietint_tintlottie",
+      "target": "lottietint_retint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/theme.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_theme_ts",
+      "_tgt": "theme_buildtheme",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_theme_theme_ts",
+      "target": "theme_buildtheme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/theme.ts",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_theme_theme_ts",
+      "_tgt": "theme_assertreadable",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_theme_theme_ts",
+      "target": "theme_assertreadable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/theme/theme.ts",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_src": "theme_buildtheme",
+      "_tgt": "theme_assertreadable",
+      "source": "theme_buildtheme",
+      "target": "theme_assertreadable",
       "confidence_score": 1.0
     },
     {
@@ -2511,6 +3411,18 @@
       "relation": "calls",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/Router.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "useapptheme_useapptheme",
+      "_tgt": "router_router",
+      "source": "useapptheme_useapptheme",
+      "target": "router_router"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/AppStack.tsx",
       "source_location": "L9",
       "weight": 1.0,
@@ -2523,7 +3435,19 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/fragments.ts",
-      "source_location": "L53",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_api_shopify_fragments_ts",
+      "_tgt": "fragments_buildmetafieldselection",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_api_shopify_fragments_ts",
+      "target": "fragments_buildmetafieldselection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/fragments.ts",
+      "source_location": "L55",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_api_shopify_fragments_ts",
       "_tgt": "fragments_buildmetafieldidentifiers",
@@ -2532,10 +3456,22 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/fragments.ts",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_src": "fragments_buildmetafieldselection",
+      "_tgt": "fragments_buildmetafieldidentifiers",
+      "source": "fragments_buildmetafieldselection",
+      "target": "fragments_buildmetafieldidentifiers",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/client.ts",
-      "source_location": "L9",
+      "source_location": "L5",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_api_shopify_client_ts",
       "_tgt": "client_request",
@@ -2547,7 +3483,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/client.ts",
-      "source_location": "L51",
+      "source_location": "L52",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_api_shopify_client_ts",
       "_tgt": "client_shopifyerror",
@@ -2619,7 +3555,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/api/shopify/client.ts",
-      "source_location": "L54",
+      "source_location": "L55",
       "weight": 1.0,
       "_src": "client_shopifyerror",
       "_tgt": "client_shopifyerror_constructor",
@@ -2631,7 +3567,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstoryadapter_ts",
       "_tgt": "brandstoryadapter_tobrandstory",
@@ -2643,7 +3579,19 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
-      "source_location": "L28",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstoryadapter_ts",
+      "_tgt": "brandstoryadapter_find",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstoryadapter_ts",
+      "target": "brandstoryadapter_find",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
+      "source_location": "L37",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstoryadapter_ts",
       "_tgt": "brandstoryadapter_indexbykey",
@@ -2655,7 +3603,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
-      "source_location": "L39",
+      "source_location": "L48",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstoryadapter_ts",
       "_tgt": "brandstoryadapter_readtext",
@@ -2667,7 +3615,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
-      "source_location": "L46",
+      "source_location": "L55",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstoryadapter_ts",
       "_tgt": "brandstoryadapter_readimage",
@@ -2679,7 +3627,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
-      "source_location": "L19",
+      "source_location": "L21",
       "weight": 1.0,
       "_src": "brandstoryadapter_tobrandstory",
       "_tgt": "brandstoryadapter_indexbykey",
@@ -2691,7 +3639,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
-      "source_location": "L22",
+      "source_location": "L24",
       "weight": 1.0,
       "_src": "brandstoryadapter_tobrandstory",
       "_tgt": "brandstoryadapter_readtext",
@@ -2706,6 +3654,18 @@
       "source_location": "L24",
       "weight": 1.0,
       "_src": "brandstoryadapter_tobrandstory",
+      "_tgt": "brandstoryadapter_find",
+      "source": "brandstoryadapter_tobrandstory",
+      "target": "brandstoryadapter_find",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryAdapter.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_src": "brandstoryadapter_tobrandstory",
       "_tgt": "brandstoryadapter_readimage",
       "source": "brandstoryadapter_tobrandstory",
       "target": "brandstoryadapter_readimage",
@@ -2716,24 +3676,36 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryService.ts",
-      "source_location": "L8",
+      "source_location": "L14",
       "weight": 1.0,
       "_src": "brandstoryadapter_tobrandstory",
-      "_tgt": "brandstoryservice_bytype",
+      "_tgt": "brandstoryservice_byblock",
       "source": "brandstoryadapter_tobrandstory",
-      "target": "brandstoryservice_bytype"
+      "target": "brandstoryservice_byblock"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryService.ts",
-      "source_location": "L5",
+      "source_location": "L7",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstoryservice_ts",
-      "_tgt": "brandstoryservice_bytype",
+      "_tgt": "brandstoryservice_byblock",
       "source": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_brandstoryservice_ts",
-      "target": "brandstoryservice_bytype",
+      "target": "brandstoryservice_byblock",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/brandStoryService.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "brandstoryservice_byblock",
+      "_tgt": "brandstoryapi_bytype",
+      "source": "brandstoryservice_byblock",
+      "target": "brandstoryapi_bytype"
     },
     {
       "relation": "contains",
@@ -2751,7 +3723,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/BrandStory/useCases/useBrandStoryGetDetail.ts",
-      "source_location": "L12",
+      "source_location": "L9",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_brandstory_usecases_usebrandstorygetdetail_ts",
       "_tgt": "usebrandstorygetdetail_usebrandstorygetdetail",
@@ -2763,7 +3735,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionApi.ts",
-      "source_location": "L6",
+      "source_location": "L12",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_collectionapi_ts",
       "_tgt": "collectionapi_list",
@@ -2775,7 +3747,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionApi.ts",
-      "source_location": "L10",
+      "source_location": "L18",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_collectionapi_ts",
       "_tgt": "collectionapi_productsbyhandle",
@@ -2787,7 +3759,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionAdapter.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_collectionadapter_ts",
       "_tgt": "collectionadapter_tocollection",
@@ -2799,7 +3771,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionAdapter.ts",
-      "source_location": "L25",
+      "source_location": "L24",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_collectionadapter_ts",
       "_tgt": "collectionadapter_tocollectionlist",
@@ -2811,7 +3783,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionAdapter.ts",
-      "source_location": "L30",
+      "source_location": "L29",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_collectionadapter_ts",
       "_tgt": "collectionadapter_tocollectionproducts",
@@ -2823,7 +3795,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/collectionAdapter.ts",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "_src": "collectionadapter_tocollectionproducts",
       "_tgt": "collectionadapter_tocollection",
@@ -2883,7 +3855,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Collection/useCases/useCollectionGetProducts.ts",
-      "source_location": "L11",
+      "source_location": "L8",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_collection_usecases_usecollectiongetproducts_ts",
       "_tgt": "usecollectiongetproducts_usecollectiongetproducts",
@@ -2979,7 +3951,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L16",
+      "source_location": "L19",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
       "_tgt": "productadapter_toproduct",
@@ -2991,7 +3963,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L29",
+      "source_location": "L32",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
       "_tgt": "productadapter_toproductlist",
@@ -3003,7 +3975,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L33",
+      "source_location": "L36",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
       "_tgt": "productadapter_toproductdetail",
@@ -3015,19 +3987,67 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L42",
+      "source_location": "L44",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
-      "_tgt": "productadapter_tometafields",
+      "_tgt": "productadapter_tocontent",
       "source": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
-      "target": "productadapter_tometafields",
+      "target": "productadapter_tocontent",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L60",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "_tgt": "productadapter_resolveblock",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "target": "productadapter_resolveblock",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "_tgt": "productadapter_resolvebadge",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "target": "productadapter_resolvebadge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L98",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "_tgt": "productadapter_readflaglabel",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "target": "productadapter_readflaglabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L105",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "_tgt": "productadapter_resolvesection",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "target": "productadapter_resolvesection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L126",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
       "_tgt": "productadapter_toimages",
@@ -3039,7 +4059,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L67",
+      "source_location": "L133",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
       "_tgt": "productadapter_tovariants",
@@ -3051,19 +4071,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L83",
+      "source_location": "L148",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
-      "_tgt": "productadapter_find",
+      "_tgt": "productadapter_toidentifier",
       "source": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
-      "target": "productadapter_find",
+      "target": "productadapter_toidentifier",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L93",
+      "source_location": "L152",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "_tgt": "productadapter_indexbyidentifier",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "target": "productadapter_indexbyidentifier",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L165",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
       "_tgt": "productadapter_readtext",
@@ -3075,7 +4107,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L100",
+      "source_location": "L172",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
       "_tgt": "productadapter_readboolean",
@@ -3087,7 +4119,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L108",
+      "source_location": "L177",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
       "_tgt": "productadapter_readjson",
@@ -3096,10 +4128,34 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L193",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "_tgt": "productadapter_isrecord",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "target": "productadapter_isrecord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L198",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "_tgt": "productadapter_readfieldvalue",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_domain_product_productadapter_ts",
+      "target": "productadapter_readfieldvalue",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L23",
+      "source_location": "L26",
       "weight": 1.0,
       "_src": "productadapter_toproduct",
       "_tgt": "productadapter_toimages",
@@ -3111,7 +4167,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L24",
+      "source_location": "L27",
       "weight": 1.0,
       "_src": "productadapter_toproduct",
       "_tgt": "productadapter_tovariants",
@@ -3123,19 +4179,19 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L25",
+      "source_location": "L28",
       "weight": 1.0,
       "_src": "productadapter_toproduct",
-      "_tgt": "productadapter_tometafields",
+      "_tgt": "productadapter_tocontent",
       "source": "productadapter_toproduct",
-      "target": "productadapter_tometafields",
+      "target": "productadapter_tocontent",
       "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L34",
+      "source_location": "L37",
       "weight": 1.0,
       "_src": "productadapter_toproductdetail",
       "_tgt": "productadapter_toproduct",
@@ -3147,11 +4203,59 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_src": "productadapter_tocontent",
+      "_tgt": "productadapter_indexbyidentifier",
+      "source": "productadapter_tocontent",
+      "target": "productadapter_indexbyidentifier",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
       "source_location": "L52",
       "weight": 1.0,
-      "_src": "productadapter_tometafields",
+      "_src": "productadapter_tocontent",
+      "_tgt": "productadapter_resolveblock",
+      "source": "productadapter_tocontent",
+      "target": "productadapter_resolveblock",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_src": "productadapter_tocontent",
+      "_tgt": "productadapter_toidentifier",
+      "source": "productadapter_tocontent",
+      "target": "productadapter_toidentifier",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L72",
+      "weight": 1.0,
+      "_src": "productadapter_resolveblock",
+      "_tgt": "productadapter_resolvebadge",
+      "source": "productadapter_resolveblock",
+      "target": "productadapter_resolvebadge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_src": "productadapter_resolveblock",
       "_tgt": "productadapter_readtext",
-      "source": "productadapter_tometafields",
+      "source": "productadapter_resolveblock",
       "target": "productadapter_readtext",
       "confidence_score": 1.0
     },
@@ -3159,23 +4263,47 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L52",
+      "source_location": "L81",
       "weight": 1.0,
-      "_src": "productadapter_tometafields",
-      "_tgt": "productadapter_find",
-      "source": "productadapter_tometafields",
-      "target": "productadapter_find",
+      "_src": "productadapter_resolveblock",
+      "_tgt": "productadapter_resolvesection",
+      "source": "productadapter_resolveblock",
+      "target": "productadapter_resolvesection",
       "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L55",
+      "source_location": "L91",
       "weight": 1.0,
-      "_src": "productadapter_tometafields",
+      "_src": "productadapter_resolvebadge",
+      "_tgt": "productadapter_readflaglabel",
+      "source": "productadapter_resolvebadge",
+      "target": "productadapter_readflaglabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_src": "productadapter_resolvebadge",
+      "_tgt": "productadapter_readtext",
+      "source": "productadapter_resolvebadge",
+      "target": "productadapter_readtext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L102",
+      "weight": 1.0,
+      "_src": "productadapter_readflaglabel",
       "_tgt": "productadapter_readboolean",
-      "source": "productadapter_tometafields",
+      "source": "productadapter_readflaglabel",
       "target": "productadapter_readboolean",
       "confidence_score": 1.0
     },
@@ -3183,12 +4311,36 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
-      "source_location": "L56",
+      "source_location": "L109",
       "weight": 1.0,
-      "_src": "productadapter_tometafields",
+      "_src": "productadapter_resolvesection",
       "_tgt": "productadapter_readjson",
-      "source": "productadapter_tometafields",
+      "source": "productadapter_resolvesection",
       "target": "productadapter_readjson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L157",
+      "weight": 1.0,
+      "_src": "productadapter_indexbyidentifier",
+      "_tgt": "productadapter_toidentifier",
+      "source": "productadapter_toidentifier",
+      "target": "productadapter_indexbyidentifier",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/domain/Product/productAdapter.ts",
+      "source_location": "L187",
+      "weight": 1.0,
+      "_src": "productadapter_readjson",
+      "_tgt": "productadapter_isrecord",
+      "source": "productadapter_readjson",
+      "target": "productadapter_isrecord",
       "confidence_score": 1.0
     },
     {
@@ -3219,12 +4371,24 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/Router.tsx",
-      "source_location": "L7",
+      "source_location": "L9",
       "weight": 1.0,
       "_src": "users_fernandohenrique_desktop_projects_poc_src_routes_router_tsx",
       "_tgt": "router_router",
       "source": "users_fernandohenrique_desktop_projects_poc_src_routes_router_tsx",
       "target": "router_router",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/fernandohenrique/Desktop/projects/POC/src/routes/Router.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_src": "users_fernandohenrique_desktop_projects_poc_src_routes_router_tsx",
+      "_tgt": "router_navigationtheme",
+      "source": "users_fernandohenrique_desktop_projects_poc_src_routes_router_tsx",
+      "target": "router_navigationtheme",
       "confidence_score": 1.0
     },
     {

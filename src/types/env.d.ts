@@ -1,11 +1,6 @@
-declare module 'react-native-config' {
-  /**
-   * Keys mirror `.env.example`. Values are strings or `undefined` — a missing key is a
-   * misconfigured build, not a crash; the merchant config layer decides what to do.
-   */
+declare module "react-native-config" {
+  /** Read at build time: a new key needs a rebuild, not a reload. */
   export interface NativeConfig {
-    SHOPIFY_STORE_DOMAIN?: string;
-    SHOPIFY_STOREFRONT_TOKEN?: string;
     SHOPIFY_API_VERSION?: string;
   }
 

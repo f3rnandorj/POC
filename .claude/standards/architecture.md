@@ -26,7 +26,7 @@ Screen
 | Queries | Hold the GraphQL documents + fragments | Anything else |
 | Client | `graphql-request`/axios instance + Storefront headers | Domain knowledge |
 | Components | Presentational, Restyle-themed | Business logic, Shopify types |
-| Config (`src/config/merchant`) | Per-merchant credentials, theme overrides, feature flags | Logic |
+| Config (`src/config/merchant`) | Per-merchant credentials, theme override, and the **content block declaration**: which blocks exist, their Shopify source, their slot, order and labels | Logic. A declaration is data — the moment config needs a branch, a kind is missing and that is a platform change |
 
 **Boundary gate (enforced in `pre-edit-validate.sh`):** nothing under `src/screens/` or `src/components/` may import from `@api/shopify` or reference a Storefront-shaped type (`*Api`, `edges`, `node`). UI talks to the domain model only.
 
@@ -47,8 +47,8 @@ src/
       productQueries.ts          ← GraphQL documents
       productApi.ts              ← raw calls only
       productService.ts          ← transforms + delegates; singleton object export
-      productAdapter.ts          ← Storefront payload → Product (pure fns, owns metafield mapping)
-      productTypes.ts            ← Product, ProductVariant, ProductMetafields + *Api raw types
+      productAdapter.ts          ← Storefront payload → Product; resolves the merchant's blocks
+      productTypes.ts            ← Product, ProductVariant, ProductContent + *Api raw types
       useCases/
         useProductGetList.ts       ← domain FIRST, verb after
         useProductGetDetail.ts
@@ -82,15 +82,17 @@ src/
       ProductCard.tsx
     ProductBadge/
       ProductBadge.tsx
-    ProductMetadata/
-      ProductMetadata.tsx
+    ContentBlocks/
+      ContentBlocks.tsx          ← one area of resolved blocks → primitives; null on an empty area
     {Name}/
       {Name}.tsx                 ← no index.ts in a single-file component folder
     index.ts                     ← SINGLE root barrel re-exporting every component
   config/
     merchant/
-      merchantConfig.ts          ← active merchant: credentials + theme + features
-      merchantTypes.ts
+      merchantConfig.ts          ← active merchant + derived `productDetailAreas` / `homeFooterStory`
+      merchantTypes.ts           ← `screens` → areas; each area's element type is what it accepts
+      merchants/
+        {merchant}.ts            ← one file per merchant: credentials, theme, layout, screens
       index.ts
     index.ts
   theme/
@@ -155,4 +157,4 @@ The atomic unit is **domain + its useCases** and **screen + its components**. Th
 
 ## Principle
 
-Screens are thin. Services are pure delegation. **Adapters own all mapping — including every metafield.** UseCase hooks are the only React Query entry point.
+Screens are thin. Services are pure delegation. **Adapters own all mapping — including resolving every merchant block.** UseCase hooks are the only React Query entry point. Screens render slots, never concepts.

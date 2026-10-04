@@ -1,6 +1,6 @@
-import { productAdapter } from './productAdapter';
-import { productApi } from './productApi';
-import type { Product } from './productTypes';
+import { productAdapter } from "./productAdapter";
+import { productApi } from "./productApi";
+import type { Product } from "./productTypes";
 
 const DEFAULT_LIST_SIZE = 20;
 

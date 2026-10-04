@@ -11,8 +11,8 @@ When reviewing code and a security gap appears (secret in a tracked file, token 
 ## The Storefront token — the one real secret here
 
 - The Storefront access token is a **public, read-only** token. It is not a server secret, but it is still a credential: it identifies the merchant's store and can be rate-limited or abused if scraped.
-- **Never in a tracked file.** It lives in `.env` (gitignored) and reaches the app through `react-native-config` (or `react-native-dotenv`), consumed once in `src/config/merchant/merchantConfig.ts`.
-- `.env.example` is tracked and holds **key names only**, no values.
+- **Never in a tracked file.** It lives in `.env` (gitignored) and reaches the app through `react-native-config`, consumed only in `src/config/merchant/merchants/{merchant}.ts` — one prefixed key pair per merchant (`NORTHSTAR_STOREFRONT_TOKEN`), declared in `config/merchant/merchantEnv.d.ts`. `merchantConfig.ts` validates the **selected** merchant's credentials at startup and names only the missing keys, never a value.
+- `.env.example` is tracked and holds **key names only**, no values. `react-native-config` reads it at build time: a new key needs a rebuild, not a reload.
 - Scope it: create the Storefront token with only the `unauthenticated_read_product_listings` / `unauthenticated_read_product_tags` scopes the app needs. Never reuse an Admin API token in the app — that one grants writes and must never reach a device.
 - A token committed by accident is **rotated in the Shopify admin**, not just removed from the tree. `gitleaks` scans history; `check-security.sh` runs it.
 
@@ -41,4 +41,15 @@ When reviewing code and a security gap appears (secret in a tracked file, token 
 
 ## Static gate
 
-`bash .claude/scripts/check-security.sh` — gitleaks (secrets, tree + history) + `yarn/npm audit` (high) + semgrep (ERROR). A missing scanner **fails** the run: a gate that ran nothing is not a clean gate. Suppressions in `.gitleaks.toml` / `.semgrepignore` each carry a WHY comment.
+`bash .claude/scripts/check-security.sh` — gitleaks (secrets, tree + history) + `yarn audit` + semgrep (ERROR). Roda no `.husky/pre-push`, junto do `tsc --noEmit`. A missing scanner **fails** the run: a gate that ran nothing is not a clean gate. Suppressions in `.gitleaks.toml` / `.semgrepignore` each carry a WHY comment.
+
+**Dependency advisories — bloqueia o corrigível, reporta o resto.** `audit-gate.js` lê o `yarn audit --json` e separa high/critical pelo campo `patched_versions`:
+
+| Situação | Gate |
+|---|---|
+| Patch disponível e não aplicado | **falha** o push — é trabalho nosso |
+| `patched_versions: "<0.0.0"` (nenhuma release conserta) | **avisa** e passa |
+
+Travar o push num advisory que ninguém pode consertar não aumenta a segurança: ensina a usar `--no-verify`, e aí o gate inteiro deixa de existir. A política auto-cicatriza — no dia em que o upstream publicar o patch, o advisory muda de lista e volta a bloquear, sem ninguém precisar lembrar de remover uma supressão. **Nunca** há allowlist de ID: um advisory nomeado à mão apodrece em silêncio.
+
+Caso corrente: `braces` #1240992 (high, DoS por regex) entra via `react-native → @react-native/community-cli-plugin → metro`. Metro é bundler de build, não embarca no app, e não existe versão corrigida. Verificar a política com `node .claude/scripts/audit-gate.js --self-check`.

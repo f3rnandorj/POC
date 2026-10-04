@@ -1,75 +1,88 @@
-import { FlatList } from 'react-native';
+import { FlatList } from "react-native";
 
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CollectionCard, Screen, screenGutter, StoryCard } from "@components";
+import { merchantLayout } from "@config";
+import type { Collection } from "@domain";
+import {
+  useBrandStoryGetDetail,
+  useCollectionGetList,
+  useProductGetList,
+} from "@domain";
+import type { AppScreenProps } from "@routes";
 
-import { Box, CollectionCard, StoryCard } from '@components';
-import type { Collection } from '@domain';
-import { useBrandStoryGetDetail, useCollectionGetList, useProductGetList } from '@domain';
-import type { AppScreenProps } from '@routes';
+import { HomeHeader } from "./components/HomeHeader";
+import { MerchantSwitch } from "./components/MerchantSwitch";
+import { SectionNote } from "./components/SectionNote";
 
-import { HomeHeader } from './components/HomeHeader';
-import { SectionNote } from './components/SectionNote';
-
-export function HomeScreen({ navigation }: AppScreenProps<'Home'>) {
-  const { top } = useSafeAreaInsets();
-  const { products, isLoading: isLoadingProducts, error: productsError } = useProductGetList();
+export function HomeScreen({ navigation }: AppScreenProps<"Home">) {
+  const {
+    products,
+    isLoading: isLoadingProducts,
+    error: productsError,
+  } = useProductGetList();
   const {
     collections,
     isLoading: isLoadingCollections,
     error: collectionsError,
   } = useCollectionGetList();
   const { brandStory } = useBrandStoryGetDetail();
+  const layout = merchantLayout();
 
   function openProduct(handle: string) {
-    navigation.navigate('ProductDetail', { handle });
+    navigation.navigate("ProductDetail", { handle });
   }
 
   function openCollection(collectionHandle: string) {
-    navigation.navigate('ProductList', { collectionHandle });
+    navigation.navigate("ProductList", { collectionHandle });
   }
 
   return (
-    <Box flex={1} backgroundColor="background" style={{ paddingTop: top }}>
+    <Screen title="Shop" headerRight={<MerchantSwitch />}>
       <FlatList
-        data={collections}
-        keyExtractor={keyExtractor}
-        renderItem={({ item }) => <CollectionCard collection={item} onPress={openCollection} />}
+        // `horizontal` draws its row inside the header instead — two vertical scrollers fight.
+        data={layout.collections === "inline" ? collections : EMPTY}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <CollectionCard collection={item} onPress={openCollection} />
+        )}
         ListHeaderComponent={
           <HomeHeader
-            // ponytail: "featured" has no Shopify concept behind it — it is the first N of
-            // the catalog. Point it at a `featured` collection handle in merchantConfig the
-            // day a merchant curates one.
-            products={products.slice(0, FEATURED_COUNT)}
+            // ponytail: the leading row has no Shopify concept behind it — it is the first N of
+            // the catalog. Point it at a curated collection handle in merchantConfig the day a
+            // merchant curates one.
+            products={products.slice(0, LEADING_COUNT)}
+            collections={collections}
+            layout={layout}
             isLoading={isLoadingProducts}
             error={productsError}
             onOpenProduct={openProduct}
-            onOpenAll={() => navigation.navigate('ProductList', {})}
+            onOpenCollection={openCollection}
+            onOpenAll={() => navigation.navigate("ProductList", {})}
           />
         }
         ListEmptyComponent={
-          <SectionNote
-            isLoading={isLoadingCollections}
-            error={collectionsError}
-            emptyText="This store has no published collections."
-          />
-        }
-        ListFooterComponent={
-          <StoryCard
-            title={brandStory?.title}
-            body={brandStory?.description}
-            image={brandStory?.image}
-          />
+          layout.collections === "inline" ? (
+            <SectionNote
+              isLoading={isLoadingCollections}
+              error={collectionsError}
+              emptyText="This store has no published collections."
+            />
+          ) : undefined
         }
         contentContainerStyle={CONTENT}
         showsVerticalScrollIndicator={false}
+        ListFooterComponent={
+          <StoryCard
+            title={brandStory?.title}
+            body={brandStory?.body}
+            image={brandStory?.image}
+          />
+        }
       />
-    </Box>
+    </Screen>
   );
 }
 
-function keyExtractor(collection: Collection) {
-  return collection.id;
-}
-
-const FEATURED_COUNT = 6;
-const CONTENT = { paddingHorizontal: 16, paddingTop: 24, paddingBottom: 32, gap: 16 } as const;
+const LEADING_COUNT = 6;
+const EMPTY: Collection[] = [];
+const CONTENT = { ...screenGutter, paddingBottom: 32, gap: 16 } as const;

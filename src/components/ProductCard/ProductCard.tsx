@@ -1,11 +1,12 @@
-import { Image } from 'react-native';
+import { Image } from "react-native";
 
-import type { Product } from '@domain';
-import { formatPrice } from '@utils';
+import type { Product } from "@domain";
+import { motion } from "@theme";
+import { formatPrice } from "@utils";
 
-import { Box } from '../Box/Box';
-import { PressableBox } from '../PressableBox/PressableBox';
-import { Text } from '../Text/Text';
+import { Box } from "../Box/Box";
+import { PressableBox } from "../PressableBox/PressableBox";
+import { Text } from "../Text/Text";
 
 interface ProductCardProps {
   product: Product;
@@ -16,7 +17,12 @@ export function ProductCard({ product, onPress }: ProductCardProps) {
   const [image] = product.images;
 
   return (
-    <PressableBox flex={1} gap="s8" onPress={() => onPress(product.handle)}>
+    <PressableBox
+      flex={1}
+      gap="s8"
+      entering={motion.cardEnter}
+      onPress={() => onPress(product.handle)}
+    >
       {/* `surface` behind the image keeps the grid from jumping while it loads. */}
       <Box
         backgroundColor="surface"
@@ -45,4 +51,4 @@ export function ProductCard({ product, onPress }: ProductCardProps) {
   );
 }
 
-const FILL = { width: '100%', height: '100%' } as const;
+const FILL = { width: "100%", height: "100%" } as const;

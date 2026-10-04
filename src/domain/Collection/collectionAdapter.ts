@@ -1,7 +1,6 @@
-// Reaches past the Product barrel on purpose: the barrel exports useCases + types only
-// (quick-rule #10), and a collection's nested products must come out of the same mapper the
-// grid already uses — a second `toProduct` here would be the drift that rule exists to stop.
-import { productAdapter } from '../Product/productAdapter';
+// Reaches past the Product barrel on purpose (quick-rule #10): nested products must come out
+// of the same mapper the grid uses, and the barrel exports useCases + types only.
+import { productAdapter } from "../Product/productAdapter";
 
 import type {
   Collection,
@@ -9,7 +8,7 @@ import type {
   CollectionNodeApi,
   CollectionProducts,
   CollectionProductsApi,
-} from './collectionTypes';
+} from "./collectionTypes";
 
 function toCollection(node: CollectionNodeApi): Collection {
   return {
@@ -27,14 +26,18 @@ function toCollectionList(response: CollectionListApi): Collection[] {
 }
 
 /** An unpublished or unknown handle comes back as `collection: null`, not as an error. */
-function toCollectionProducts(response: CollectionProductsApi): CollectionProducts | undefined {
+function toCollectionProducts(
+  response: CollectionProductsApi,
+): CollectionProducts | undefined {
   if (!response.collection) {
     return undefined;
   }
 
   return {
     collection: toCollection(response.collection),
-    products: response.collection.products.edges.map(edge => productAdapter.toProduct(edge.node)),
+    products: response.collection.products.edges.map(edge =>
+      productAdapter.toProduct(edge.node),
+    ),
   };
 }
 

@@ -1,11 +1,21 @@
 {
-  "cSpell.words": ["metaobjects", "shopify"],
-
-  // ESLint is the only writer on save. It runs Prettier as a rule
-  // (`plugin:prettier/recommended`), so a second formatter would just fight it — that is what
-  // silently reflowed files nobody edited.
-  "editor.formatOnSave": false,
-  "editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" },
-  "eslint.format.enable": false,
-  "prettier.enable": false
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "cSpell.words": [
+    "metafield",
+    "Metafield",
+    "metaobject",
+    "metaobjects",
+    "northstar",
+    "shopify"
+  ]
 }

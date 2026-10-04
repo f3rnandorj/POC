@@ -1,2 +1,2 @@
-export * from './useCases';
-export * from './collectionTypes';
+export * from "./useCases";
+export * from "./collectionTypes";

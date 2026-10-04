@@ -1,4 +1,4 @@
-import { Box, PressableBox, Text } from '@components';
+import { Box, PressableBox, Text } from "@components";
 
 interface ProductListFeedbackProps {
   isLoading: boolean;
@@ -7,10 +7,6 @@ interface ProductListFeedbackProps {
   emptyText: string;
 }
 
-/**
- * The three non-content states in one place, all in the project identity: type and
- * accent, never a spinner on white (standards/design.md).
- */
 export function ProductListFeedback({
   isLoading,
   error,
@@ -67,5 +63,5 @@ export function ProductListFeedback({
 }
 
 function toMessage(error: unknown): string {
-  return error instanceof Error ? error.message : 'Could not reach the store.';
+  return error instanceof Error ? error.message : "Could not reach the store.";
 }

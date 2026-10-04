@@ -1,1 +1,1 @@
-export * from './useBrandStoryGetDetail';
+export * from "./useBrandStoryGetDetail";

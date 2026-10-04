@@ -4,6 +4,7 @@
     "types": [],
     "paths": {
       "@api": ["./src/api"],
+      "@assets": ["./src/assets"],
       "@domain": ["./src/domain"],
       "@components": ["./src/components"],
       "@screens": ["./src/screens"],

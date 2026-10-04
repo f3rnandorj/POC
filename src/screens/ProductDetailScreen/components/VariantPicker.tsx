@@ -1,5 +1,5 @@
-import { Box, PressableBox, Text } from '@components';
-import type { ProductVariant } from '@domain';
+import { Box, PressableBox, Text } from "@components";
+import type { ProductVariant } from "@domain";
 
 interface VariantPickerProps {
   variants: ProductVariant[];
@@ -7,14 +7,12 @@ interface VariantPickerProps {
   onSelect: (variantId: string) => void;
 }
 
-/**
- * Owns its own absence, hairline included — the separator lives here and not in the screen,
- * so a product with nothing to choose does not leave a rule hanging under the description
- * (quick-rule #5), the same contract `ProductSection` follows.
- */
-export function VariantPicker({ variants, selectedId, onSelect }: VariantPickerProps) {
-  // A single-variant product arrives from Shopify as "Default Title" — a chip for it is
-  // noise, so the picker renders nothing rather than one meaningless option.
+export function VariantPicker({
+  variants,
+  selectedId,
+  onSelect,
+}: VariantPickerProps) {
+  // A single-variant product arrives from Shopify as "Default Title" — not a real choice.
   if (!hasMeaningfulChoice(variants)) {
     return null;
   }
@@ -48,7 +46,7 @@ function VariantChip({ variant, isSelected, onSelect }: VariantChipProps) {
 
   return (
     <PressableBox
-      backgroundColor={isSelected ? 'accent' : 'surface'}
+      backgroundColor={isSelected ? "accent" : "surface"}
       borderRadius="s2"
       paddingVertical="s8"
       paddingHorizontal="s16"
@@ -56,10 +54,12 @@ function VariantChip({ variant, isSelected, onSelect }: VariantChipProps) {
       disabled={isSoldOut}
       accessibilityRole="button"
       accessibilityState={{ selected: isSelected, disabled: isSoldOut }}
-      accessibilityLabel={isSoldOut ? `${variant.title}, sold out` : variant.title}
+      accessibilityLabel={
+        isSoldOut ? `${variant.title}, sold out` : variant.title
+      }
       onPress={() => onSelect(variant.id)}
     >
-      <Text variant="badge" color={isSelected ? 'accentText' : 'text'}>
+      <Text variant="badge" color={isSelected ? "accentText" : "text"}>
         {variant.title}
       </Text>
       {isSoldOut && (
@@ -72,5 +72,8 @@ function VariantChip({ variant, isSelected, onSelect }: VariantChipProps) {
 }
 
 function hasMeaningfulChoice(variants: ProductVariant[]): boolean {
-  return variants.length > 1 || (variants.length === 1 && variants[0].title !== 'Default Title');
+  return (
+    variants.length > 1 ||
+    (variants.length === 1 && variants[0].title !== "Default Title")
+  );
 }

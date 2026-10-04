@@ -7,13 +7,13 @@
 1. **Stack pin** — React Native CLI + TypeScript, React Navigation, TanStack Query v5, `@shopify/restyle`, axios (or `graphql-request`) for the Storefront call, yarn. No Expo APIs, no `StyleSheet.create`, no Redux.
 2. **Shopify only through the adapter** — screens and components never see a Storefront response. `shopifyApi` → `{domain}Adapter` → domain model → useCase hook → UI. See `shopify.md`.
 3. **GraphQL lives in `{domain}Queries.ts`** — no inline query strings in services, hooks or screens.
-4. **Storefront token comes from config, never hardcoded** — `src/config/merchant/` holds it; no token literal in a tracked file. See `security.md`.
+4. **Storefront token comes from config, never hardcoded** — `src/config/merchant/` holds it; no token literal in a tracked file. See `security.md`. Merchant variation is exactly three things and lives in the same place: credentials, `theme.primaryColor`, and a `screens` map. No feature flags, no concept union, no label map — see `shopify.md`, "Multi-merchant strategy".
 
 ## Metafields & merchant customization
 
-5. **Absent metafield renders nothing** — no `undefined`, no `null`, no "Material: —". The component returns `null` when the value is missing. Non-negotiable.
-6. **No merchant-named code** — `<ProductBadge text={...} />`, never `<NorthstarWinterBadge />`. Merchant identity lives in `merchantConfig`, not in file or component names. See `shopify.md`.
-7. **New metafield = config + adapter + generic component** — adding one must not touch navigation, screens or the Shopify client. Follow `templates/metafield-feature.md`.
+5. **Absent metafield renders nothing** — no `undefined`, no `null`, no "Material: —". A block whose source is absent produces no resolved block, an area that collected nothing is omitted from `content`, and every component returns `null` on a missing value. Non-negotiable.
+6. **No merchant-named and no concept-named code** — `<ProductBadge text={...} />`, never `<NorthstarWinterBadge />`, and no `winterCollection` / `careInstructions` identifier outside `config/merchant/`. Merchant identity *and* vocabulary live in the merchant's config file. See `shopify.md`.
+7. **New metafield = one config entry** — a block appended to the array at `screens.{screen}.{area}`, and nothing else. The key path says where it lands and the array index says when, so no block carries a `slot` or an `order`. The word for a position is **area**, never *section*: `labelValueSection` is a block kind you put *in* an area. Touching a type, the adapter, a query or a screen means the *kind* is missing, and a new kind is a platform change, not a merchant one. Follow `templates/metafield-feature.md`.
 
 ## UI
 
@@ -34,7 +34,7 @@
 19. **Graph first** — architecture/impact/exploration questions start at `graphify-out/`, not at Grep. Graph missing or stale → rebuild (`graphify .` / `graphify update .`) then proceed.
 20. **Git write operations need an explicit request from the user** — `git init`, `add`, `commit`, `branch`, `tag`, `push`, PR creation. The AI delivers **one uncommitted batch** and reports what changed; staging and history are the user's step. A PRD acceptance criterion that says "commit" is **not** the user's request — it describes the block's definition of done, and the user still has to ask. Approval for one commit never extends to the next. Not hook-enforced: a guard cannot tell an authorized commit from an unrequested one, so this rule is on the model.
 
-21. **ESLint is the only gate and the only formatter** — `yarn lint` must pass, `yarn lint --fix` is the only thing that reformats. ESLint runs Prettier as a rule (`plugin:prettier/recommended`); no second formatter, no format-on-save from the Prettier extension. A formatting diff in a file the task never touched is a broken setup, not a commit. See `code-style.md`.
+21. **ESLint gates, Prettier formats — and the config is `food-balance`'s, verbatim** — double quotes (`quotes: ['error','double']`), `trailingComma: 'all'`, `arrowParens: 'avoid'`, width 80. `yarn lint` must pass. `eslint-plugin-prettier` is **not** installed: ESLint never reflows code, Prettier does, on save via `esbenp.prettier-vscode`. `.husky/pre-commit` runs the lint, `.husky/pre-push` runs `tsc --noEmit` + `check-security.sh`. A formatting diff in a file the task never touched means the editor disagrees with `.prettierrc.js` — fix the setup, don't commit it. See `code-style.md`.
 
 ## Brain fallback
 

@@ -1,13 +1,15 @@
-import { brandStoryAdapter } from './brandStoryAdapter';
-import { brandStoryApi } from './brandStoryApi';
-import type { BrandStory } from './brandStoryTypes';
+import type { StoryBlock } from "@config";
 
-async function byType(type: string): Promise<BrandStory | undefined> {
-  const response = await brandStoryApi.byType(type);
+import { brandStoryAdapter } from "./brandStoryAdapter";
+import { brandStoryApi } from "./brandStoryApi";
+import type { BrandStory } from "./brandStoryTypes";
 
-  return brandStoryAdapter.toBrandStory(response);
+async function byBlock(block: StoryBlock): Promise<BrandStory | undefined> {
+  const response = await brandStoryApi.byType(block.source.type);
+
+  return brandStoryAdapter.toBrandStory(response, block.source.fields);
 }
 
 export const brandStoryService = {
-  byType,
+  byBlock,
 };
