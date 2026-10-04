@@ -154,8 +154,8 @@ export const PRODUCTS = [
     price: "159.00",
     image: PHOTO.blackDenim,
     sizes: SIZES,
-    // ponytail: the only product priced apart by variant — enough to prove the detail screen
-    // reads the selected variant and not the product's base price.
+    // The only product priced apart by variant — enough to prove the detail screen reads the
+    // selected variant and not the product's base price.
     variantPrices: { XL: "169.00" },
     collections: ["essentials"],
     metafields: {

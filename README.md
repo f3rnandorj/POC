@@ -33,7 +33,8 @@ What actually differs, and where it is declared:
 | | `northstar` | `atlas` | Declared in |
 |---|---|---|---|
 | Palette | near-black base, lime accent | cream and clay, `#F04E23` accent | `theme` |
-| Featured products | two stacked scrolling rows | one scrolling row | `layout.featured` |
+| Product row | two stacked scrolling rows | one scrolling row | `layout.productRow` |
+| Product row heading | `Products` | none — the row runs untitled | `screens.home.productRow` |
 | Collections | a scrolling row of tiles | stacked wide rows | `layout.collections` |
 | Badges | `BEST SELLER` + a boolean flag rendered as `WINTER COLLECTION` | `NEW SEASON` only | `screens.productDetail.badgeRow` |
 | Line under the price | `Organic Cotton` (`custom.material`) | `Washed European Linen` (`custom.fabric_type`) | `screens.productDetail.underPrice` |
@@ -300,7 +301,7 @@ platform change, not a merchant one.
 
 ## Key features
 
-**Product browsing.** Home with featured products, collections and the brand story; a product grid
+**Product browsing.** Home with a product row, collections and the brand story; a product grid
 for the whole catalogue or one collection; and a detail screen with photos, price, description,
 variants and availability. Sold-out variants are visible but not selectable, and picking a variant
 that has its own photo moves the image (or pages the gallery) to it.
@@ -368,7 +369,7 @@ cannot draw — the compiler rejects it. An omitted key is the base arrangement.
 
 | Section | Values | Base |
 |---|---|---|
-| `featured` | `single` — one scrolling row · `double` — two stacked rows, the same products split | `single` |
+| `productRow` | `single` — one scrolling row · `double` — two stacked rows, the same products split | `single` |
 | `collections` | `inline` — stacked wide rows · `horizontal` — one scrolling row of tiles | `inline` |
 | `detail` | `single` — one cover photo · `gallery` — a paged run through every photo | `single` |
 
@@ -457,10 +458,11 @@ photography carrying the screen, type doing the talking, one radius scale and an
 
 ## How to use
 
-1. **Home** — the featured rows, the collections, and the brand story block at the bottom, which
-   comes from a Shopify metaobject rather than a metafield. On `northstar` the featured products
-   come in two stacked scrolling rows and the collections scroll sideways as tiles; on `atlas` it is
-   one featured row and stacked collection banners — same screen, same code.
+1. **Home** — the product rows, the collections, and the brand story block at the bottom, which
+   comes from a Shopify metaobject rather than a metafield. On `northstar` the catalogue comes in
+   two stacked scrolling rows under a `Products` heading and the collections scroll sideways as
+   tiles; on `atlas` it is one untitled row and stacked collection banners — same screen, same
+   code.
 2. Tap **All products**, or a collection, to reach the grid. Same screen in both cases; the
    collection just scopes it.
 3. Tap **Northstar Essential**. This is the fully-populated case: `BEST SELLER` and

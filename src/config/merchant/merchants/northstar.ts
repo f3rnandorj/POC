@@ -12,7 +12,7 @@ export const northstar: MerchantConfig = {
   },
   theme: {},
   layout: {
-    featured: "double",
+    productRow: "double",
     collections: "horizontal",
     detail: "gallery",
   },
@@ -83,6 +83,7 @@ export const northstar: MerchantConfig = {
       ],
     },
     home: {
+      productRow: "Products",
       footer: {
         id: "story",
         kind: "story",

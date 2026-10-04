@@ -27,7 +27,7 @@ export interface MerchantTheme {
 
 /** A closed set: the merchant picks among arrangements the app already knows how to draw. */
 export interface MerchantLayout {
-  featured: "single" | "double";
+  productRow: "single" | "double";
   collections: "inline" | "horizontal";
   detail: "single" | "gallery";
 }
@@ -59,8 +59,13 @@ export interface ProductDetailAreas {
   belowDescription?: (TextLineBlock | LabelValueBlock)[];
 }
 
-/** `footer` is one block, not a list: the Home footer draws a single story card. */
+/**
+ * `productRow` is the heading over the leading product row — a plain string, because the row's
+ * content is the catalog itself and only its name is the merchant's. `footer` is one block, not
+ * a list: the Home footer draws a single story card.
+ */
 export interface HomeAreas {
+  productRow?: string;
   footer?: StoryBlock;
 }
 

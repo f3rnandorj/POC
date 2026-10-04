@@ -566,3 +566,17 @@ screens: {
 **Fica de fora:** o cold start ainda mostra a janela branca por um frame antes do bundle subir. É o mesmo mecanismo mas não tem tema ativo ainda; resolver exige escolher uma cor fixa no `styles.xml`.
 
 **Verificado no emulador em mãos** (`sdk_gphone16k_arm64`, modo claro): push Home→detalhe, push Home→coleção e o pop de volta, sem faixa branca em nenhum frame — a luminância média cai monotônica em vez de dar o pico.
+
+---
+
+## 2026-10-03 — A linha de produtos da Home não se chama "featured", e o nome dela é do lojista
+
+**Decisão:** `layout.featured` virou `layout.productRow`, e o título visível da linha é `screens.home.productRow`, uma string. Northstar declara `"Products"`; atlas não declara e a linha roda sem cabeçalho. Nenhum dado novo vem da loja.
+
+**Por quê.** "Featured" afirmava curadoria que não existe: a linha é `products.slice(0, 6)` da query de catálogo, sem `sortKey` e sem collection por trás. O nome do campo era a única parte do app que mentia sobre a origem do dado. Renomear custou 5 arquivos; implementar curadoria de verdade (collection handle no config, ou `compareAtPrice` para virar linha de ofertas) custaria query + adapter + seed, e ninguém pediu.
+
+**Por que o título é string e não bloco.** As outras áreas de `screens` são listas de blocos porque o conteúdo delas vem de metafield. Aqui o conteúdo é o próprio catálogo — só o nome é do lojista. Bloco com `source` seria modelar um campo que não tem fonte. Chave ausente = sem cabeçalho, igual ao resto do mapa de áreas.
+
+**Efeito de layout:** o título ocupa a esquerda da linha que já tinha o link à direita (`justifyContent` alterna `space-between`/`flex-end` conforme o título existir). O link virou **See all** — com "Products" à esquerda, "All products" à direita lia como duplicata.
+
+**O `ponytail:` continua:** o teto não mudou — a linha ainda é os primeiros N do catálogo, e o upgrade segue sendo um handle de collection no config no dia em que um lojista curar uma.

@@ -37,10 +37,15 @@ export function merchantLayout(): MerchantLayout {
   const { layout } = merchantConfig();
 
   return {
-    featured: layout?.featured ?? "single",
+    productRow: layout?.productRow ?? "single",
     collections: layout?.collections ?? "inline",
     detail: layout?.detail ?? "single",
   };
+}
+
+/** Absent means the row renders with no heading. */
+export function homeProductRowTitle(): string | undefined {
+  return merchantConfig().screens.home?.productRow;
 }
 
 /** Absent means this merchant issues no story query at all. */

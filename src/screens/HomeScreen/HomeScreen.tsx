@@ -1,7 +1,7 @@
 import { FlatList } from "react-native";
 
 import { CollectionCard, Screen, screenGutter, StoryCard } from "@components";
-import { merchantLayout } from "@config";
+import { homeProductRowTitle, merchantLayout } from "@config";
 import type { Collection } from "@domain";
 import {
   useBrandStoryGetDetail,
@@ -47,10 +47,11 @@ export function HomeScreen({ navigation }: AppScreenProps<"Home">) {
         )}
         ListHeaderComponent={
           <HomeHeader
-            // ponytail: the leading row has no Shopify concept behind it — it is the first N of
-            // the catalog. Point it at a curated collection handle in merchantConfig the day a
-            // merchant curates one.
+            // ponytail: the row has no Shopify concept behind it — it is the first N of the
+            // catalog, and the merchant names it. Point it at a curated collection handle in
+            // merchantConfig the day a merchant curates one.
             products={products.slice(0, LEADING_COUNT)}
+            title={homeProductRowTitle()}
             collections={collections}
             layout={layout}
             isLoading={isLoadingProducts}

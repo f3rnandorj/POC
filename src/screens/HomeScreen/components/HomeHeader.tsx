@@ -15,6 +15,7 @@ import { SectionNote } from "./SectionNote";
 
 interface HomeHeaderProps {
   products: Product[];
+  title?: string;
   collections: Collection[];
   layout: MerchantLayout;
   isLoading: boolean;
@@ -26,6 +27,7 @@ interface HomeHeaderProps {
 
 export function HomeHeader({
   products,
+  title,
   collections,
   layout,
   isLoading,
@@ -36,7 +38,7 @@ export function HomeHeader({
 }: HomeHeaderProps) {
   // `double` splits the same products rather than fetching more; an odd count favors row one.
   const rows =
-    layout.featured === "double"
+    layout.productRow === "double"
       ? [
           products.slice(0, Math.ceil(products.length / 2)),
           products.slice(Math.ceil(products.length / 2)),
@@ -46,14 +48,20 @@ export function HomeHeader({
   return (
     <Box gap="s24" paddingBottom="s16">
       <Box gap="s12">
-        <Box flexDirection="row" alignItems="center" justifyContent="flex-end">
+        <Box
+          flexDirection="row"
+          alignItems="center"
+          justifyContent={title ? "space-between" : "flex-end"}
+        >
+          {title ? <Text variant="titleMedium">{title}</Text> : null}
+
           <PressableBox
             accessibilityRole="button"
             accessibilityLabel="See all products"
             onPress={onOpenAll}
           >
             <Text variant="caption" color="accent">
-              All products
+              See all
             </Text>
           </PressableBox>
         </Box>
