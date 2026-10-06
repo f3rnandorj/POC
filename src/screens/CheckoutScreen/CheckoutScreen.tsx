@@ -13,6 +13,7 @@ import type { AppScreenProps } from "@routes";
 
 import {
   completionScript,
+  isCompletionUrl,
   isStoreUrl,
   passwordScript,
   passwordUrl,
@@ -30,12 +31,16 @@ export function CheckoutScreen({ navigation }: AppScreenProps<"Checkout">) {
   // submitted first. An open store has no password declared and starts at the checkout.
   const [isUnlocked, setIsUnlocked] = useState(!storePassword);
   const [hasFailed, setHasFailed] = useState(false);
+  // Where the WebView actually is, so a posted message is judged against the page that sent it.
+  const [currentUrl, setCurrentUrl] = useState("");
 
   if (!cart) {
     return <CheckoutNotice onBack={navigation.goBack} />;
   }
 
   function onNavigate(event: WebViewNavigation) {
+    setCurrentUrl(event.url);
+
     if (!isUnlocked && !event.loading && !event.url.includes("/password")) {
       setIsUnlocked(true);
     }
@@ -44,8 +49,9 @@ export function CheckoutScreen({ navigation }: AppScreenProps<"Checkout">) {
   function onMessage(event: WebViewMessageEvent) {
     const message = readCheckoutMessage(event.nativeEvent.data);
 
-    // The checkout chatters over this bridge; only a completion leaves the screen.
-    if (message.isCompleted) {
+    // The checkout chatters over this bridge, and anything running in the page can post to it.
+    // A completion is only believed from the order status page itself.
+    if (message.isCompleted && isCompletionUrl(currentUrl)) {
       navigation.replace("CheckoutResult", { reference: message.reference });
     }
   }

@@ -57,10 +57,18 @@ export function completionScript(): string {
   `;
 }
 
+/** True only on Shopify's order status page — where a completion may legitimately be claimed. */
+export function isCompletionUrl(url: string): boolean {
+  return COMPLETED_PATTERN.test(url);
+}
+
 /**
  * The checkout page posts messages of its own — `{"checkout_completed":true}` among them — so a
  * message is read, never trusted: anything unrecognised is ignored, and the reference is only
  * ever taken from this app's own payload.
+ *
+ * A payload can still be forged by whatever runs in the page, so the caller pairs this with
+ * `isCompletionUrl`: a completion claimed from anywhere but the order status page is noise.
  */
 export function readCheckoutMessage(data: string): CheckoutMessage {
   const parsed = parseJson(data);
@@ -124,6 +132,7 @@ function toReference(value: unknown): string | undefined {
 const MESSAGE_SOURCE = "fuego-checkout";
 /** Written as source because it is injected into the page, not evaluated here. */
 const COMPLETED_PATTERN_SOURCE = "/(thank[_-]you|\\/orders\\/)/";
+const COMPLETED_PATTERN = /thank[_-]you|\/orders\//;
 /** HTTPS only, no credentials, no backslash: anything else fails closed. */
 const HOST_PATTERN = /^https:\/\/([a-z0-9.-]+)(?::\d+)?(?:[/?#]|$)/i;
 /** Shop Pay, by exact host and below it — never as a bare suffix. */
