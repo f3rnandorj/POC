@@ -31,11 +31,14 @@ When reviewing code and a security gap appears (secret in a tracked file, token 
 
 - Deep links / URL params: validate scheme and host explicitly before acting. A product handle or id from a link is untrusted input — pass it through a shape check before querying.
 - `JSON.parse` on a metafield value is always inside try/catch. A malformed `json` metafield is a merchant data problem, not a crash.
-- Never render merchant HTML in a WebView. `descriptionHtml` is not used in this POC; plain `description` only.
+- Never render merchant HTML in a WebView. `descriptionHtml` is not used in this POC; plain `description` only. The checkout WebView is the one WebView, and it renders **Shopify's** page, not merchant markup: every navigation is host-checked against the active merchant's `storeDomain` plus Shopify-owned hosts, which the checkout's own card field is served from. Anything else is refused.
+- **A host allowlist is parsed strictly and anchored, or it is not an allowlist.** The checkout's check (`isStoreUrl`) requires `https://`, an authority of hostname characters and an optional port, and nothing else — so `user@evil.com` and `evil.com\.shopify.com`, which a browser resolves to `evil.com`, never reach the comparison. Suffixes carry their leading dot (`.shopify.com`), and `shop.app` is an exact host plus `.shop.app`: as a bare suffix it would have matched `evilshop.app`. `.myshopify.com` is **not** in the list — anyone can create a store there, and the merchant's own domain is matched exactly.
+- The **storefront password** is a development-store fact, not a credential for the store's data: it gates the theme, while the Storefront token gates the API. It still lives in `.env` like the token, reaches the app through `react-native-config`, is never rendered and never logged — it is only ever typed into Shopify's own password form by the checkout WebView.
 
 ## Storage & logging
 
-- Nothing sensitive is persisted — this POC has no auth, no user data, no cart server-side. React Query's in-memory cache is enough; do not add a persisted cache "for later".
+- **Exactly one thing is persisted: the active cart id**, in MMKV, keyed by merchant (`cart:{merchantId}`). It is a capability token for one cart — whoever holds it can read and change that cart, and nothing else — which is why it may sit on disk while the Storefront token may not. No line, price or total is stored: they always come back from Shopify.
+- Beyond that, nothing is persisted — no auth, no user data, no response cache. React Query's in-memory cache is enough; do not add a persisted cache "for later".
 - Crash/log tooling (Reactotron, Flipper) is gated on `__DEV__` and never enabled in a release build.
 - Redact `authorization`, `x-shopify-storefront-access-token`, `token`, `secret` in any logger config added later.
 

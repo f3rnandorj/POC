@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Image } from "react-native";
 
 import { Box, ContentBlocks, ProductGallery, Screen, Text } from "@components";
-import { merchantLayout } from "@config";
+import { productDetailLayout } from "@config";
 import { useProductGetDetail } from "@domain";
 import type { AppScreenProps } from "@routes";
 import { formatPrice } from "@utils";
 
+import { AddToCartFooter } from "./components/AddToCartFooter";
 import { ProductDetailFeedback } from "./components/ProductDetailFeedback";
 import { VariantPicker } from "./components/VariantPicker";
 
@@ -40,8 +41,14 @@ export function ProductDetailScreen({
 
   return (
     // No gutter: the screen opens on a full-bleed photo, so the copy below pads itself.
-    <Screen scrollable gutter={false} floatingBack onGoBack={navigation.goBack}>
-      {merchantLayout().detail === "gallery" ? (
+    <Screen
+      scrollable
+      gutter={false}
+      floatingBack
+      onGoBack={navigation.goBack}
+      footer={<AddToCartFooter variant={preselected} />}
+    >
+      {productDetailLayout().media === "gallery" ? (
         <ProductGallery
           images={product.images}
           activeUrl={selected?.image?.url}

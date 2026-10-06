@@ -580,3 +580,87 @@ screens: {
 **Efeito de layout:** o título ocupa a esquerda da linha que já tinha o link à direita (`justifyContent` alterna `space-between`/`flex-end` conforme o título existir). O link virou **See all** — com "Products" à esquerda, "All products" à direita lia como duplicata.
 
 **O `ponytail:` continua:** o teto não mudou — a linha ainda é os primeiros N do catálogo, e o upgrade segue sendo um handle de collection no config no dia em que um lojista curar uma.
+
+---
+
+## 2026-10-06 — PRD 015: o checkout saiu do "fora de escopo", e o carrinho é o da Shopify
+
+**Decisão:** o app passa a ter carrinho e checkout em dev mode. O carrinho é o da Storefront Cart API (`cartCreate`/`cartLinesAdd`/`cartLinesUpdate`/`cartLinesRemove`), e o checkout é o `cart.checkoutUrl` aberto numa WebView. Reimplementar contato, entrega ou pagamento continua fora.
+
+**Por quê.** A linha do README dizia que reimplementar o checkout não prova nada sobre customização de lojista — e isso segue verdade. O que mudou foi o pedido: o usuário quis o fluxo de compra. Usar a página da Shopify mantém o argumento de pé e ainda evita a única coisa que um POC não pode fazer, que é segurar dado de cartão.
+
+**Todo número do carrinho é da loja.** `cost.subtotalAmount` e `cost.totalAmount` por linha vêm da resposta; o device não soma nada. Carrinho local teria transformado cada valor numa afirmação que a loja nunca verificou.
+
+**Medido antes de escrever a PRD** (northstar-poc, 2026-10-06): criar com 2 un. → subtotal 598.00 USD, `userErrors: []`; atualizar para 1 → 299.00; remover → 0.0; id de carrinho inexistente → `cart: null`; variante inválida → `userErrors` preenchido com `cart: null`. Os dois caminhos de falha são os que o service converte em `ShopifyError`.
+
+---
+
+## 2026-10-06 — A página de senha da dev store não se vence com senha na URL, e o `curl` mentiu sobre isso
+
+**Decisão:** a WebView do checkout **submete o formulário** de `/password` antes de carregar o `checkoutUrl`, com a senha vinda do `.env` por lojista (`{MERCHANT}_STORE_PASSWORD`). Chave ausente = nenhum passo de pré-login, e loja sem senha roda pelo mesmo caminho.
+
+**Por quê.** Loja de desenvolvimento não deixa desligar a senha sem plano pago — o toggle "Modo privado" já estava desligado e a loja continuava barrando. O `checkoutUrl` sem cookie termina em `/password`.
+
+**O erro que o teste de controle pegou.** Em `curl`, semear a sessão com qualquer requisição (`/`, `/password`, `/products.json`) abria o checkout — e **com senha errada também**. A conclusão "basta uma navegação de aquecimento" chegou a entrar na PRD e foi revertida: num Chromium de verdade, perfil limpo, o `checkoutUrl` cai em `/password` e só o formulário submetido abre a página (checkout renderizado, com Contact, Delivery, Payment e total 299 USD). Conclusão que só vale no `curl` não é conclusão sobre WebView.
+
+**Gateway:** "Gateway de pagamento de teste" (o antigo Bogus Gateway, renomeado — buscar por "bogus" não acha nada) ativado nas duas lojas. Cartão `1` aprova, `2` recusa, `3` falha no gateway. Shopify Payments test mode não serve: exige setup completo em plano pago.
+
+---
+
+## 2026-10-06 — Persiste só o id do carrinho, e a chave carrega o lojista
+
+**Decisão:** `activeCart.ts` guarda o id em MMKV (`react-native-mmkv` 4 + `react-native-nitro-modules`, peer obrigatório) sob `cart:{merchantId}`. Nada mais vai pro disco.
+
+**Por quê.** O id é um token de capacidade de **um** carrinho — quem o tem lê e altera aquele carrinho e nada além —, não uma credencial da loja. É por isso que ele pode ficar em disco enquanto o token de Storefront não pode. Linhas, preços e totais sempre voltam da Shopify.
+
+**Chave por lojista em vez de limpar na troca.** A chave carrega o `merchantId`, então trocar de loja troca de carrinho em vez de apagar um para criar outro — nenhum vazamento entre lojas, e nenhum passo extra no `MerchantSwitch`. Carrinho que a Shopify já derrubou volta `null`: o hook esquece o id e o próximo add cria outro, em vez de abrir numa tela morta.
+
+**Isso altera `security.md`**, que dizia "nada é persistido". Agora diz exatamente o que é, e por que esse um pode.
+
+---
+
+## 2026-10-06 — Aviso de dev mode é portão, não rodapé — e a copy é do app
+
+**Decisão:** tocar em "Checkout" abre um diálogo antes de qualquer navegação: diz que é loja de desenvolvimento, que o pedido é real e o pagamento não, e lista os cartões de teste. Continuar abre o checkout; cancelar volta ao carrinho intacto. Aparece toda vez.
+
+**Por quê.** Quem recebe a demo não tem outro lugar para descobrir que o pagamento é simulado nem o que digitar no campo de cartão — e é sempre outra pessoa, então "uma vez por sessão" falharia justamente no primeiro uso de cada um.
+
+**Copy do app, não do lojista.** Dev mode é propriedade do build, não vocabulário de loja: nada disso passa por `config/merchant/`. Tratar como conteúdo de lojista teria quebrado a regra que o projeto inteiro sustenta.
+
+**Três componentes compartilhados nasceram aqui:** `Button` (o primeiro do repo), `Dialog` — extraído do `MerchantSwitchDialog`, que passou a usá-lo — e o slot `footer` do `Screen`, com a altura medida por `onLayout` e somada ao `paddingBottom` do scroller, nunca por constante.
+
+---
+
+## 2026-10-06 — Estoque já é real; o que faltava era mostrar o teto
+
+**Decisão:** a linha do carrinho carrega `stockLimit`, vindo de `merchandise.quantityAvailable`, e o `+` desabilita ao chegar nele, com a legenda "All N in stock". Nenhuma validação de quantidade foi escrita no app.
+
+**Por quê.** A Shopify já aplica o teto e **não** devolve erro: pedir 25 de uma variante com 10 devolve `userErrors: []` e um carrinho com 10 (medido). Sem mostrar isso, o `+` parecia quebrado em vez de esgotado — o defeito era de interface, não de regra.
+
+**Zero não é zero.** `quantityAvailable: 0` significa tanto "acabou" quanto "não contado": a Boxy Tee da northstar tem `totalInventory: 0` com `availableForSale: true` nas três variantes, e a atlas inteira roda assim. Por isso só uma contagem **positiva** vira teto — tratar 0 como limite teria bloqueado o carrinho de uma loja que vende sem rastrear estoque. Mesma leitura da ADR de 2026-10-01 ("disponibilidade por rastreamento de inventário, não quantidade"), agora do lado da quantidade.
+
+**Medido** (northstar, com o documento do próprio projeto): variante rastreada, pedido 25 → carrinho 10, `stockLimit` 10, `+` desabilitado; Boxy Tee, pedido 17 → carrinho 17, `stockLimit` ausente, `+` livre. O 17 do print é a loja permitindo, não o app ignorando.
+
+**Quantidade no detalhe (mesmo dia).** A tela de detalhe ganhou stepper e o CTA passa a adicionar a quantidade mostrada. O stepper virou `components/QuantityStepper` — o carrinho tinha um local e agora os dois usam o mesmo, com `min` 0 no carrinho (decremento no 1 é remoção) e 1 no detalhe. O teto é o `stockLimit` da variante selecionada, que entrou em `ProductVariant` pela mesma regra do carrinho: só contagem positiva vira limite. Trocar de variante ou concluir um add volta a quantidade para 1.
+
+**Teto do detalhe é estoque menos carrinho (mesmo dia, defeito achado em uso).** O CTA dizia "Added to cart" mesmo quando a Shopify não adicionava nada, porque o carrinho já estava no limite da variante: o corte vem sem erro e o app anunciava o pedido, não o resultado. Agora o rodapé lê o carrinho (`useCartGetDetail`, já em cache pelo botão da Home), o teto do stepper é `stockLimit − quantidade já no carrinho`, o CTA desabilita quando sobra zero, e a mensagem é calculada pela **diferença** entre o carrinho que voltou e o anterior: adicionou tudo → "Added to cart"; adicionou menos → "Added N — that is all the stock"; adicionou nada → mensagem de erro. Medido: carrinho em 10/10 + pedido de 3 → `userErrors: []` e 0 adicionados; carrinho em 8 + pedido de 5 → 2 adicionados.
+
+**Carrinho é afordância do container, não de cada tela (2026-10-06).** O `CartButton` saiu de `HomeScreen/components` para `components/`, navega sozinho (`useNavigation` + import **type-only** de `@routes`, que não cria ciclo) e é o `Screen` que o desenha: na linha do título quando existe uma, e flutuando à direita — oposto ao back — quando a tela abre em foto sangrada (`floatingBack`). `cartAction={false}` desliga nas telas que já são o carrinho ou estão depois dele. Uma tela nova ganha o controle sem fazer nada, que é a diferença entre container e convenção. A legenda "All N in stock" foi para a linha de baixo na linha do carrinho: ao lado do stepper ela encostava no preço.
+
+**Mensagem de WebView é entrada não confiável (2026-10-06, defeito em uso).** A tela de resultado mostrou `{"checkout_completed":true}` no lugar do número do pedido: o `onMessage` tratava qualquer mensagem como a nossa e renderizava o payload cru. A própria página de checkout da Shopify fala nesse canal. Agora a mensagem é parseada com try/catch, só `source: "fuego-checkout"` carrega referência, a referência precisa casar `#\d{3,}` (string livre vira ausente, e ausente não renderiza nada), e `checkout_completed: true` da Shopify serve só como sinal de conclusão, sem referência. Mesma regra do metafield JSON do lojista, agora para o canal da WebView.
+
+**E a conclusão virou polling.** O script injetado rodava uma vez por load, mas o checkout é documento único: chegar no "thank you" não dispara load novo, então ele nunca rodava lá — o que de fato tirava o app da tela era a mensagem da Shopify. O script agora instala um intervalo de 500ms que vigia a URL e posta uma vez. Verificado com 12 asserções sobre o parser e a allowlist de host, incluindo a string exata que vazou e uma mensagem com `source` forjado.
+
+---
+
+## 2026-10-06 — Layout mora dentro da tela, não num mapa à parte
+
+**Decisão:** `merchantConfig.layout` deixou de existir. Cada tela declara o seu arranjo como **primeira chave** do próprio bloco, antes das áreas: `screens.home.layout = { productRow, collections }` e `screens.productDetail.layout = { media }`. `merchantLayout()` virou `homeLayout()` e `productDetailLayout()`, cada uma resolvendo os defaults da sua tela. `detail: "single" | "gallery"` virou `media`, porque dentro de `productDetail` a chave `detail` não dizia nada.
+
+**Por quê.** O mapa plano exigia que todo arranjo novo fosse registrado num lugar que conhece todas as telas de uma vez — e vêm mais telas. Com a chave dentro da tela, uma tela nova chega inteira: como desenha e o que desenha, lido no mesmo lugar. A declaração de um lojista passa a ser uma lista de telas, e nada mais.
+
+**Consequência no código:** `declaredAreas()` filtra `layout` antes de caminhar pelas áreas — é a única chave da tela que não é área, e nada abaixo precisa saber disso. Filtrado por chave, não por destructuring com rest: a config de lint copiada do `food-balance` rejeita o binding descartado, e listar as áreas na mão quebraria a cada área nova.
+
+**Axes do README caíram de quatro para três** (credenciais, paleta, mapa de telas): layout não é mais um eixo, é o que a tela diz antes de dizer o conteúdo.
+
+**Defeito pego na verificação:** mover o `layout` do northstar sem levar `productRow`/`collections` para `screens.home` derrubou a Home dele para o arranjo base — uma linha só e coleções empilhadas. O print do simulador foi o que mostrou; `tsc` e lint estavam limpos, porque chave ausente é arranjo base por construção.

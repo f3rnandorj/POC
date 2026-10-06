@@ -8,7 +8,7 @@ import {
   screenGutter,
   Text,
 } from "@components";
-import type { MerchantLayout } from "@config";
+import type { HomeLayout } from "@config";
 import type { Collection, Product } from "@domain";
 
 import { SectionNote } from "./SectionNote";
@@ -17,7 +17,7 @@ interface HomeHeaderProps {
   products: Product[];
   title?: string;
   collections: Collection[];
-  layout: MerchantLayout;
+  layout: HomeLayout;
   isLoading: boolean;
   error: unknown;
   onOpenProduct: (handle: string) => void;

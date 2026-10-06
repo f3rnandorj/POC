@@ -76,6 +76,11 @@ a single image shows that image and does not pretend a second one failed to load
 
 ## 4. Catalogue readiness
 
+> **One new thing worth knowing:** the app has a cart and hands off to **your own Shopify
+> checkout**, so your store's settings decide what a shopper can do. If you track inventory on a
+> variant, the cart stops at the quantity you have and says so; if you do not track it, there is no
+> ceiling. Nothing about that is configured here — it is read from your store.
+
 | Question | Your answer |
 |---|---|
 | Roughly how many products should the app show? | `___` |

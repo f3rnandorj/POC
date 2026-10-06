@@ -1,7 +1,7 @@
 import { FlatList } from "react-native";
 
 import { CollectionCard, Screen, screenGutter, StoryCard } from "@components";
-import { homeProductRowTitle, merchantLayout } from "@config";
+import { homeLayout, homeProductRowTitle } from "@config";
 import type { Collection } from "@domain";
 import {
   useBrandStoryGetDetail,
@@ -26,7 +26,7 @@ export function HomeScreen({ navigation }: AppScreenProps<"Home">) {
     error: collectionsError,
   } = useCollectionGetList();
   const { brandStory } = useBrandStoryGetDetail();
-  const layout = merchantLayout();
+  const layout = homeLayout();
 
   function openProduct(handle: string) {
     navigation.navigate("ProductDetail", { handle });

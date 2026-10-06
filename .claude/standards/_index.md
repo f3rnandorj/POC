@@ -19,9 +19,9 @@
 
 | Triggers (keywords matching the prompt) | File |
 |---|---|
-| `shopify`, `storefront`, `graphql`, `metafield`, `metaobject`, `variant`, `collection`, `merchant`, `winter collection`, `care instructions` | `shopify.md` |
+| `shopify`, `storefront`, `graphql`, `metafield`, `metaobject`, `variant`, `collection`, `merchant`, `winter collection`, `care instructions`, `cart`, `checkout`, `stock`, `order` | `shopify.md` |
 | `architecture`, `layer`, `folder`, `domain`, `adapter`, `service`, `use case`, `data flow`, `barrel`, `alias` | `architecture.md` |
-| `screen`, `component`, `navigation`, `react query`, `restyle`, `hook`, `flatlist`, `product card`, `product detail` | `frontend.md` |
+| `screen`, `component`, `navigation`, `react query`, `restyle`, `hook`, `flatlist`, `product card`, `product detail`, `cart`, `checkout`, `dialog`, `button` | `frontend.md` |
 | `design`, `token`, `theme`, `palette`, `typography`, `spacing`, `badge style`, `empty state`, `loading`, `identity` | `design.md` |
 | `token`, `secret`, `.env`, `credential`, `deep link`, `webview`, `log`, `storage` | `security.md` |
 | `naming`, `barrel`, `alias`, `kebab`, `PascalCase`, `file name` | `naming.md` |

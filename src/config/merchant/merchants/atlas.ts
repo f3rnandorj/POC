@@ -9,6 +9,7 @@ export const atlas: MerchantConfig = {
     storeDomain: Config.ATLAS_STORE_DOMAIN ?? "",
     storefrontToken: Config.ATLAS_STOREFRONT_TOKEN ?? "",
     apiVersion: Config.SHOPIFY_API_VERSION ?? "",
+    storePassword: Config.ATLAS_STORE_PASSWORD,
   },
   theme: {
     primaryColor: "#F04E23",
@@ -18,13 +19,20 @@ export const atlas: MerchantConfig = {
     textMuted: "#6B6054",
     border: "#E8D5BE",
   },
-  layout: {
-    detail: "gallery",
-  },
   // No `belowDescription` and no `home` at all: this merchant bought neither, and both areas
   // collapse — the absent case lives in the config, not in a flag.
   screens: {
+    home: {
+      layout: {
+        productRow: "single",
+        collections: "inline",
+      },
+      productRow: "Featured products",
+    },
     productDetail: {
+      layout: {
+        media: "gallery",
+      },
       badgeRow: [
         {
           id: "badge",

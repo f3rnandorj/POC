@@ -135,6 +135,7 @@ function toVariants(node: ProductNodeApi): ProductVariant[] {
     id: edge.node.id,
     title: edge.node.title,
     isAvailable: edge.node.availableForSale,
+    stockLimit: toStockLimit(edge.node.quantityAvailable),
     image: edge.node.image
       ? {
           url: edge.node.image.url,
@@ -142,6 +143,13 @@ function toVariants(node: ProductNodeApi): ProductVariant[] {
         }
       : undefined,
   }));
+}
+
+/** Zero means "not counted" as often as it means "none left", so only a positive count is a cap. */
+function toStockLimit(quantityAvailable?: number | null): number | undefined {
+  return quantityAvailable && quantityAvailable > 0
+    ? quantityAvailable
+    : undefined;
 }
 
 /** `key` alone is not an identifier: `custom.badge` and `promo.badge` are different metafields. */

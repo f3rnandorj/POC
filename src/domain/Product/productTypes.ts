@@ -28,6 +28,8 @@ export interface ProductVariant {
   title: string;
   isAvailable: boolean;
   image?: ProductImage;
+  /** Absent when the merchant does not track this variant — see `CartLine.stockLimit`. */
+  stockLimit?: number;
 }
 
 /** Resolved blocks grouped by the detail area they render into; an empty area is absent. */
@@ -80,6 +82,8 @@ export interface ProductVariantNodeApi {
   id: string;
   title: string;
   availableForSale: boolean;
+  /** Absent on the card fragment, which does not ask for inventory. */
+  quantityAvailable?: number | null;
   image?: ImageApi | null;
 }
 

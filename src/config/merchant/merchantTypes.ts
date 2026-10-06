@@ -5,7 +5,6 @@ export interface MerchantConfig {
   id: MerchantId;
   credentials: MerchantCredentials;
   theme: MerchantTheme;
-  layout?: Partial<MerchantLayout>;
   screens: MerchantScreens;
 }
 
@@ -13,6 +12,12 @@ export interface MerchantCredentials {
   storeDomain: string;
   storefrontToken: string;
   apiVersion: string;
+  /**
+   * Only a development store has one, and only the checkout WebView uses it: Shopify answers a
+   * cookieless hit with its password page, so the app submits that form before loading the
+   * checkout. Absent means the store is open and no pre-auth step runs.
+   */
+  storePassword?: string;
 }
 
 /** `accentText`, `success` and `danger` are absent on purpose: all three are derived. */
@@ -23,13 +28,6 @@ export interface MerchantTheme {
   text?: string;
   textMuted?: string;
   border?: string;
-}
-
-/** A closed set: the merchant picks among arrangements the app already knows how to draw. */
-export interface MerchantLayout {
-  productRow: "single" | "double";
-  collections: "inline" | "horizontal";
-  detail: "single" | "gallery";
 }
 
 /**
@@ -47,16 +45,30 @@ export interface MerchantLayout {
  * they are the app's, not the merchant's.
  */
 export interface MerchantScreens {
-  productDetail?: ProductDetailAreas;
-  home?: HomeAreas;
+  productDetail?: ProductDetailScreen;
+  home?: HomeScreen;
 }
 
-/** Declared top to bottom, in the order the screen stacks them below the price. */
-export interface ProductDetailAreas {
+/**
+ * `layout` first, then the areas top to bottom, in the order the screen stacks them below the
+ * price. A screen's arrangement belongs to that screen: it is read where its areas are declared,
+ * and a screen the app grows later brings its own `layout` with it instead of adding a key to a
+ * map that knows every screen at once.
+ *
+ * The arrangements themselves stay a closed set — the merchant picks among what the app already
+ * knows how to draw.
+ */
+export interface ProductDetailScreen {
+  layout?: Partial<ProductDetailLayout>;
   badgeRow?: BadgeBlock[];
   underPrice?: TextLineBlock[];
   aboveDescription?: LabelValueBlock[];
   belowDescription?: (TextLineBlock | LabelValueBlock)[];
+}
+
+/** `media` is how the product's photos are drawn: one cover, or a paged gallery. */
+export interface ProductDetailLayout {
+  media: "single" | "gallery";
 }
 
 /**
@@ -64,12 +76,19 @@ export interface ProductDetailAreas {
  * content is the catalog itself and only its name is the merchant's. `footer` is one block, not
  * a list: the Home footer draws a single story card.
  */
-export interface HomeAreas {
+export interface HomeScreen {
+  layout?: Partial<HomeLayout>;
   productRow?: string;
   footer?: StoryBlock;
 }
 
-export type ProductDetailArea = keyof ProductDetailAreas;
+export interface HomeLayout {
+  productRow: "single" | "double";
+  collections: "inline" | "horizontal";
+}
+
+/** `layout` is not an area — it says how the screen draws, not what it draws. */
+export type ProductDetailArea = keyof Omit<ProductDetailScreen, "layout">;
 
 /** What the adapter walks: one product-detail area paired with the blocks declared in it. */
 export type ProductDetailAreaBlocks = [ProductDetailArea, ProductBlock[]];

@@ -23,6 +23,18 @@ export function useProductList() {
 - The hook returns a UI-ready shape (`products`, `isLoading`), not the raw React Query object.
 - A hook never calls `productApi` directly.
 
+## The `Screen` container
+
+Every screen is a `Screen`. It owns the safe area, the background, the gutter, the title row, the
+back control — and two slots worth knowing:
+
+- `footer` — a CTA pinned over the scroller. Its height is **measured with `onLayout`** and added to
+  the scroller's `paddingBottom`, never assumed: the safe area, the font scale and the label all
+  move it.
+- the cart control — drawn by `Screen` itself, in the title row or floating opposite the back
+  control on a screen that opens on a photo. `cartAction={false}` turns it off for the screens that
+  are the cart or past it. A new screen gets it by existing.
+
 ## Components
 
 - Presentational and Restyle-themed. Props in, JSX out.
@@ -40,7 +52,9 @@ export function useProductList() {
 
 ## Navigation
 
-- React Navigation, one native stack for the POC: `Home → ProductList → ProductDetail`.
+- React Navigation, one native stack: `Home → ProductList → ProductDetail` for browsing, and `Cart → Checkout → CheckoutResult` for buying.
+- **A round trip never grows the stack.** Cart ↔ detail uses `popTo`, which returns to the existing route (swapping its params) and, when the route is absent, replaces the current one instead of pushing. `push` is never the answer for a screen the user can bounce back to.
+- A finished checkout is not a screen to return into: `CheckoutResult` disables the back gesture and leads forward, to Home.
 - Params are typed in `src/routes/types/navigationTypes.ts` (`AppStackParamList`). A screen reads them via the typed `useRoute`/props, never `any`.
 - Pass **ids**, not objects, between screens — the detail screen fetches its own data through its useCase hook so React Query owns the cache.
 

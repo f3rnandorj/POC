@@ -30,6 +30,7 @@ The key path is the position, the array index is the order:
 ```ts
 screens: {
   productDetail: {                     // the screen
+    layout: { media: "gallery" },      // how it draws — the screen's first key, never an area
     belowDescription: [                // the area; only the kinds it accepts type-check
       {
         id: 'care',                    // stable: it is the React key and the content key

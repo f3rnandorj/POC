@@ -87,14 +87,24 @@ and, inside each, the **areas** that screen draws — nothing else varies in cod
 ```ts
 screens: {
   productDetail: {
+    layout: { media: "gallery" },                   // how this screen draws, first
     badgeRow: [ /* badges, in render order */ ],
     underPrice: [ /* text lines */ ],
     aboveDescription: [ /* label/value sections */ ],
     belowDescription: [ /* text lines and label/value sections */ ],
   },
-  home: { footer: { /* one story */ } },
+  home: {
+    layout: { productRow: "double", collections: "horizontal" },
+    productRow: "Products",                         // the row's heading, a plain string
+    footer: { /* one story */ },
+  },
 }
 ```
+
+**`layout` is the screen's first key and the only one that is not an area.** A screen says how it
+draws before it says what it draws, each screen resolves its own (`homeLayout`,
+`productDetailLayout`), and a screen the app grows later brings its arrangement with it instead of
+extending a central map. `declaredAreas` drops the key so nothing below it has to know.
 
 The key path is the position (so no block carries a `slot`), the array index is the render order
 (so no block carries an `order`), and the element type is what that area accepts. A key left out is
@@ -113,10 +123,14 @@ how `content.detailBelowDescription` stopped saying which screen it belonged to.
 
 Plus two axes that are not blocks:
 
-- **credentials** — store domain + Storefront token, keyed per merchant in `.env`
-- **theme and layout** — a closed set of brand tokens, and one arrangement per screen section.
-  Both follow the same split as the blocks: the app owns the alternatives, the merchant picks.
-  See `design.md` for the token kinds and the layout values.
+- **credentials** — store domain + Storefront token (and, on a development store, the storefront
+  password), keyed per merchant in `.env`
+- **theme** — a closed set of brand tokens, following the same split as the blocks: the app owns the
+  alternatives, the merchant picks. See `design.md`.
+
+**Layout is no longer a third axis.** It lives inside `screens`, as each screen's `layout` key, so
+the screens map is the whole of a merchant's say over an interface: how each screen draws, then what
+it draws.
 
 Consequences worth stating:
 
@@ -134,6 +148,8 @@ Consequences worth stating:
 - **A merchant name appearing anywhere outside `config/merchant/` is a defect.** So is a concept
   name — `winterCollection` was one merchant's campaign with an API name.
 
-## Out of scope by decision (README "O que NÃO fazer")
+## Out of scope by decision (README "Out of scope")
 
-Checkout, payments, auth/OAuth, orders, push, analytics, own backend, admin UI, E2E, CI/CD, store publishing. Do not scaffold them; do not add a placeholder for them.
+Auth/OAuth, orders and the Customer API, push, analytics, own backend, admin UI, E2E, CI/CD, store publishing. Do not scaffold them; do not add a placeholder for them.
+
+**Cart and checkout left this list on 2026-10-06** (PRD 015). The cart is Shopify's own, through the Cart API: `cartCreate` / `cartLinesAdd` / `cartLinesUpdate` / `cartLinesRemove`, with every total read from `cost`, never summed on the device. Checkout is `cart.checkoutUrl` in a WebView — the app renders Shopify's page and reads back only whether it finished. Reimplementing contact, shipping or payment is still out: a POC does not hold card data.

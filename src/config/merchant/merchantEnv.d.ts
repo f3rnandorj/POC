@@ -3,8 +3,10 @@ declare module "react-native-config" {
   export interface NativeConfig {
     NORTHSTAR_STORE_DOMAIN?: string;
     NORTHSTAR_STOREFRONT_TOKEN?: string;
+    NORTHSTAR_STORE_PASSWORD?: string;
 
     ATLAS_STORE_DOMAIN?: string;
     ATLAS_STOREFRONT_TOKEN?: string;
+    ATLAS_STORE_PASSWORD?: string;
   }
 }

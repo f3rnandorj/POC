@@ -44,9 +44,9 @@ if echo "$LP" | grep -qE "$META_RE"; then
 fi
 
 # ── keyword routing ──────────────────────────────────────────────────────────
-SHOPIFY_RE='shopify|storefront|graphql|metafield|metaobject|variant|collection|merchant|winter collection|care.?instruction|promotion.?text|badge|brand story'
+SHOPIFY_RE='shopify|storefront|graphql|metafield|metaobject|variant|collection|merchant|winter collection|care.?instruction|promotion.?text|badge|brand story|cart|carrinho|checkout|pagamento|payment|estoque|stock|invent[áa]rio|inventory|pedido|order'
 ARCH_RE='arquitetura|architecture|layer|camada|folder structure|estrutura de pasta|domain|adapter|service layer|use.?case|data flow|barrel|path alias|where.*should.*live|onde.*fica'
-FRONT_RE='screen|tela|component|componente|navigation|navega|react query|tanstack|restyle|flatlist|product card|product detail|product list|home|hook|useq|render'
+FRONT_RE='screen|tela|component|componente|navigation|navega|react query|tanstack|restyle|flatlist|product card|product detail|product list|home|hook|useq|render|cart|carrinho|checkout|stepper|dialog|modal|bot[ãa]o|button'
 DESIGN_RE='design|token|theme|tema|palette|paleta|typography|tipografia|spacing|radius|empty state|loading|skeleton|identity|identidade|cor|color|layout'
 SEC_RE='token|secret|segredo|credential|credencial|\.env|deep link|webview|logging|log de|storage|keychain|mmkv|gitleaks|vulnerab'
 NAMING_RE='naming|nomenclatura|barrel|alias|kebab|pascalcase|camelcase|nome do arquivo|file name'

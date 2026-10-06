@@ -39,6 +39,8 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
 
 013 follows 012: the block model made a merchant's **content** their own, and this one does the same for their **palette** — the two axes of "one app, many merchants". It supersedes the "one accent" half of the 2026-09-30 identity ADR.
 
+015 is the first block that **writes** to Shopify instead of reading: it reverses the README's own "cart and checkout are out of scope" row, on the user's call. It depends on nothing in code — the Cart API chain is new — but it only makes sense with the catalogue complete.
+
 012 reopens 008's subject after the fact: it needs 008 and 011 shipped, because it generalizes the metafield map **and** the metaobject map at once. It is a refactor with a negative diff, not a feature — it adds nothing to the demo journey, it removes the deploy from merchant onboarding.
 
 ## Active PRDs
@@ -65,6 +67,7 @@ Dependency-aware: the next block is the first whose dependencies are complete. *
 | 012 Merchant Content Blocks | 2026-10-02 | `done/012-merchant-content-blocks.md` — supersedes 008; unblocked the iOS 27 scene crash |
 | 013 Merchant Brand Palette | 2026-10-03 | `done/013-merchant-brand-palette.md` — state colors became derived, not overridable |
 | 014 Merchant Layout | 2026-10-03 | `done/014-merchant-layout.md` — arrangement per merchant; gallery uses images fetched since 002 |
+| 015 Cart and Dev Checkout | 2026-10-06 | `done/015-cart-and-dev-checkout.md` — first block that writes to Shopify; reversed the README's own "out of scope" row |
 
 ## How to author a new PRD
 

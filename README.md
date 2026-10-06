@@ -84,12 +84,14 @@ Everything here is in `package.json`; nothing is listed that the project does no
 |---|---|
 | **React Native 0.87 (CLI)** | Bare CLI, not Expo. Nothing in the project needs the managed workflow, and the CLI keeps the native projects open for the Shopify SDKs a real deployment would reach for. |
 | **TypeScript** | The Storefront payload and the domain model are separate types on purpose; the compiler is what keeps a raw Shopify shape from leaking into a screen — and what rejects a merchant declaring a layout or a block the renderer cannot draw. |
-| **React Navigation** (native stack) | Three screens, one stack. Params are typed in `src/routes/types/navigationTypes.ts`. |
+| **React Navigation** (native stack) | Six screens, one stack: three for browsing, three for buying. Params are typed in `src/routes/types/navigationTypes.ts`, and a cart ↔ detail round trip uses `popTo` so it cannot grow the stack. |
 | **TanStack Query v5** | Owns every bit of server state: cache, retry, loading and error flags. There is no second state library, and no Redux. |
 | **@shopify/restyle** | Themed primitives (`Box`, `Text`, `PressableBox`, `AnimatedBox`) whose props only accept tokens from `src/theme`. A raw hex in a component does not compile. |
 | **react-native-reanimated 4** (+ `react-native-worklets`) | Press feedback and list entrances. Worklets is a separate peer on RN 0.87, and its Babel plugin must stay last in `babel.config.js`. |
 | **lottie-react-native** | The loading animation on the product detail, repainted at runtime in the active merchant's accent. |
 | **react-native-safe-area-context** / **react-native-screens** | Insets for the `Screen` container and the native stack. |
+| **react-native-webview** | Shopify's own checkout, rendered in the app. The app never collects a card. |
+| **react-native-mmkv** (+ `react-native-nitro-modules`) | Holds the active cart id between launches — the id only, never the lines or the prices. Nitro is MMKV 4's peer, not a second storage library. |
 | **react-native-config** | Reads the API version and each merchant's domain + Storefront token from `.env`, so no credential is ever in a tracked file. |
 | **Shopify Storefront API + GraphQL** | Buyer-facing and read-only, so its token is safe on a device. One query shapes a whole screen. Called with the platform's own `fetch` — no HTTP client was added for four requests. |
 
@@ -188,6 +190,15 @@ reopening on a dead app.
    only for a merchant that declares a `story` block (northstar does, atlas does not).
 6. **Publish** your products to the headless storefront's publication, or they will not be
    returned at all.
+7. **Test payment gateway** — under *Settings → Payments → See all other providers*, activate
+   **Test payment gateway** (Shopify's old "Bogus Gateway", renamed: searching for *bogus* finds
+   nothing). It is what lets the checkout finish without money. Shopify Payments' own test mode is
+   not an option here — it needs a completed Shopify Payments setup on a paid plan.
+8. **Store password** — a development store's storefront stays password protected and the toggle
+   cannot be lifted without a paid plan, so a cookieless visit is answered with the password page.
+   Copy the password from *Online Store → Preferences → Store access* into
+   `{MERCHANT}_STORE_PASSWORD` in `.env`, and the checkout WebView submits that form on the way
+   in. Leave the key empty for a store that is not password protected and the step is skipped.
 
 There is a seeding script for a throwaway dev store:
 
@@ -225,7 +236,9 @@ build — the overflow menu switches between them at runtime.
 
 Honest caveat: the UI work was exercised on the iOS simulator. The Android side is the stock React
 Native scaffold; this release APK was installed and launched on an Android emulator and renders the
-live catalogue, but no screen was tuned for it.
+live catalogue — including the cart control, so the three native dependencies the buying flow added
+(WebView, MMKV, Nitro) build and run there — but no screen was tuned for it, and the checkout itself
+was only driven on iOS.
 
 ---
 
@@ -237,7 +250,7 @@ src/
 │   ├── client.ts         fetch + Storefront headers + pinned API version
 │   ├── fragments.ts      shared GraphQL selections, built from the merchant's blocks
 │   └── shopifyTypes.ts   raw payload shapes (MoneyV2, edges/nodes, metafields)
-├── domain/             one folder per concept: Product, Collection, BrandStory
+├── domain/             one folder per concept: Product, Collection, BrandStory, Cart
 │   └── Product/
 │       ├── productQueries.ts   the GraphQL documents
 │       ├── productApi.ts       runs a document, returns the raw payload
@@ -248,12 +261,16 @@ src/
 │       └── index.ts            exports useCases + types, never the service
 ├── config/merchant/    one file per merchant: credentials, palette, layout, screen areas
 ├── components/         generic and presentational
-│   ├── Screen/           every screen's container: safe area, background, gutter, back, title
+│   ├── Screen/           every screen's container: safe area, background, gutter, back, title,
+│   │                     and the footer slot a CTA floats in (its height is measured, not assumed)
 │   ├── Box, Text, PressableBox   restyle primitives (PressableBox owns press feedback)
+│   ├── Button/           the one button: primary fill or outline
+│   ├── Dialog/           the one dialog chrome: scrim, card, Android back
 │   ├── ContentBlocks/    renders one resolved area — the bridge from config to UI
 │   ├── ProductCard, ProductBadge, ProductSection, CollectionCard, StoryCard
 │   └── ProductGallery/   paged run through a product's photos
-├── screens/            Home, ProductList, ProductDetail (+ screen-local components)
+├── screens/            Home, ProductList, ProductDetail, Cart, Checkout, CheckoutResult
+│                       (+ screen-local components)
 ├── routes/             one native stack, typed params
 ├── theme/              palette, tokens, text variants, fonts, motion, contrast, lottie tint
 ├── assets/             Inter faces + the Lottie loading document
@@ -326,17 +343,50 @@ entry — `<ProductBadge text={...} />` and `<ProductSection title={...} items={
 config, and the care guide is the same `labelValueSection` kind that renders "Fit guide" for the
 other store and would render "Ingredients" for a cosmetics merchant with no code change.
 
+### Cart and dev checkout
+
+Adding a variant creates a cart **in the merchant's store** through the Storefront Cart API, so
+every number in the cart — line totals, subtotal, currency — is Shopify's, never a sum computed on
+the device. Only the cart id is kept on the phone, so closing the app and reopening it finds the
+same cart, and each merchant keeps its own.
+
+Checkout hands off to Shopify's own page in a WebView: contact, shipping and payment are theirs,
+and the app reads back nothing but whether it finished. Before it opens, a dialog states that this
+is a development store and lists the test card numbers, because the person holding this build has
+nowhere else to learn them. A completed order lands on a feedback screen with the order number and
+empties the cart; abandoning the checkout leaves the cart exactly as it was.
+
+| Add to cart | The cart |
+|---|---|
+| ![Product detail with the quantity stepper and the add-to-cart CTA](docs/screenshots/product-detail-cart.png) | ![Cart with two lines, a line at its stock ceiling, and the subtotal](docs/screenshots/cart.png) |
+
+| Before the handoff | After the order |
+|---|---|
+| ![The dev-mode notice listing the test card numbers](docs/screenshots/checkout-notice.png) | ![The feedback screen after a completed order](docs/screenshots/checkout-result.png) |
+
+And the handoff itself — Shopify's own checkout, inside the app, with no store password asked for
+(cropped above the contact fields):
+
+![Shopify's checkout rendered in the app](docs/screenshots/checkout.png)
+
+Two details worth naming. A development store answers a cookieless visit with its password page —
+the password cannot be lifted without a paid plan — so the WebView submits that form before loading
+the checkout, from a key in `.env`; a store with no password declared skips the step entirely. And
+the payment is a test one, so nothing is ever charged.
+
 ---
 
 ## One app, many merchants
 
-The app owns the grammar; the merchant owns the words. Variation lives in exactly four axes, all of
-them in that merchant's file under `src/config/merchant/merchants/`, and switching merchants is
-which config entry the app resolves — nothing else moves.
+The app owns the grammar; the merchant owns the words. Variation lives in three axes — credentials,
+palette and the screens map — all of them in that merchant's file under
+`src/config/merchant/merchants/`, and switching merchants is which config entry the app resolves —
+nothing else moves. The screens map carries two things, so they are explained apart below: how each
+screen is arranged, and what fills it.
 
 Because the axes are closed, onboarding a store is an intake form rather than a discovery project:
 **[docs/merchant-onboarding-form.md](docs/merchant-onboarding-form.md)** asks a new company for
-everything the four axes need — credentials, brand colours, arrangement and where each piece of
+everything those axes need — credentials, brand colours, arrangement and where each piece of
 content lives in their Shopify. Filled in and returned, those answers are enough to run their store
 in this build, with no new screen, component or query written.
 
@@ -361,17 +411,33 @@ tuned for near-black reads 1.68:1 on cream. Theme construction **throws in `__DE
 merchant palette falls below 4.5:1 for copy or 3:1 for a state colour, naming the pair and the
 measured ratio. A palette fails by being unreadable, so it is measured rather than eyeballed.
 
-### 3. Layout
+### 3. Layout — inside each screen
 
-A merchant picks how each section is arranged, from a closed set the app already knows how to draw.
+A merchant picks how each screen is arranged, from a closed set the app already knows how to draw.
 The values are a **union in the source**, so a merchant cannot express an arrangement the renderer
 cannot draw — the compiler rejects it. An omitted key is the base arrangement.
 
-| Section | Values | Base |
-|---|---|---|
-| `productRow` | `single` — one scrolling row · `double` — two stacked rows, the same products split | `single` |
-| `collections` | `inline` — stacked wide rows · `horizontal` — one scrolling row of tiles | `inline` |
-| `detail` | `single` — one cover photo · `gallery` — a paged run through every photo | `single` |
+Each screen's arrangement is declared **inside that screen**, as its first key, above the areas it
+fills:
+
+```ts
+screens: {
+  home: {
+    layout: { productRow: "double", collections: "horizontal" },
+    productRow: "Products",
+  },
+  productDetail: {
+    layout: { media: "gallery" },
+    badgeRow: [ /* … */ ],
+  },
+}
+```
+
+| Screen | Key | Values | Base |
+|---|---|---|---|
+| `home` | `productRow` | `single` — one scrolling row · `double` — two stacked rows, the same products split | `single` |
+| `home` | `collections` | `inline` — stacked wide rows · `horizontal` — one scrolling row of tiles | `inline` |
+| `productDetail` | `media` | `single` — one cover photo · `gallery` — a paged run through every photo | `single` |
 
 Three rules make this hold up:
 
@@ -384,7 +450,7 @@ Three rules make this hold up:
 A gallery also degrades honestly: it pages only where the catalogue actually has photos, and a
 single-image product does not rubber-band sideways as if a second photo had failed to load.
 
-### 4. Content blocks
+### 4. Content blocks — inside each screen
 
 A merchant's content is a map of screens, and inside each the **areas** that screen draws. An area
 holds a list of blocks; each block pairs a `kind` (what to draw) with its `source` and labels. Where
@@ -412,7 +478,7 @@ area's element type is what it accepts, so a badge cannot be declared where only
 area a merchant leaves out renders nothing — no heading, no divider, no gap. That absence is the
 whole optional/required mechanism; there is no flag.
 
-Anything that cannot be expressed in these four axes is a platform feature, not a merchant feature:
+Anything that cannot be expressed in these axes is a platform feature, not a merchant feature:
 it gets built generically, and a merchant that does not declare it simply never sees it.
 
 ### The two merchants, side by side
@@ -474,7 +540,21 @@ photography carrying the screen, type doing the talking, one radius scale and an
 5. Go back and open **Everyday Tee**. Same screen, same code, and the merchant filled in nothing:
    no badges, no material line, no care section, no variant picker. Not a dash, not an empty
    heading — the sections do not exist. That is the whole point of the metafield contract.
-6. Back on Home, open the control on the title row and pick **ATLAS**. Different store, different
+6. Back on the product, tap **Add to cart** — the CTA is pinned over the photo and the line
+   above it confirms the add without taking you anywhere. The **Cart** control on Home now carries
+   a count.
+7. Open the cart. Change a quantity with the stepper or remove a line: every number, including the
+   subtotal, comes back from Shopify rather than being recomputed here. Close the app and reopen
+   it — the cart is still there, because the cart id is the one thing kept on the device.
+8. Tap **Checkout**. A dialog says this is a development store, that the order is real and the
+   payment is not, and gives you the card numbers: `1` approves, `2` declines, `3` fails at the
+   gateway, with any future expiry date and any 3-digit code. Continue, and what opens is
+   Shopify's own checkout — no store password to type, even though the store is password
+   protected.
+9. Pay with card `1`. The app lands on its own feedback screen with the order number, the cart is
+   emptied, and the order is in the store's admin flagged as a test. Backing out of the checkout
+   instead leaves the cart exactly as it was.
+10. Back on Home, open the control on the title row and pick **ATLAS**. Different store, different
    palette, different arrangement, different vocabulary, different sections in different places —
    and not one line of screen or component code involved. (That switch exists for this walkthrough
    and the dialog says so: a real build ships bound to one merchant.)
@@ -487,9 +567,9 @@ Deliberately absent, each for a reason — not a roadmap:
 
 | | Why |
 |---|---|
-| Cart and checkout | Shopify's own checkout is the answer, via the Cart API and a web handoff. Reimplementing it proves nothing about merchant customisation. |
+| Reimplementing the checkout | The buying flow **is** here, but the checkout itself is Shopify's own page in a WebView — see [Cart and dev checkout](#cart-and-dev-checkout). Rebuilding contact, shipping and payment screens would prove nothing about merchant customisation, and would ask a POC to hold card data. |
 | Customer auth / OAuth app install | A real multi-merchant app installs through Shopify OAuth and keeps tokens server-side. Here, `getMerchantConfig` is a local stand-in for that platform endpoint — same shape, no server. A fetched config would also have to be *validated*, which these literals get from the compiler for free. |
-| Merchant switching at runtime | The active merchant is a build-time constant, because `react-native-config` reads `.env` at build time and the theme is constructed once at module load. A real install resolves one merchant per device anyway. |
+| Real payments | The stores are development stores, which can only process test payments. The checkout runs against Shopify's test payment gateway: card `1` approves, `2` declines, `3` fails at the gateway. A real order is created and flagged as a test. |
 | Orders and account | Needs the authenticated Customer API, which needs the auth above. |
 | Own backend / admin UI | The merchant's admin **is** the Shopify admin. That is the entire argument for metafields. |
 | Push, analytics, error monitoring | Pure infrastructure; it would not change a line of the architecture. |

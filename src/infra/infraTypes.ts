@@ -4,6 +4,7 @@ export enum QueryKeys {
   CollectionList = "CollectionList",
   CollectionDetail = "CollectionDetail",
   BrandStory = "BrandStory",
+  Cart = "Cart",
 }
 
 export interface MutationOptions<TData> {

@@ -9,16 +9,32 @@ export const northstar: MerchantConfig = {
     storeDomain: Config.NORTHSTAR_STORE_DOMAIN ?? "",
     storefrontToken: Config.NORTHSTAR_STOREFRONT_TOKEN ?? "",
     apiVersion: Config.SHOPIFY_API_VERSION ?? "",
+    storePassword: Config.NORTHSTAR_STORE_PASSWORD,
   },
   theme: {},
-  layout: {
-    productRow: "double",
-    collections: "horizontal",
-    detail: "gallery",
-  },
-  // One key per screen, then one per area, in render order. A key left out renders nothing.
+  // One key per screen: its layout first, then one key per area, in render order. A key left out
+  // renders nothing.
   screens: {
+    home: {
+      layout: {
+        productRow: "double",
+        collections: "horizontal",
+      },
+      productRow: "Products",
+      footer: {
+        id: "story",
+        kind: "story",
+        source: {
+          from: "metaobject",
+          type: "brand_story",
+          fields: { title: "title", body: "description", image: "image" },
+        },
+      },
+    },
     productDetail: {
+      layout: {
+        media: "gallery",
+      },
       badgeRow: [
         {
           id: "badge",
@@ -81,18 +97,6 @@ export const northstar: MerchantConfig = {
           ],
         },
       ],
-    },
-    home: {
-      productRow: "Products",
-      footer: {
-        id: "story",
-        kind: "story",
-        source: {
-          from: "metaobject",
-          type: "brand_story",
-          fields: { title: "title", body: "description", image: "image" },
-        },
-      },
     },
   },
 };

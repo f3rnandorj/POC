@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { useState } from "react";
+import type { LayoutChangeEvent } from "react-native";
 import { ScrollView } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -8,6 +10,7 @@ import { spacing as spacingTokens, useAppTheme } from "@theme";
 import { BackControl } from "../BackControl/BackControl";
 import type { BoxProps } from "../Box/Box";
 import { Box } from "../Box/Box";
+import { CartButton } from "../CartButton/CartButton";
 import { Text } from "../Text/Text";
 
 export interface ScreenProps extends BoxProps {
@@ -22,6 +25,10 @@ export interface ScreenProps extends BoxProps {
   headerRight?: ReactNode;
   onGoBack?: () => void;
   floatingBack?: boolean;
+  /** Off for the screens that are already the cart, or past it. */
+  cartAction?: boolean;
+  /** A CTA pinned over the scroller. Scrollable screens only — it needs a scroller to float on. */
+  footer?: ReactNode;
 }
 
 export function Screen({
@@ -33,10 +40,14 @@ export function Screen({
   headerRight,
   onGoBack,
   floatingBack = false,
+  cartAction = true,
+  footer,
   ...boxProps
 }: ScreenProps) {
   const { top, bottom } = useSafeAreaInsets();
   const { spacing } = useAppTheme();
+  // Measured, never a constant: the safe area, the font scale and the label itself all move it.
+  const [footerHeight, setFooterHeight] = useState(0);
 
   const content = (
     <Box flex={scrollable ? undefined : 1} {...boxProps}>
@@ -50,18 +61,37 @@ export function Screen({
         <ScreenBack onPress={onGoBack} top={floatingBack ? top : undefined} />
       ) : null}
 
+      {/* A screen whose first pixel is a photo has no header row to sit in, so it floats
+          opposite the back control instead of forcing one. */}
+      {cartAction && floatingBack ? (
+        <Box
+          position="absolute"
+          right={0}
+          zIndex={1}
+          paddingHorizontal="s16"
+          style={{ top: top + spacingTokens.s8 }}
+        >
+          <CartButton floating />
+        </Box>
+      ) : null}
+
       <ScreenTitle
         title={title}
         eyebrow={eyebrow}
         gutter={gutter}
-        headerRight={headerRight}
+        headerRight={
+          <>
+            {cartAction && !floatingBack ? <CartButton /> : null}
+            {headerRight}
+          </>
+        }
       />
 
       {scrollable ? (
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            paddingBottom: bottom + spacing.s24,
+            paddingBottom: bottom + spacing.s24 + footerHeight,
             paddingHorizontal: gutter ? spacing.s16 : undefined,
           }}
         >
@@ -70,6 +100,41 @@ export function Screen({
       ) : (
         content
       )}
+
+      {footer ? (
+        <ScreenFooter bottom={bottom} onMeasure={setFooterHeight}>
+          {footer}
+        </ScreenFooter>
+      ) : null}
+    </Box>
+  );
+}
+
+interface ScreenFooterProps {
+  children: ReactNode;
+  bottom: number;
+  onMeasure: (height: number) => void;
+}
+
+function ScreenFooter({ children, bottom, onMeasure }: ScreenFooterProps) {
+  return (
+    <Box
+      position="absolute"
+      left={0}
+      right={0}
+      bottom={0}
+      backgroundColor="background"
+      borderTopWidth={1}
+      borderTopColor="border"
+      paddingHorizontal="s16"
+      paddingTop="s12"
+      gap="s8"
+      style={{ paddingBottom: bottom + spacingTokens.s12 }}
+      onLayout={(event: LayoutChangeEvent) =>
+        onMeasure(event.nativeEvent.layout.height)
+      }
+    >
+      {children}
     </Box>
   );
 }
@@ -92,7 +157,7 @@ function ScreenTitle({
   gutter,
   headerRight,
 }: Pick<ScreenProps, "title" | "eyebrow" | "gutter" | "headerRight">) {
-  if (!title && !eyebrow && !headerRight) {
+  if (!title && !eyebrow) {
     return null;
   }
 
@@ -116,7 +181,9 @@ function ScreenTitle({
         {title ? <Text variant="displayLarge">{title}</Text> : null}
       </Box>
 
-      {headerRight}
+      <Box flexDirection="row" alignItems="center" gap="s8">
+        {headerRight}
+      </Box>
     </Box>
   );
 }

@@ -56,6 +56,9 @@ src/
       index.ts                     ← useCases + productTypes ONLY — never the service
     Collection/
       ... same shape
+    Cart/
+      ... same shape, plus:
+      activeCart.ts              ← the cart id, per merchant, in MMKV + useSyncExternalStore
     index.ts
   infra/
     infraTypes.ts                ← QueryKeys enum, MutationOptions<T>
@@ -74,8 +77,16 @@ src/
       ProductListScreen.tsx
     ProductDetailScreen/
       ProductDetailScreen.tsx
-      components/                ← ProductMetadata, ProductCare, VariantPicker
+      components/                ← VariantPicker, AddToCartFooter, ProductDetailFeedback
         index.ts
+    CartScreen/
+      CartScreen.tsx
+      components/                ← CartLineRow, CheckoutNoticeDialog
+    CheckoutScreen/
+      CheckoutScreen.tsx
+      checkoutUtils.ts           ← pure: injected scripts, message parsing, host allowlist
+    CheckoutResultScreen/
+      CheckoutResultScreen.tsx
     index.ts                     ← export * from './HomeScreen/HomeScreen' …
   components/
     ProductCard/
@@ -84,15 +95,20 @@ src/
       ProductBadge.tsx
     ContentBlocks/
       ContentBlocks.tsx          ← one area of resolved blocks → primitives; null on an empty area
+    Button/ Dialog/ CartButton/ QuantityStepper/
+      {Name}.tsx                 ← shared chrome: the one button, the one dialog, the cart control
+                                   `Screen` draws, and the stepper the cart and the detail share
     {Name}/
       {Name}.tsx                 ← no index.ts in a single-file component folder
     index.ts                     ← SINGLE root barrel re-exporting every component
   config/
     merchant/
-      merchantConfig.ts          ← active merchant + derived `productDetailAreas` / `homeFooterStory`
+      merchantConfig.ts          ← active merchant + derived `productDetailAreas`, `homeFooterStory`,
+                                   `homeLayout`, `productDetailLayout`
       merchantTypes.ts           ← `screens` → areas; each area's element type is what it accepts
       merchants/
-        {merchant}.ts            ← one file per merchant: credentials, theme, layout, screens
+        {merchant}.ts            ← one file per merchant: credentials, theme, screens
+                                   (each screen declares its own `layout`, then its areas)
       index.ts
     index.ts
   theme/

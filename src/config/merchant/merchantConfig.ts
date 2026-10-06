@@ -2,10 +2,11 @@ import { getActiveMerchantId } from "./activeMerchant";
 import { atlas } from "./merchants/atlas";
 import { northstar } from "./merchants/northstar";
 import type {
+  HomeLayout,
   MerchantConfig,
   MerchantId,
-  MerchantLayout,
   ProductBlock,
+  ProductDetailLayout,
   ProductDetailArea,
   ProductDetailAreaBlocks,
   StoryBlock,
@@ -33,13 +34,21 @@ export function getMerchantConfig(merchantId: string): MerchantConfig {
   return merchant;
 }
 
-export function merchantLayout(): MerchantLayout {
-  const { layout } = merchantConfig();
+/** Each screen resolves its own arrangement, with the base one for every key left out. */
+export function homeLayout(): HomeLayout {
+  const layout = merchantConfig().screens.home?.layout;
 
   return {
     productRow: layout?.productRow ?? "single",
     collections: layout?.collections ?? "inline",
-    detail: layout?.detail ?? "single",
+  };
+}
+
+export function productDetailLayout(): ProductDetailLayout {
+  const layout = merchantConfig().screens.productDetail?.layout;
+
+  return {
+    media: layout?.media ?? "single",
   };
 }
 
@@ -68,6 +77,9 @@ const MERCHANTS: Record<string, MerchantConfig> = {
   [northstar.id]: northstar,
   [atlas.id]: atlas,
 };
+
+/** The one key in a screen that is not an area. */
+const LAYOUT_KEY = "layout";
 
 /** The stores the demo switch offers. */
 export const merchantIds = Object.keys(MERCHANTS) as MerchantId[];
@@ -112,11 +124,21 @@ function assertCredentials(merchant: MerchantConfig): void {
   }
 }
 
-/** Widened so the areas can be walked as entries — each key accepts only its own kinds. */
+/**
+ * Widened so the areas can be walked as entries — each key accepts only its own kinds. `layout`
+ * is dropped here rather than skipped downstream: it is the one key in the screen that is not an
+ * area, and nothing below this should have to know that.
+ */
 function declaredAreas(
   merchant: MerchantConfig,
 ): Partial<Record<ProductDetailArea, ProductBlock[]>> {
-  return merchant.screens.productDetail ?? {};
+  const screen = merchant.screens.productDetail ?? {};
+
+  // Filtered rather than destructured with a rest: the lint config this project copies rejects
+  // the discarded binding, and a hardcoded list of areas would have to grow with every new one.
+  return Object.fromEntries(
+    Object.entries(screen).filter(([key]) => key !== LAYOUT_KEY),
+  ) as Partial<Record<ProductDetailArea, ProductBlock[]>>;
 }
 
 function hasBlocks(

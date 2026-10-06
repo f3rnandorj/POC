@@ -75,14 +75,16 @@ A second badge variant (outline) is allowed only when two badges must coexist on
 
 ## Layout — a closed set of arrangements
 
-A merchant picks how each section is arranged, from alternatives the app already knows how to draw
-(`merchantConfig.layout`, resolved in `merchantLayout`). An omitted key falls back to the base.
+A merchant picks how each screen is arranged, from alternatives the app already knows how to draw.
+**The arrangement lives inside the screen it belongs to** — `screens.{screen}.layout`, the first key
+of that screen, above its areas — and each screen resolves its own (`homeLayout`,
+`productDetailLayout`). An omitted key falls back to the base.
 
-| Section | Values | Base |
-|---|---|---|
-| `featured` | `single` — one scrolling row · `double` — two stacked rows, the same products split | `single` |
-| `collections` | `inline` — stacked wide rows · `horizontal` — one scrolling row of tiles | `inline` |
-| `detail` | `single` — one cover photo · `gallery` — a paged run through every photo | `single` |
+| Screen | Key | Values | Base |
+|---|---|---|---|
+| `home` | `productRow` | `single` — one scrolling row · `double` — two stacked rows, the same products split | `single` |
+| `home` | `collections` | `inline` — stacked wide rows · `horizontal` — one scrolling row of tiles | `inline` |
+| `productDetail` | `media` | `single` — one cover photo · `gallery` — a paged run through every photo | `single` |
 
 Rules:
 
@@ -93,6 +95,7 @@ Rules:
 - `double` splits the products it already has — an arrangement is not a second query.
 - Two scrollers on one axis fight: the horizontal collections row renders inside the list header and
   the stacked list receives no data, rather than being nested.
+- **A new screen brings its own `layout`.** There is no central map of arrangements to extend: the key lives with that screen's areas, which is what keeps a screen's declaration readable as one thing.
 - A new value here is a **platform** change — it ships code and a verification pass for every
   merchant — not a merchant change.
 
