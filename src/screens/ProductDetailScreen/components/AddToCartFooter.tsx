@@ -14,9 +14,8 @@ export function AddToCartFooter({ variant }: AddToCartFooterProps) {
   const [note, setNote] = useState<Note>();
   const { cart } = useCartGetDetail();
 
-  // What is already in the cart is already off the shelf, so the ceiling here is what is left of
-  // the variant's stock after it. Shopify caps silently; without this the CTA would promise an
-  // add it cannot make.
+  // Shopify caps silently, so the ceiling is the variant's stock minus what the cart already
+  // holds — without it the CTA would promise an add it cannot make.
   const inCart = quantityInCart(cart, variant?.id);
   const remaining =
     variant?.stockLimit === undefined
@@ -27,7 +26,6 @@ export function AddToCartFooter({ variant }: AddToCartFooterProps) {
   const { addLine, isPending } = useCartAddLine({
     onSuccess: updated => {
       setNote(toNote(quantityInCart(updated, variant?.id) - inCart, quantity));
-      // Back to one: the next add is a new decision, not a repeat of this one.
       setQuantity(1);
     },
     onError: message => setNote({ text: message, tone: "danger" }),
@@ -36,7 +34,6 @@ export function AddToCartFooter({ variant }: AddToCartFooterProps) {
   // Picking another variant resets the count — its stock, and its ceiling, are not this one's.
   useEffect(() => setQuantity(1), [variant?.id]);
 
-  // The note is a confirmation, not a state: it says what landed and then gets out of the way.
   useEffect(() => {
     if (!note) {
       return;
@@ -95,10 +92,7 @@ function quantityInCart(cart: Cart | undefined, variantId?: string): number {
   return cart?.lines.find(line => line.variantId === variantId)?.quantity ?? 0;
 }
 
-/**
- * The cart that comes back is the only honest account of what happened: Shopify trims a line to
- * the stock it has and reports no error, so "added" is the difference, not the request.
- */
+/** Shopify trims a line to the stock it has and reports no error, so "added" is the diff. */
 function toNote(added: number, requested: number): Note {
   if (added <= 0) {
     return { text: "Nothing added — no more in stock", tone: "danger" };

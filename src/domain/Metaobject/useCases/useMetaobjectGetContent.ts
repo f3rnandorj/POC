@@ -5,10 +5,7 @@ import { toAreaContent } from "../../contentAreas";
 
 import { useMetaobjectGetBlocks } from "./useMetaobjectGetBlocks";
 
-/**
- * Areas whose blocks all come from metaobjects — the home screen's. A screen that also has blocks
- * from another source groups them itself, with `useMetaobjectGetBlocks` + `toAreaContent`.
- */
+/** Metaobject-only areas. A screen mixing sources groups them itself with `toAreaContent`. */
 export function useMetaobjectGetContent<Area extends string>(
   areas: AreaBlocks<Area>[],
 ) {

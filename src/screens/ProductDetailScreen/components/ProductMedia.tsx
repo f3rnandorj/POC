@@ -9,11 +9,7 @@ interface ProductMediaProps {
   altFallback: string;
 }
 
-/**
- * The merchant's `layout.media` resolved to one arrangement. The empty case lives here, once:
- * a product with no photo still owes the screen a frame, and no arrangement draws it better
- * than the others.
- */
+/** The empty case lives here, once: a product with no photo still owes the screen a frame. */
 export function ProductMedia({
   images,
   activeUrl,

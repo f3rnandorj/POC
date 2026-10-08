@@ -12,10 +12,6 @@ interface HomeProductRowProps {
   onOpenProduct: (handle: string) => void;
 }
 
-/**
- * The merchant's `layout.mainProductRow` resolved to one arrangement of the same products — a new
- * value in the union does not compile until it has its `case` here.
- */
 export function HomeProductRow({
   products,
   layout,

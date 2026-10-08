@@ -1,7 +1,4 @@
-/**
- * PostScript names of the linked faces. Weight is selected by picking the face, never by
- * `fontWeight` — RN would synthesize a faux bold on Android instead of using Inter-Bold.
- */
+/** Weight comes from the face, never `fontWeight` — RN fakes a bold on Android instead. */
 export const fonts = {
   regular: "Inter-Regular",
   medium: "Inter-Medium",

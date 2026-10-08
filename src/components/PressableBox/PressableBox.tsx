@@ -24,10 +24,6 @@ export type PressableBoxProps = Omit<
 > &
   Pick<PressableProps, "onPressIn" | "onPressOut">;
 
-/**
- * Every tappable surface routes through here, so press feedback lives here and nowhere else —
- * a product card, a variant chip and the back control all dip by the same amount.
- */
 export function PressableBox({
   onPressIn,
   onPressOut,

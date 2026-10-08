@@ -15,10 +15,6 @@ interface HomeProductCarouselProps {
   onOpenProduct: (handle: string) => void;
 }
 
-/**
- * `layout.mainProductRow: "carousel"` — one product per page, full width, with dots. Same products
- * the other arrangements draw; the page is the device width, so the card carries the screen.
- */
 export function HomeProductCarousel({
   products,
   autoScroll = false,

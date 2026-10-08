@@ -47,9 +47,8 @@ async function removeLine(cartId: string, lineId: string): Promise<Cart> {
 }
 
 /**
- * A cart mutation reports a rejected line in `userErrors` with HTTP 200 and no top-level `errors`,
- * so the payload is the only place a sold-out variant or a dead cart shows up. Shopify's own text
- * stays in `cause`, like `shopifyClient` does with a GraphQL error.
+ * A cart mutation reports a rejected line in `userErrors` with HTTP 200 and no top-level
+ * `errors`, so the payload is the only place a sold-out variant or a dead cart shows up.
  */
 function toCart(payload: CartPayloadApi): Cart {
   const [userError] = payload.userErrors;

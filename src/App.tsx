@@ -13,8 +13,8 @@ export default function App() {
   const merchantId = useActiveMerchantId();
   const theme = buildTheme();
 
-  // `key`: switching stores reopens the app on the other merchant — a remount is what drops the
-  // navigation stack and every screen's local state, so nothing from the previous store survives.
+  // `key`: the remount is what drops the navigation stack and every screen's local state, so
+  // nothing from the previous store survives the switch.
   return (
     <ThemeProvider key={merchantId} theme={theme}>
       <QueryClientProvider client={queryClient}>

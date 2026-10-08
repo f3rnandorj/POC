@@ -7,18 +7,11 @@ import { QueryKeys } from "@infra";
 import type { ResolvedStory } from "../../contentTypes";
 import { metaobjectService } from "../metaobjectService";
 
-/**
- * One query per declared block, so each metaobject type is fetched once and cached on its own: an
- * empty list issues nothing, which is how a merchant that declared no story pays for none.
- *
- * Flat on purpose — the caller groups these into areas with `toAreaContent`, together with the
- * blocks it resolved from other sources, so one screen ends up with one content map.
- */
+/** One query per declared block, so an empty list issues no request at all. */
 export function useMetaobjectGetBlocks(blocks: StoryBlock[]) {
   return useQueries({
     queries: blocks.map(block => ({
-      // The merchant, because a `ref` is only unique inside one config and two stores may both
-      // call theirs `brandStory`; then the whole block, which is what the query reads.
+      // The merchant, because a `ref` is only unique inside one config.
       queryKey: [QueryKeys.Metaobject, getActiveMerchantId(), block],
       queryFn: () => metaobjectService.storiesByBlock(block),
     })),

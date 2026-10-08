@@ -47,9 +47,6 @@ function toProductDetail(response: ProductByHandleApi): Product | undefined {
 /**
  * Shopify returns a POSITIONAL array holding `null` for every identifier the product does not
  * define, so this indexes by identifier and reads by block.
- *
- * Flat, not grouped by area: a story declared in the same area is resolved from a metaobject, and
- * grouping both at once is `toAreaContent`'s job.
  */
 function toBlocks(
   raw: (MetafieldApi | null)[] | null | undefined,

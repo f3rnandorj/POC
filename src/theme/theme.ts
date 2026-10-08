@@ -8,10 +8,7 @@ import { palette } from "./palette";
 import { spacing } from "./spacing";
 import { textVariants } from "./textVariants";
 
-/**
- * Built per merchant rather than at import: the app root rebuilds it when the demo switch
- * changes stores, which is also what remounts the tree.
- */
+/** Built per merchant, never at import: the app root rebuilds it when the store changes. */
 export function buildTheme() {
   const merchant = merchantConfig();
 
@@ -62,10 +59,7 @@ export type Theme = ReturnType<typeof buildTheme>;
 /** The base tokens with merchant values: widened, since `palette` literals are `as const`. */
 type MerchantColors = Record<keyof typeof colors, string>;
 
-/**
- * A merchant palette fails by being invisible, not by throwing — so this throws, in dev only.
- * `success` and `danger` are checked because they stay fixed while the background moves.
- */
+/** A bad palette fails by being invisible, so this throws in dev. Fixed colors included. */
 function assertReadable(
   merchantColors: MerchantColors,
   merchantId: string,
@@ -98,7 +92,9 @@ function assertReadable(
 
   if (failed.length > 0) {
     throw new Error(
-      `Merchant "${merchantId}" palette is unreadable — ${failed.join(", ")}. ` +
+      `Merchant "${merchantId}" palette is unreadable — ${failed.join(
+        ", ",
+      )}. ` +
         `Fix the brand colors in config/merchant/merchants/${merchantId}.ts.`,
     );
   }

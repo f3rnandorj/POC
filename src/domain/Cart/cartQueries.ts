@@ -1,7 +1,4 @@
-/**
- * Local to this domain rather than in `api/shopify/fragments.ts`: the cart selection is shared by
- * the cart's own five documents and by nothing else.
- */
+/** Local to this domain: the cart selection is shared by its own five documents and nothing else. */
 const CART_FRAGMENT = /* GraphQL */ `
   fragment CartDetail on Cart {
     id

@@ -15,7 +15,6 @@ import { HomeProductRow } from "./HomeProductRow";
 import { SectionNote } from "./SectionNote";
 
 interface HomeHeaderProps {
-  /** The `header` area: story sections this merchant opens the screen with. */
   blocks?: ResolvedBlock[];
   products: Product[];
   title?: string;

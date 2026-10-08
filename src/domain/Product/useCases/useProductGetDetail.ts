@@ -15,8 +15,6 @@ export function useProductGetDetail(handle: string) {
     enabled: Boolean(handle),
   });
 
-  // Two sources, one set of areas: the product's metafields and, where the merchant declared one,
-  // the store's metaobjects. The declaration decides the area and the order for both.
   const areas = productDetailAreas();
   const { blocks: stories } = useMetaobjectGetBlocks(storyBlocksIn(areas));
 

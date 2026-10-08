@@ -774,3 +774,17 @@ Antes a raiz da tela misturava três coisas de natureza diferente — arranjo (`
 Consequências: `ProductDetailArea` virou a união das chaves dos dois grupos; `declaredAreas` roda **por grupo** (`metafields`, depois `metaobjects`) e concatena, em vez de filtrar a raiz da tela; `queriedMetafieldBlocks` lê `productDetail.metafields`. Nada mudou na resolução nem no render — o `toAreaContent` continua recebendo uma lista só, porque os nomes não se repetem entre os grupos.
 
 **Verificado** com `tsc --noEmit` e `eslint` limpos. Sem simulador, a pedido do usuário — a mudança é de forma do config, e a resolução por área já estava provada no device.
+
+---
+
+## 2026-10-07 — Comentário é exceção, não documentação: `src/` cai de 611 para 264 linhas
+
+**Decisão:** a regra de comentário sobe para `quick-rules.md` (#22, sempre carregada) e `code-style.md` ganha o teste único do brain — *a informação cabe em um nome ou em um tipo?* Se cabe, é rename. Se não cabe **e o contexto morre com o arquivo**, é comentário válido. Só dois casos qualificam: quirk externo / invariante / decisão de segurança (uma ou duas linhas, o *porquê*), e constante de tuning (o que ela controla, a unidade).
+
+O código estava em 611 linhas de comentário para 6.127 de `src` (10%), 154 delas JSDoc de uma linha. `merchantTypes.ts` sozinho tinha 139 — quase tudo restatement do nome do campo (`/** The brand colors. */`, `/** Hairlines and dividers. */`). A varredura deixou 264 (4,5%): quirks de Shopify (array posicional com `null`, HTTP 200 + `userErrors`, `cart: null`, gid em `value`, limite de 250 identifiers), de React Native (polyfill de `URL` parcial, clip de scroller no iOS, `onScrollToIndexFailed`, `transform` do Reanimated) e de React Query (v5 rejeita `undefined` em cache); os invariantes de segurança do `checkoutUtils.ts`; as constantes medidas (`PRESS_DEPTH`, `THUMB`, `BAND`, `METAOBJECT_PAGE_SIZE`); e os marcadores `ponytail:`.
+
+**O que virou proibido explicitamente:** JSDoc que repete prop ou campo; narração de arquitetura (por que uma camada existe, por que o componente é único, como dois módulos se relacionam) — isso mora em `standards/` e aqui, não no arquivo; ponteiro para quick-rule ou ADR por número; e banner divisor.
+
+**Conflito com o brain, resolvido a favor do projeto.** `brain/developer/code-structure.md` §Domain Types manda `// ==== {Section} ==== //` dentro de `{Domain}Types.ts`; `code-style.md` proíbe banner. O projeto ganha por precedência e a proibição agora é explícita nos dois arquivos, com o motivo: nenhum `*Types.ts` daqui chega ao tamanho em que a divisão visual paga o custo, e `merchantTypes.ts` sem os comentários caiu para 147 linhas lidas de cima a baixo.
+
+**Verificado** com `tsc --noEmit`, `eslint` e `prettier --check` limpos. Nenhuma linha de código mudou — só comentário. `theme.ts` e `merchantConfig.ts` já estavam fora do Prettier no HEAD e foram formatados de passagem.

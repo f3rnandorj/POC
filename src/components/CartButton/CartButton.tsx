@@ -10,14 +10,9 @@ import { PressableBox } from "../PressableBox/PressableBox";
 import { Text } from "../Text/Text";
 
 export interface CartButtonProps {
-  /** Over a photo instead of in a header row — same treatment as the floating back control. */
   floating?: boolean;
 }
 
-/**
- * Lives on every screen through `Screen`, so it navigates itself rather than taking a handler
- * each screen would have to repeat.
- */
 export function CartButton({ floating = false }: CartButtonProps) {
   const navigation =
     useNavigation<NativeStackNavigationProp<AppStackParamList>>();

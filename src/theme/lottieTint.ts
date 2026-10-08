@@ -1,12 +1,9 @@
 import { toChannels } from "./contrast";
 
 /**
- * Paints every fill in a Lottie document with one color.
- *
- * The asset ships filled black, which disappears on the near-black base background, and the
- * merchant's accent is only known at runtime. Rewriting the document is preferred over the
- * native `colorFilters` prop because that one matches layers by the keypath the designer
- * happened to export — here, Cyrillic names from the original After Effects file.
+ * The asset ships filled black, invisible on the base background, and the accent is only known
+ * at runtime. Rewritten rather than tinted with `colorFilters`, which matches layers by the
+ * keypath the designer exported — here, Cyrillic names from the original After Effects file.
  */
 export function tintLottie<T>(source: T, hex: string): T {
   const [red, green, blue] = toChannels(hex);

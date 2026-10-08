@@ -11,7 +11,6 @@ export interface DialogProps {
   children: ReactNode;
 }
 
-/** The app's one dialog chrome: scrim, card and the Android back gesture, in a single place. */
 export function Dialog({ isOpen, onClose, children }: DialogProps) {
   return (
     <Modal

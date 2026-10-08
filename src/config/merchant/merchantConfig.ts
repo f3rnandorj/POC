@@ -15,10 +15,7 @@ import type {
   StoryBlock,
 } from "./merchantTypes";
 
-/**
- * Resolved on every call, never captured: the active merchant changes at runtime
- * (`activeMerchant.ts`), so a module constant would keep serving the previous store.
- */
+/** Never captured in a constant: the active merchant changes at runtime. */
 export function merchantConfig(): MerchantConfig {
   return getMerchantConfig(getActiveMerchantId());
 }
@@ -37,7 +34,6 @@ export function getMerchantConfig(merchantId: string): MerchantConfig {
   return merchant;
 }
 
-/** Each screen resolves its own arrangement, with the base one for every key left out. */
 export function homeLayout(): HomeLayout {
   const layout = merchantConfig().screens.home?.layout;
 
@@ -55,40 +51,26 @@ export function productDetailLayout(): ProductDetailLayout {
   };
 }
 
-/** Absent means the row renders with no heading. */
 export function homeMainProductRowTitle(): string | undefined {
   return merchantConfig().screens.home?.mainProductRowTitle;
 }
 
-/**
- * The home positions paired with their blocks. Every one of them is metaobject-backed, so an
- * empty result is a merchant that issues no metaobject query at all.
- */
 export function homeAreas(): AreaBlocks<HomeArea>[] {
   const screen = merchantConfig().screens.home;
 
   return declaredAreas(screen?.metaobjects) as AreaBlocks<HomeArea>[];
 }
 
-/**
- * Each area paired with its blocks, in declaration order, so neither the adapter nor the screen
- * names an area. An empty area is dropped here rather than resolved to nothing.
- */
 export function productDetailAreas(): AreaBlocks<ProductDetailArea>[] {
   const screen = merchantConfig().screens.productDetail;
 
-  // Both groups in one list: positions never repeat across them, so the result stays one area per
-  // key and whoever walks it never has to know which source a position is fed from.
+  // Positions never repeat across the two groups, so one flat list stays one area per key.
   return [
     ...declaredAreas(screen?.metafields),
     ...declaredAreas(screen?.metaobjects),
   ] as AreaBlocks<ProductDetailArea>[];
 }
 
-/**
- * What a `story` block points at. A ref with no entry is a config error, and it surfaces as that
- * block's query failing rather than as a screen rendering one section short in silence.
- */
 export function metaobjectSource(ref: string): MetaobjectSource {
   const source = merchantConfig().metaobjectSources?.[ref];
 
@@ -102,7 +84,6 @@ export function metaobjectSource(ref: string): MetaobjectSource {
   return source;
 }
 
-/** The story blocks declared across those areas — what the metaobject resolver fetches. */
 export function storyBlocksIn(areas: AreaBlocks[]): StoryBlock[] {
   return areas.flatMap(([, blocks]) => blocks.filter(isStoryBlock));
 }
@@ -115,15 +96,11 @@ const MERCHANTS: Record<string, MerchantConfig> = {
   [atlas.id]: atlas,
 };
 
-/** The stores the demo switch offers. */
 export const merchantIds = Object.keys(MERCHANTS) as MerchantId[];
 
 /**
- * The metafield identifiers the product document asks for — **every** declared merchant's, not
- * just the active one's. The document is a template literal built once at import, so a merchant
- * switched in afterwards would otherwise query the previous merchant's keys. Harmless: the adapter
- * indexes the response by identifier and resolves only the active merchant's blocks, and an
- * identifier the product does not define comes back null and is dropped.
+ * Every declared merchant's, not just the active one's: the product document is a template
+ * literal built once at import, so a merchant switched in afterwards would query stale keys.
  *
  * ponytail: ceiling is Shopify's 250 identifiers per query. Past that, build the document per
  * merchant — the fragments and the query documents become functions.
@@ -131,15 +108,12 @@ export const merchantIds = Object.keys(MERCHANTS) as MerchantId[];
 export const queriedMetafieldBlocks: MetafieldBlock[] = Object.values(
   MERCHANTS,
 ).flatMap(merchant =>
-  declaredAreas(merchant.screens.productDetail?.metafields).flatMap(([, blocks]) =>
-    blocks.filter(isMetafieldBlock),
+  declaredAreas(merchant.screens.productDetail?.metafields).flatMap(
+    ([, blocks]) => blocks.filter(isMetafieldBlock),
   ),
 );
 
-/**
- * Selected merchant only: every module is imported to build the record, so validating at that
- * scope would stop a developer holding one merchant's token from booting. Names keys, not values.
- */
+/** Selected merchant only: validating every imported config would block a one-token dev. */
 function assertCredentials(merchant: MerchantConfig): void {
   const prefix = merchant.id.toUpperCase();
   const { storeDomain, storefrontToken, apiVersion } = merchant.credentials;
@@ -160,11 +134,6 @@ function assertCredentials(merchant: MerchantConfig): void {
   }
 }
 
-/**
- * One group's areas as entries, in declaration order. An area is a key holding a list of blocks,
- * so a heading (a string) is skipped without being named here — the shape says it, and a key the
- * app grows later needs no edit. An empty area is dropped rather than resolved to nothing.
- */
 function declaredAreas(screen: object = {}): AreaBlocks[] {
   return Object.entries(screen).filter(isArea);
 }

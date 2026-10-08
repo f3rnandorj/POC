@@ -36,6 +36,9 @@
 
 21. **ESLint gates, Prettier formats — and the config is `food-balance`'s, verbatim** — double quotes (`quotes: ['error','double']`), `trailingComma: 'all'`, `arrowParens: 'avoid'`, width 80. `yarn lint` must pass. `eslint-plugin-prettier` is **not** installed: ESLint never reflows code, Prettier does, on save via `esbenp.prettier-vscode`. `.husky/pre-commit` runs the lint, `.husky/pre-push` runs `tsc --noEmit` + `check-security.sh`. A formatting diff in a file the task never touched means the editor disagrees with `.prettierrc.js` — fix the setup, don't commit it. See `code-style.md`.
 
+22. **Comments default to zero** — names and types carry intent, and a "what" comment is a defect, not neutral clutter. Only two things earn one: a non-obvious external quirk / invariant / security decision (one or two lines, the *why*), and a tuning constant (what it controls, its unit). A deliberate shortcut uses the `// ponytail:` prefix with its ceiling + upgrade path. **Never:** JSDoc restating a prop or field, architecture narration (that lives in `standards/` and `memory/decisions.md`), pointers to a rule or ADR by number, section-divider banners — including in `{domain}Types.ts`, where the brain mandates them and this project does not. Delete noise from any file you already touch. See `code-style.md`.
+
+
 ## Brain fallback
 
 - **`.claude/` always wins** over `~/.claude/brain/`. Brain is a reference library, not auto-loaded.

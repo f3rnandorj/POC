@@ -10,10 +10,7 @@ export const Box = createBox<Theme>();
 
 export type BoxProps = ComponentProps<typeof Box>;
 
-/**
- * Restyle tokens on a Reanimated view, so `entering` / `layout` never force a component back
- * into raw `style={{}}` to get animated.
- */
+/** Restyle tokens on a Reanimated view: `entering`/`layout` without raw `style={{}}`. */
 export const AnimatedBox = createBox<Theme, AnimatedProps<ViewProps>>(
   Animated.View,
 );

@@ -7,11 +7,8 @@ interface CheckoutNoticeDialogProps {
 }
 
 /**
- * Stands between the cart and Shopify's checkout, because the person holding this build has no
- * other place to learn that the payment is simulated or what to type into the card field.
- *
- * App copy, not merchant copy: dev mode is a property of the build, so none of it comes from
- * `config/merchant/`.
+ * The only place the person holding this build learns the payment is simulated. App copy, not
+ * merchant copy: dev mode is a property of the build.
  */
 export function CheckoutNoticeDialog({
   isOpen,

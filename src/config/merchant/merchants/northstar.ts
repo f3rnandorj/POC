@@ -2,7 +2,6 @@ import Config from "react-native-config";
 
 import type { MerchantConfig } from "../merchantTypes";
 
-/** Credentials come from the environment: the Storefront token never sits in a tracked file. */
 export const northstar: MerchantConfig = {
   id: "northstar",
   credentials: {
@@ -12,8 +11,6 @@ export const northstar: MerchantConfig = {
     storePassword: Config.NORTHSTAR_STORE_PASSWORD,
   },
   theme: {},
-  // Every metaobject type this store draws sections from, declared once. A block points at a key
-  // here, so the same type feeds two screens without restating its field map.
   metaobjectSources: {
     brandStory: {
       type: "brand_story",
@@ -27,8 +24,6 @@ export const northstar: MerchantConfig = {
         collections: "horizontal",
       },
       mainProductRowTitle: "Products",
-      // One section per entry the store holds of this type: a second brand story added in the
-      // Shopify admin draws a second section, with no deploy.
       metaobjects: {
         footer: [
           {

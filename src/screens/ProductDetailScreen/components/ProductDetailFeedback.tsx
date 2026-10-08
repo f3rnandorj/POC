@@ -90,10 +90,6 @@ export function ProductDetailFeedback({
   );
 }
 
-/**
- * Own component so the tint only runs on the loading path, and so the error branch below pays
- * nothing for it.
- */
 function LoadingAnimation() {
   const { colors } = useAppTheme();
   const source = useMemo(

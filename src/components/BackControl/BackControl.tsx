@@ -4,7 +4,6 @@ import { Text } from "../Text/Text";
 
 interface BackControlProps {
   onPress: () => void;
-  /** Safe-area offset for the floating variant. Omit it and the control sits in normal flow. */
   top?: number;
 }
 

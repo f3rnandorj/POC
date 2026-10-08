@@ -1,9 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 
-/**
- * `retry: 1` because a Storefront 4xx (bad token, unknown identifier) will not succeed on a
- * retry; the 10s stale window keeps list → detail navigation off the network.
- */
+/** A Storefront 4xx will not succeed on a retry; 10s stale keeps list → detail off the network. */
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

@@ -1,7 +1,4 @@
-/**
- * Split out of `theme.ts` for the same reason as `colors.ts`: a module needing a raw token
- * (`screenGutter`) must not pull in a theme built for whichever merchant is active.
- */
+/** Split out of `theme.ts` so a module needing a raw token pulls in no merchant theme. */
 export const spacing = {
   s4: 4,
   s8: 8,

@@ -30,7 +30,6 @@ export function HomeScreen({ navigation }: AppScreenProps<"Home">) {
     isLoading: isLoadingCollections,
     error: collectionsError,
   } = useCollectionGetList();
-  // Every home area is metaobject-backed, so one hook resolves the whole screen's content.
   const { content } = useMetaobjectGetContent(homeAreas());
   const layout = homeLayout();
 

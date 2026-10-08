@@ -6,7 +6,6 @@ import type { ResolvedStory } from "../contentTypes";
 import { metaobjectAdapter } from "./metaobjectAdapter";
 import { metaobjectApi } from "./metaobjectApi";
 
-/** The ref resolves here, inside the query: an unknown one fails this block, not the render. */
 async function storiesByBlock(block: StoryBlock): Promise<ResolvedStory[]> {
   const source = metaobjectSource(block.source.ref);
   const response = await metaobjectApi.listByType(

@@ -21,7 +21,6 @@ export interface ScreenProps extends BoxProps {
   gutter?: boolean;
   title?: string;
   eyebrow?: string;
-  /** A control on the title row, right-aligned. */
   headerRight?: ReactNode;
   onGoBack?: () => void;
   floatingBack?: boolean;
@@ -188,10 +187,7 @@ function ScreenTitle({
   );
 }
 
-/**
- * On iOS a scroller clips to its frame, so a row bleeding past the gutter
- * (`marginHorizontal="sNegative16"`) only survives when the gutter is padding *inside* it.
- */
+/** On iOS a scroller clips to its frame, so a bleeding row needs the gutter as inner padding. */
 export const screenGutter = {
   paddingHorizontal: spacingTokens.s16,
 } as const;

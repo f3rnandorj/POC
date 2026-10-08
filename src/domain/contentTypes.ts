@@ -1,7 +1,3 @@
-/**
- * The resolved content model — shared, because a declared area mixes sources: a badge comes from a
- * product metafield and a story from a metaobject, and both end up in the same area.
- */
 export type AreaContent<Area extends string> = Partial<
   Record<Area, ResolvedBlock[]>
 >;
@@ -33,10 +29,7 @@ export interface ResolvedLabelValueSection extends ResolvedBase {
   items: ResolvedItem[];
 }
 
-/**
- * One metaobject entry. A story block resolves to as many of these as the store has entries, so
- * several resolved stories share one `id` — the renderer keys them by position inside the area.
- */
+/** One metaobject entry: several resolved stories share one `id`, keyed by position. */
 export interface ResolvedStory extends ResolvedBase {
   kind: "story";
   title?: string;

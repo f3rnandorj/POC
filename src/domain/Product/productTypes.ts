@@ -10,11 +10,7 @@ export interface Product {
   price: ProductPrice;
   images: ProductImage[];
   variants: ProductVariant[];
-  /**
-   * The blocks this product resolved from its own metafields, flat and keyed by the block that
-   * declared each one. Which area they land in is not the product's to say: a story in the same
-   * area comes from a metaobject, so `toAreaContent` groups both at the screen's door.
-   */
+  /** Flat, not grouped: which area each lands in is `toAreaContent`'s call, not the product's. */
   blocks: ResolvedBlock[];
 }
 

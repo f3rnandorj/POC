@@ -11,10 +11,7 @@ import { queryClient } from "@infra";
 
 import { MerchantSwitchDialog } from "./MerchantSwitchDialog";
 
-/**
- * Demo-only affordance: a real storefront build is bound to one merchant and ships no such
- * control. It is here so whoever installs the APK can see the same code draw a different store.
- */
+/** Demo-only: a real storefront build is bound to one merchant and ships no such control. */
 export function MerchantSwitch() {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState<string>();
@@ -32,8 +29,8 @@ export function MerchantSwitch() {
     }
 
     try {
-      // Credentials are validated before the switch: missing ones throw while the theme is being
-      // built, which in a release build is a dead app rather than a message.
+      // Validated before the switch: missing credentials would otherwise throw while the theme
+      // is being built, which in a release build is a dead app rather than a message.
       getMerchantConfig(merchantId);
     } catch (cause) {
       setError(

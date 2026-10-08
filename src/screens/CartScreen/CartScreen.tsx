@@ -21,9 +21,8 @@ export function CartScreen({ navigation }: AppScreenProps<"Cart">) {
   const isBusy = isUpdating || isRemoving;
   const lines = cart?.lines ?? [];
 
-  // `popTo`, never `push`: the detail is usually already below the cart, and bouncing between the
-  // two would otherwise stack a new copy of each on every round trip. Absent from the stack, it
-  // is pushed once.
+  // `popTo`, never `push`: the detail is usually already below the cart, and bouncing between
+  // the two would otherwise stack a new copy of each on every round trip.
   function openProduct(handle: string) {
     navigation.popTo("ProductDetail", { handle });
   }
@@ -98,7 +97,6 @@ interface CartBodyProps {
   onBrowse: () => void;
 }
 
-/** The three states that are not content; lines render above whatever this returns. */
 function CartBody({
   hasLines,
   isLoading,

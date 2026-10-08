@@ -10,7 +10,6 @@ import { Text } from "../Text/Text";
 interface CollectionCardProps {
   collection: Collection;
   onPress: (handle: string) => void;
-  /** `row` is a wide banner in a stacked list; `tile` is a card in a scrolling row. */
   variant?: "row" | "tile";
 }
 

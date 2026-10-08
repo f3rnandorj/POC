@@ -1,4 +1,3 @@
-/** Raw Storefront shapes shared across domains. Domain-specific ones live in `{domain}Types.ts`. */
 export interface MoneyV2Api {
   amount: string;
   currencyCode: string;

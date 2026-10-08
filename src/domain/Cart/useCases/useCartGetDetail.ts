@@ -17,8 +17,7 @@ export function useCartGetDetail() {
     enabled: Boolean(cartId),
   });
 
-  // Shopify drops an old cart on its own. Forgetting the id here is what makes the next add start
-  // a new one instead of failing against a cart that no longer exists.
+  // Forgetting the id is what makes the next add start a new cart instead of failing.
   useEffect(() => {
     if (cartId && data === null) {
       clearActiveCart();

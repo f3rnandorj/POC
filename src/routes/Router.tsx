@@ -9,11 +9,9 @@ import { AppStack } from "./AppStack";
 export function Router() {
   const { colors } = useAppTheme();
 
-  // The Box is what the native stack animates *over*: react-native-screens hands the incoming
-  // screen its first frames before React has painted it, and whatever is behind shows through.
-  // With nothing painting here that is the Android window background — white on a light-mode
-  // device — which is the flash on every push. The merchant's background cannot live in
-  // `styles.xml` because it is chosen at runtime, so it is painted here instead.
+  // react-native-screens shows the incoming screen's first frames before React paints it, so
+  // whatever is behind bleeds through — the Android window background, white, on every push.
+  // The merchant's background is runtime-chosen, so it cannot live in `styles.xml`.
   return (
     <Box flex={1} backgroundColor="background">
       <NavigationContainer theme={navigationTheme(colors)}>

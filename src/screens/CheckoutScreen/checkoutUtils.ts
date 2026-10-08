@@ -1,5 +1,3 @@
-/** Pure helpers for the checkout WebView — kept out of the screen (quick-rule #14). */
-
 export interface CheckoutMessage {
   isCompleted: boolean;
   /** Only ever this app's own reading of the order number; never raw page data. */
@@ -10,10 +8,7 @@ export function passwordUrl(storeDomain: string): string {
   return `https://${storeDomain}/password`;
 }
 
-/**
- * Shopify's password page is a plain form. Filling and submitting it is what the buyer would do
- * by hand, and it is the only thing that opens the checkout on a development store.
- */
+/** Submitting the form by script is the only way into a development store's checkout. */
 export function passwordScript(password?: string): string {
   return `
     (function () {
@@ -29,11 +24,8 @@ export function passwordScript(password?: string): string {
 }
 
 /**
- * Watches for the order status page instead of running once: Shopify's checkout is a single
- * document, so reaching "thank you" fires no page load and no second injection.
- *
- * The order number is read from the page because the Storefront API has no orders — it is the
- * buyer's reference, and an absent one simply renders nothing.
+ * Shopify's checkout is a single document, so reaching "thank you" fires no page load and no
+ * second injection. The order number is read off the page because Storefront has no orders.
  */
 export function completionScript(): string {
   return `
@@ -57,19 +49,13 @@ export function completionScript(): string {
   `;
 }
 
-/** True only on Shopify's order status page — where a completion may legitimately be claimed. */
 export function isCompletionUrl(url: string): boolean {
   return COMPLETED_PATTERN.test(url);
 }
 
 /**
- * The checkout page posts messages of its own — `{"checkout_completed":true}` among them — so a
- * message is read, never trusted: anything unrecognised is ignored, and the reference is only
- * ever taken from this app's own payload.
- *
- * A payload can still be forged by whatever runs in the page, so nothing here says *where* it came
- * from: the caller judges that by the WebView's own `nativeEvent.url`, and a completion claimed
- * from anywhere but the order status page is noise.
+ * Read, never trusted: the page posts messages of its own, and any payload can be forged by
+ * whatever runs in it. Where it came from is the caller's check, against `nativeEvent.url`.
  */
 export function readCheckoutMessage(data: string): CheckoutMessage {
   const parsed = parseJson(data);
@@ -86,14 +72,10 @@ export function readCheckoutMessage(data: string): CheckoutMessage {
 }
 
 /**
- * Only the merchant's own host and Shopify's: the checkout pulls its card field and its assets
- * from Shopify-owned domains, and blocking those would break the page it is trying to show.
- *
- * Parsed by hand rather than with `URL`, whose React Native polyfill is partial, and strictly:
- * the authority must be hostname characters and an optional port, so `user@evil.com` and
- * `evil.com\\.shopify.com` — which a browser resolves to `evil.com` — never reach the comparison.
- * Suffixes are dot-anchored for the same reason `shop.app` is an exact host: without the dot,
- * `evilshop.app` would pass.
+ * Parsed by hand — React Native's `URL` polyfill is partial — and strictly: the authority must
+ * be hostname characters and an optional port, so `user@evil.com` and `evil.com\\.shopify.com`,
+ * which a browser resolves to `evil.com`, never reach the comparison. Suffixes are dot-anchored
+ * for the same reason `shop.app` is an exact host: without the dot, `evilshop.app` would pass.
  */
 export function isStoreUrl(url: string, storeDomain: string): boolean {
   const host = url.match(HOST_PATTERN)?.[1]?.toLowerCase().replace(/\.$/, "");

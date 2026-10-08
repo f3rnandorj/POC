@@ -5,14 +5,8 @@ import { createMMKV } from "react-native-mmkv";
 import { getActiveMerchantId } from "@config";
 
 /**
- * Which cart the app is holding, per merchant, surviving a restart.
- *
- * The id is a capability token for that one cart — not a store credential — which is why it may
- * sit on disk while the Storefront token may not. Nothing else is stored: the lines, the prices
- * and the totals always come back from Shopify.
- *
- * The key carries the merchant id, so the demo switch swaps carts instead of leaking one store's
- * cart into the other, and neither has to be cleared.
+ * The id is a capability token for that one cart, not a store credential, which is why it may
+ * sit on disk while the Storefront token may not. Keyed by merchant so a switch swaps carts.
  */
 const storage = createMMKV({ id: "cart" });
 
@@ -31,7 +25,6 @@ export function setActiveCartId(cartId: string): void {
   listeners.forEach(listener => listener());
 }
 
-/** Called when the cart is checked out or Shopify has dropped it. */
 export function clearActiveCart(): void {
   if (getActiveCartId() === undefined) {
     return;

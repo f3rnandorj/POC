@@ -2,13 +2,7 @@ import type { AreaBlocks } from "@config";
 
 import type { AreaContent, ResolvedBlock } from "./contentTypes";
 
-/**
- * Groups resolved blocks into the areas that declared them, walking the declarations rather than
- * the resolutions: the key path decides the area and the array index decides the order. Blocks
- * resolved from different sources — product metafields, the store's metaobjects — are grouped in
- * one pass, which is what lets a screen hold one content map instead of one per source. An area
- * that collected nothing is left out of the result entirely.
- */
+/** Walks the declarations, not the resolutions: the key path is the area, the index the order. */
 export function toAreaContent<Area extends string>(
   areas: AreaBlocks<Area>[],
   resolved: ResolvedBlock[],

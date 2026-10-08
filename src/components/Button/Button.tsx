@@ -4,16 +4,11 @@ import { Text } from "../Text/Text";
 export interface ButtonProps {
   label: string;
   onPress: () => void;
-  /** `outline` is the secondary action standing next to a primary one. */
   variant?: "primary" | "outline";
   disabled?: boolean;
   accessibilityLabel?: string;
 }
 
-/**
- * The project's one button. Stretches to its container rather than self-aligning — a CTA spans
- * the gutter, and two of them side by side are two flexed boxes, not two widths.
- */
 export function Button({
   label,
   onPress,

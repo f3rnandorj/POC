@@ -1,9 +1,6 @@
 import type { EdgesApi, ImageApi } from "@api";
 
-/**
- * A metaobject field holding a file carries a gid in `value`; only `reference` resolves to
- * something renderable. Text fields carry their value and no reference.
- */
+/** A file field carries a gid in `value`; only `reference` resolves to something renderable. */
 export interface MetaobjectFieldApi {
   key: string;
   value: string | null;

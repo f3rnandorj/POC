@@ -19,16 +19,13 @@ export const atlas: MerchantConfig = {
     textMuted: "#6B6054",
     border: "#E8D5BE",
   },
-  // Same shape as northstar's story, different field keys: the merchant's words for them are
-  // what the map absorbs, so neither the app nor the domain knows this store calls it `heading`.
   metaobjectSources: {
     linenJourney: {
       type: "linen_journey",
       fields: { title: "heading", body: "story" },
     },
   },
-  // No `belowDescription`: this merchant did not buy it, and the area collapses — the absent case
-  // lives in the config, not in a flag. Same for `image` above: this store's entries have no photo.
+  // No `belowDescription` and no `image`: the absent case lives in the config, not in a flag.
   screens: {
     home: {
       mainProductRowTitle: "Main products",
@@ -109,8 +106,6 @@ export const atlas: MerchantConfig = {
           },
         ],
       },
-      // One block, three entries in the store, three sections — northstar's single entry draws
-      // one from the same code.
       metaobjects: {
         footer: [
           {

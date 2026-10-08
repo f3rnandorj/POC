@@ -20,10 +20,6 @@ import {
   readCheckoutMessage,
 } from "./checkoutUtils";
 
-/**
- * Shopify's own checkout, in a WebView. The app never collects a card: everything from contact to
- * payment is Shopify's page, and the only thing read back is whether it finished.
- */
 export function CheckoutScreen({ navigation }: AppScreenProps<"Checkout">) {
   const { cart } = useCartGetDetail();
   const { storeDomain, storePassword } = merchantConfig().credentials;
@@ -45,11 +41,9 @@ export function CheckoutScreen({ navigation }: AppScreenProps<"Checkout">) {
   function onMessage(event: WebViewMessageEvent) {
     const message = readCheckoutMessage(event.nativeEvent.data);
 
-    // The checkout chatters over this bridge, and anything running in the page can post to it.
-    // A completion is only believed from the order status page itself, and the page it came from
-    // is the WebView's own reading — `nativeEvent.url`, which the page cannot forge. A URL tracked
-    // from navigation events would not do: it only moves when one fires, and Shopify's
-    // single-document checkout reaches "thank you" without one, so the redirect was a coin toss.
+    // Anything running in the page can post over this bridge, so a completion is only believed
+    // from the order status page, judged by `nativeEvent.url`, which the page cannot forge. A URL
+    // tracked from navigation events would not do: the single-document checkout fires none.
     const sourceUrl = event.nativeEvent.url;
     const isAtOrderStatus =
       isStoreUrl(sourceUrl, storeDomain) && isCompletionUrl(sourceUrl);
@@ -78,7 +72,6 @@ export function CheckoutScreen({ navigation }: AppScreenProps<"Checkout">) {
           source={{
             uri: isUnlocked ? cart.checkoutUrl : passwordUrl(storeDomain),
           }}
-          // Submits the password form on the way in, then watches for the order status page.
           injectedJavaScript={
             isUnlocked ? completionScript() : passwordScript(storePassword)
           }

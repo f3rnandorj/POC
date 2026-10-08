@@ -10,7 +10,6 @@ interface MerchantSwitchDialogProps {
   onClose: () => void;
 }
 
-/** Says what it is before it offers anything: the switch is scaffolding, not a store feature. */
 export function MerchantSwitchDialog({
   isOpen,
   activeId,
@@ -74,10 +73,7 @@ interface MerchantOptionProps {
   onSelect: (merchantId: MerchantId) => void;
 }
 
-/**
- * The store you are *not* on is the filled one: the loud element is the action, not the state.
- * `titleMedium` already uppercases, so the id is passed as it is declared.
- */
+/** `titleMedium` already uppercases, so the id is passed as it is declared. */
 function MerchantOption({
   merchantId,
   isActive,

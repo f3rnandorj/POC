@@ -15,10 +15,7 @@ interface ProductFilmstripProps {
   altFallback: string;
 }
 
-/**
- * One cover photo you pick, instead of one you swipe: the hero plus a thumbnail strip. Same
- * one-way sync as the gallery — a tap looks around, it never changes the selected variant.
- */
+/** One-way sync, like the gallery: a tap looks around, it never changes the selected variant. */
 export function ProductFilmstrip({
   images,
   activeUrl,

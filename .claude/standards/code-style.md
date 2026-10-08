@@ -42,9 +42,35 @@ Always from the module root alias: `import { useProductGetList } from '@domain'`
 
 No blank line after `{` or before `}`.
 
-## Comments
+## Comments (MANDATORY)
 
-Explain **why**, never what. No section-divider comment banners. A comment marking a deliberate shortcut uses the `// ponytail:` prefix and names the ceiling + upgrade path.
+**Default is zero.** Names and types carry intent. A "what" comment is noise, and noise is a
+defect — the next reader trusts it, so an outdated or decorative line costs more than the blank
+line it replaces.
+
+**Single test:** does the information fit in a name or a type? If yes, it is a rename. If no, and
+the context dies with this file, it is a valid comment. Only two cases qualify:
+
+1. **Non-obvious logic** — an external quirk (Shopify, React Native, React Query), a subtle
+   invariant, a security decision, a workaround. **One or two lines**, the why, never the what.
+2. **Tuning constants** — what a value controls or its unit (`PRESS_DEPTH`, `THUMB`, page sizes,
+   measured asset geometry).
+
+A deliberate shortcut uses the `// ponytail:` prefix and names the ceiling + upgrade path.
+
+**Never write, and delete from any file you are already editing:**
+
+- What the code does, or anything restating the identifier below it (`/** The brand colors. */`)
+- JSDoc on a prop or type field whose name and type already say it
+- Architecture narration — why a layer exists, why a component is the only one of its kind, how
+  two modules relate. That lives in `standards/` and `memory/decisions.md`, not in the file
+- Pointers to a quick-rule or an ADR by number
+- Section-divider banners (`// ==== Entities ==== //`) — including in `{domain}Types.ts`. The
+  brain mandates them there; this project does not. See `memory/decisions.md` (2026-10-07)
+- Decorative labels (`// header`, `// scrim`), task/ticket references, ownerless `TODO`/`FIXME`
+- Stale or lying comments — fix or delete on sight
+
+Scope: files the task already touches. A repo-wide sweep only when the user asks.
 
 ## Component / file order (MANDATORY)
 

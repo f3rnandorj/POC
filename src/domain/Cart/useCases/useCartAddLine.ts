@@ -37,11 +37,7 @@ interface AddLineVariables {
   quantity?: number;
 }
 
-/**
- * The first add creates the cart. A stored id can also point at a cart Shopify has dropped, and
- * that only shows up when the add fails — so the retry creates one rather than leaving the buyer
- * with a button that never works.
- */
+/** A stored id may point at a cart Shopify dropped, which only shows up when the add fails. */
 async function addLine(variantId: string, quantity: number): Promise<Cart> {
   const cartId = getActiveCartId();
 

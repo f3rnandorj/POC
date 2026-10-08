@@ -5,10 +5,6 @@ import { clearActiveCart } from "@domain";
 import { QueryKeys, queryClient } from "@infra";
 import type { AppScreenProps } from "@routes";
 
-/**
- * The end of the buying flow. What it shows came from the checkout, not from local state — the
- * cart it was built from is gone by the time this renders.
- */
 export function CheckoutResultScreen({
   route,
   navigation,

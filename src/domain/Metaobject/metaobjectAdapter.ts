@@ -8,7 +8,6 @@ import type {
   MetaobjectNodeApi,
 } from "./metaobjectTypes";
 
-/** One section per entry the store holds of that type, in the order Shopify returned them. */
 function toStories(
   response: MetaobjectListApi,
   blockId: string,
@@ -21,10 +20,7 @@ function toStories(
   });
 }
 
-/**
- * An entry whose declared title and body are both absent resolves to nothing: an image alone is a
- * section with no words in it, and an absent source renders no block at all.
- */
+/** Title and body both absent resolves to nothing — an image alone is a wordless section. */
 function toStory(
   node: MetaobjectNodeApi,
   blockId: string,

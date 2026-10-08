@@ -34,10 +34,7 @@ export function ContentBlocks({
   );
 }
 
-/**
- * Keyed by id *and* position: one declared block can resolve to several rendered ones — a story
- * block draws a section per metaobject entry — so the id alone is not unique inside an area.
- */
+/** Keyed by id *and* position: a story block resolves to one section per metaobject entry. */
 function renderBlock(block: ResolvedBlock, index: number) {
   const key = `${block.id}:${index}`;
 
