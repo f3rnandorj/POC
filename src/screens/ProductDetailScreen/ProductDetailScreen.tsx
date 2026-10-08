@@ -1,21 +1,20 @@
 import { useState } from "react";
-import { Image } from "react-native";
 
-import { Box, ContentBlocks, ProductGallery, Screen, Text } from "@components";
-import { productDetailLayout } from "@config";
+import { Box, ContentBlocks, Screen, Text } from "@components";
 import { useProductGetDetail } from "@domain";
 import type { AppScreenProps } from "@routes";
 import { formatPrice } from "@utils";
 
 import { AddToCartFooter } from "./components/AddToCartFooter";
 import { ProductDetailFeedback } from "./components/ProductDetailFeedback";
+import { ProductMedia } from "./components/ProductMedia";
 import { VariantPicker } from "./components/VariantPicker";
 
 export function ProductDetailScreen({
   route,
   navigation,
 }: AppScreenProps<"ProductDetail">) {
-  const { product, isLoading, error, refetch } = useProductGetDetail(
+  const { product, content, isLoading, error, refetch } = useProductGetDetail(
     route.params.handle,
   );
   const [selectedId, setSelectedId] = useState<string>();
@@ -34,10 +33,6 @@ export function ProductDetailScreen({
   const selected = product.variants.find(variant => variant.id === selectedId);
   const preselected =
     selected ?? product.variants.find(variant => variant.isAvailable);
-  // `selected`, not `preselected`: the detail must open on the same photo as the grid card
-  // that led here. Falls back for a variant whose photo the merchant never set.
-  const image = selected?.image ?? product.images[0];
-  const { content } = product;
 
   return (
     // No gutter: the screen opens on a full-bleed photo, so the copy below pads itself.
@@ -48,31 +43,20 @@ export function ProductDetailScreen({
       onGoBack={navigation.goBack}
       footer={<AddToCartFooter variant={preselected} />}
     >
-      {productDetailLayout().media === "gallery" ? (
-        <ProductGallery
-          images={product.images}
-          activeUrl={selected?.image?.url}
-          altFallback={product.title}
-        />
-      ) : (
-        <Box backgroundColor="surface" aspectRatio={1} width="100%">
-          {image && (
-            <Image
-              source={{ uri: image.url }}
-              accessibilityLabel={image.altText ?? product.title}
-              resizeMode="cover"
-              style={FILL}
-            />
-          )}
-        </Box>
-      )}
+      {/* `selected`, not `preselected`: the detail must open on the same photo as the grid
+          card that led here. */}
+      <ProductMedia
+        images={product.images}
+        activeUrl={selected?.image?.url}
+        altFallback={product.title}
+      />
 
       <Box paddingHorizontal="s16" paddingVertical="s24" gap="s12">
         <Text variant="displayLarge">{product.title}</Text>
         <Text variant="priceLarge">{formatPrice(product.price)}</Text>
 
         <ContentBlocks blocks={content.badgeRow} direction="row" gap="s8" />
-        <ContentBlocks blocks={content.underPrice} gap="s4" />
+        <ContentBlocks blocks={content.textLines} gap="s4" />
         <ContentBlocks blocks={content.aboveDescription} />
 
         {product.description.length > 0 && (
@@ -91,9 +75,9 @@ export function ProductDetailScreen({
           selectedId={preselected?.id}
           onSelect={setSelectedId}
         />
+
+        <ContentBlocks blocks={content.footer} gap="s24" />
       </Box>
     </Screen>
   );
 }
-
-const FILL = { width: "100%", height: "100%" } as const;

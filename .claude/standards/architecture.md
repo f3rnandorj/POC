@@ -43,17 +43,25 @@ src/
       index.ts
     index.ts
   domain/
+    contentTypes.ts            ← ResolvedBlock + AreaContent: the shape every area renders,
+                                 shared because one area mixes metafield and metaobject sources
+    contentAreas.ts            ← toAreaContent: groups resolved blocks into the areas that
+                                 declared them, walking the declarations (area + order)
     Product/
       productQueries.ts          ← GraphQL documents
       productApi.ts              ← raw calls only
       productService.ts          ← transforms + delegates; singleton object export
-      productAdapter.ts          ← Storefront payload → Product; resolves the merchant's blocks
-      productTypes.ts            ← Product, ProductVariant, ProductContent + *Api raw types
+      productAdapter.ts          ← Storefront payload → Product; resolves the merchant's
+                                   metafield-backed blocks, flat
+      productTypes.ts            ← Product, ProductVariant + *Api raw types
       useCases/
         useProductGetList.ts       ← domain FIRST, verb after
         useProductGetDetail.ts
         index.ts
       index.ts                     ← useCases + productTypes ONLY — never the service
+    Metaobject/
+      ... same shape — the store's metaobjects, one `story` section per entry.
+          Named for the source, never for one merchant's type handle
     Collection/
       ... same shape
     Cart/
@@ -103,9 +111,12 @@ src/
     index.ts                     ← SINGLE root barrel re-exporting every component
   config/
     merchant/
-      merchantConfig.ts          ← active merchant + derived `productDetailAreas`, `homeFooterStory`,
-                                   `homeLayout`, `productDetailLayout`
-      merchantTypes.ts           ← `screens` → areas; each area's element type is what it accepts
+      merchantConfig.ts          ← active merchant + derived `productDetailAreas`, `homeAreas`,
+                                   `storyBlocksIn`, `metaobjectSource`, `homeLayout`,
+                                   `productDetailLayout`
+      merchantTypes.ts           ← `metaobjectSources` + `screens` → `layout`, then positions
+                                   grouped by source (`metafields`, `metaobjects`); each area's
+                                   element type is what it accepts
       merchants/
         {merchant}.ts            ← one file per merchant: credentials, theme, screens
                                    (each screen declares its own `layout`, then its areas)

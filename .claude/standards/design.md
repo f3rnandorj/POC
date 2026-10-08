@@ -12,16 +12,16 @@ Semantic tokens (`src/theme/palette.ts` → `src/theme/theme.ts`). The base is n
 **platform default a merchant inherits**, not a constant. Each token is one of three kinds, and the
 kind is the rule:
 
-| Token | Role | Kind |
-|---|---|---|
-| `background` | app background | **merchant** |
-| `surface` | raised block (variant chip, sheet) | **merchant** |
-| `text` | primary copy | **merchant** |
-| `textMuted` | secondary copy | **merchant** |
-| `border` | hairline, 1px — the only separator | **merchant** |
-| `accent` | badge fill, CTA, selected variant | **merchant** (`theme.primaryColor`) |
-| `accentText` | copy on top of `accent` | derived from the accent's luminance |
-| `success` / `danger` | in stock / sold out | derived from the **background's** luminance |
+| Token                | Role                               | Kind                                        |
+| -------------------- | ---------------------------------- | ------------------------------------------- |
+| `background`         | app background                     | **merchant**                                |
+| `surface`            | raised block (variant chip, sheet) | **merchant**                                |
+| `text`               | primary copy                       | **merchant**                                |
+| `textMuted`          | secondary copy                     | **merchant**                                |
+| `border`             | hairline, 1px — the only separator | **merchant**                                |
+| `accent`             | badge fill, CTA, selected variant  | **merchant** (`theme.primaryColor`)         |
+| `accentText`         | copy on top of `accent`            | derived from the accent's luminance         |
+| `success` / `danger` | in stock / sold out                | derived from the **background's** luminance |
 
 Rules:
 
@@ -38,14 +38,14 @@ Rules:
 
 One family (Inter or Satoshi), wide title-to-body jump. Variants in `theme.textVariants`:
 
-| Variant | Use |
-|---|---|
-| `displayLarge` | product title on detail — 32/36, weight 700, tight tracking |
-| `titleMedium` | section heading (`HOW TO CARE`) — 14, weight 700, uppercase, letter-spacing +1 |
-| `priceLarge` | price — 24, weight 700, tabular |
-| `body` | description, material, promo — 15/22 |
-| `caption` | availability, helper — 12 |
-| `badge` | badge label — 11, weight 700, uppercase, letter-spacing +1 |
+| Variant        | Use                                                                            |
+| -------------- | ------------------------------------------------------------------------------ |
+| `displayLarge` | product title on detail — 32/36, weight 700, tight tracking                    |
+| `titleMedium`  | section heading (`HOW TO CARE`) — 14, weight 700, uppercase, letter-spacing +1 |
+| `priceLarge`   | price — 24, weight 700, tabular                                                |
+| `body`         | description, material, promo — 15/22                                           |
+| `caption`      | availability, helper — 12                                                      |
+| `badge`        | badge label — 11, weight 700, uppercase, letter-spacing +1                     |
 
 Uppercase is a **variant**, never `.toUpperCase()` in a component.
 
@@ -80,11 +80,11 @@ A merchant picks how each screen is arranged, from alternatives the app already 
 of that screen, above its areas — and each screen resolves its own (`homeLayout`,
 `productDetailLayout`). An omitted key falls back to the base.
 
-| Screen | Key | Values | Base |
-|---|---|---|---|
-| `home` | `productRow` | `single` — one scrolling row · `double` — two stacked rows, the same products split | `single` |
-| `home` | `collections` | `inline` — stacked wide rows · `horizontal` — one scrolling row of tiles | `inline` |
-| `productDetail` | `media` | `single` — one cover photo · `gallery` — a paged run through every photo | `single` |
+| Screen          | Key              | Values                                                                                                                                         | Base      |
+| --------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| `home`          | `mainProductRow` | `single` — one scrolling row · `double` — two stacked rows, the same products split · `carousel` — one product per page, full width, with dots | `single`  |
+| `home`          | `collections`    | `inline` — stacked wide rows · `horizontal` — one scrolling row of tiles                                                                       | `inline`  |
+| `productDetail` | `media`          | `gallery` — one photo at a time, paged by swipe · `filmstrip` — a hero photo picked from a thumbnail strip                                     | `gallery` |
 
 Rules:
 
@@ -92,7 +92,7 @@ Rules:
   arrangement the renderer cannot draw; the type rejects it at compile time.
 - A component that gains a shape gains a **named variant** (`CollectionCard` `row` | `tile`), never a
   layout object at the call site.
-- `double` splits the products it already has — an arrangement is not a second query.
+- `double` splits the products it already has and `carousel` pages them — an arrangement is not a second query.
 - Two scrollers on one axis fight: the horizontal collections row renders inside the list header and
   the stacked list receives no data, rather than being nested.
 - **A new screen brings its own `layout`.** There is no central map of arrangements to extend: the key lives with that screen's areas, which is what keeps a screen's declaration readable as one thing.

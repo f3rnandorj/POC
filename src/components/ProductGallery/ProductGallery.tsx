@@ -8,6 +8,7 @@ import { motion } from "@theme";
 import { AnimatedBox, Box } from "../Box/Box";
 
 interface ProductGalleryProps {
+  /** Never empty: `ProductMedia` draws the placeholder for a product with no photo. */
   images: ProductImage[];
   /** The selected variant's photo. Moving it pages the gallery; swiping never moves it back. */
   activeUrl?: string;
@@ -34,10 +35,6 @@ export function ProductGallery({
       setPage(index);
     }
   }, [activeUrl, images]);
-
-  if (images.length === 0) {
-    return <Box backgroundColor="surface" aspectRatio={1} width="100%" />;
-  }
 
   function onSettled(event: NativeSyntheticEvent<NativeScrollEvent>) {
     setPage(Math.round(event.nativeEvent.contentOffset.x / width));

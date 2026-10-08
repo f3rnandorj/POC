@@ -3,17 +3,20 @@ import { FlatList } from "react-native";
 import {
   Box,
   CollectionCard,
+  ContentBlocks,
   PressableBox,
-  ProductCard,
   screenGutter,
   Text,
 } from "@components";
 import type { HomeLayout } from "@config";
-import type { Collection, Product } from "@domain";
+import type { Collection, Product, ResolvedBlock } from "@domain";
 
+import { HomeProductRow } from "./HomeProductRow";
 import { SectionNote } from "./SectionNote";
 
 interface HomeHeaderProps {
+  /** The `header` area: story sections this merchant opens the screen with. */
+  blocks?: ResolvedBlock[];
   products: Product[];
   title?: string;
   collections: Collection[];
@@ -26,6 +29,7 @@ interface HomeHeaderProps {
 }
 
 export function HomeHeader({
+  blocks,
   products,
   title,
   collections,
@@ -36,17 +40,10 @@ export function HomeHeader({
   onOpenCollection,
   onOpenAll,
 }: HomeHeaderProps) {
-  // `double` splits the same products rather than fetching more; an odd count favors row one.
-  const rows =
-    layout.productRow === "double"
-      ? [
-          products.slice(0, Math.ceil(products.length / 2)),
-          products.slice(Math.ceil(products.length / 2)),
-        ]
-      : [products];
-
   return (
     <Box gap="s24" paddingBottom="s16">
+      <ContentBlocks blocks={blocks} gap="s24" />
+
       <Box gap="s12">
         <Box
           flexDirection="row"
@@ -73,26 +70,11 @@ export function HomeHeader({
             emptyText="No products published yet."
           />
         ) : (
-          rows.map((row, index) =>
-            row.length === 0 ? null : (
-              // Gutter cancelled on the frame and re-applied as content padding, so the last
-              // card scrolls to the real edge instead of stopping a gutter early.
-              <Box key={index} marginHorizontal="sNegative16">
-                <FlatList
-                  horizontal
-                  data={row}
-                  keyExtractor={keyProduct}
-                  renderItem={({ item }) => (
-                    <Box width={CARD_WIDTH}>
-                      <ProductCard product={item} onPress={onOpenProduct} />
-                    </Box>
-                  )}
-                  contentContainerStyle={ROW}
-                  showsHorizontalScrollIndicator={false}
-                />
-              </Box>
-            ),
-          )
+          <HomeProductRow
+            products={products}
+            layout={layout.mainProductRow}
+            onOpenProduct={onOpenProduct}
+          />
         )}
       </Box>
 
@@ -120,13 +102,8 @@ export function HomeHeader({
   );
 }
 
-function keyProduct(product: Product) {
-  return product.id;
-}
-
 function keyCollection(collection: Collection) {
   return collection.id;
 }
 
-const CARD_WIDTH = 150;
 const ROW = { ...screenGutter, gap: 8 } as const;

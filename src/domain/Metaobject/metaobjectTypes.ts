@@ -1,16 +1,5 @@
 import type { EdgesApi, ImageApi } from "@api";
 
-export interface BrandStory {
-  title?: string;
-  body?: string;
-  image?: BrandStoryImage;
-}
-
-export interface BrandStoryImage {
-  url: string;
-  altText?: string;
-}
-
 /**
  * A metaobject field holding a file carries a gid in `value`; only `reference` resolves to
  * something renderable. Text fields carry their value and no reference.
@@ -27,6 +16,6 @@ export interface MetaobjectNodeApi {
   fields: MetaobjectFieldApi[];
 }
 
-export interface BrandStoryApi {
+export interface MetaobjectListApi {
   metaobjects: EdgesApi<MetaobjectNodeApi>;
 }

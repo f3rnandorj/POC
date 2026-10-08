@@ -1,6 +1,6 @@
-export const BRAND_STORY_QUERY = /* GraphQL */ `
-  query BrandStory($type: String!) {
-    metaobjects(type: $type, first: 1) {
+export const METAOBJECT_LIST_QUERY = /* GraphQL */ `
+  query Metaobjects($type: String!, $first: Int!) {
+    metaobjects(type: $type, first: $first) {
       edges {
         node {
           id

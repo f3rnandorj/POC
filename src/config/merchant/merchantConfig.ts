@@ -2,13 +2,16 @@ import { getActiveMerchantId } from "./activeMerchant";
 import { atlas } from "./merchants/atlas";
 import { northstar } from "./merchants/northstar";
 import type {
+  AreaBlocks,
+  ContentBlock,
+  HomeArea,
   HomeLayout,
   MerchantConfig,
   MerchantId,
-  ProductBlock,
-  ProductDetailLayout,
+  MetafieldBlock,
+  MetaobjectSource,
   ProductDetailArea,
-  ProductDetailAreaBlocks,
+  ProductDetailLayout,
   StoryBlock,
 } from "./merchantTypes";
 
@@ -39,7 +42,7 @@ export function homeLayout(): HomeLayout {
   const layout = merchantConfig().screens.home?.layout;
 
   return {
-    productRow: layout?.productRow ?? "single",
+    mainProductRow: layout?.mainProductRow ?? "single",
     collections: layout?.collections ?? "inline",
   };
 }
@@ -48,26 +51,60 @@ export function productDetailLayout(): ProductDetailLayout {
   const layout = merchantConfig().screens.productDetail?.layout;
 
   return {
-    media: layout?.media ?? "single",
+    media: layout?.media ?? "gallery",
   };
 }
 
 /** Absent means the row renders with no heading. */
-export function homeProductRowTitle(): string | undefined {
-  return merchantConfig().screens.home?.productRow;
+export function homeMainProductRowTitle(): string | undefined {
+  return merchantConfig().screens.home?.mainProductRowTitle;
 }
 
-/** Absent means this merchant issues no story query at all. */
-export function homeFooterStory(): StoryBlock | undefined {
-  return merchantConfig().screens.home?.footer;
+/**
+ * The home positions paired with their blocks. Every one of them is metaobject-backed, so an
+ * empty result is a merchant that issues no metaobject query at all.
+ */
+export function homeAreas(): AreaBlocks<HomeArea>[] {
+  const screen = merchantConfig().screens.home;
+
+  return declaredAreas(screen?.metaobjects) as AreaBlocks<HomeArea>[];
 }
 
 /**
  * Each area paired with its blocks, in declaration order, so neither the adapter nor the screen
  * names an area. An empty area is dropped here rather than resolved to nothing.
  */
-export function productDetailAreas(): ProductDetailAreaBlocks[] {
-  return Object.entries(declaredAreas(merchantConfig())).filter(hasBlocks);
+export function productDetailAreas(): AreaBlocks<ProductDetailArea>[] {
+  const screen = merchantConfig().screens.productDetail;
+
+  // Both groups in one list: positions never repeat across them, so the result stays one area per
+  // key and whoever walks it never has to know which source a position is fed from.
+  return [
+    ...declaredAreas(screen?.metafields),
+    ...declaredAreas(screen?.metaobjects),
+  ] as AreaBlocks<ProductDetailArea>[];
+}
+
+/**
+ * What a `story` block points at. A ref with no entry is a config error, and it surfaces as that
+ * block's query failing rather than as a screen rendering one section short in silence.
+ */
+export function metaobjectSource(ref: string): MetaobjectSource {
+  const source = merchantConfig().metaobjectSources?.[ref];
+
+  if (!source) {
+    throw new Error(
+      `Unknown metaobject source "${ref}" — declare it under metaobjectSources in ` +
+        "config/merchant/merchants/{merchant}.ts.",
+    );
+  }
+
+  return source;
+}
+
+/** The story blocks declared across those areas — what the metaobject resolver fetches. */
+export function storyBlocksIn(areas: AreaBlocks[]): StoryBlock[] {
+  return areas.flatMap(([, blocks]) => blocks.filter(isStoryBlock));
 }
 
 // ponytail: local record stands in for the platform endpoint (OAuth install → server-side token).
@@ -77,9 +114,6 @@ const MERCHANTS: Record<string, MerchantConfig> = {
   [northstar.id]: northstar,
   [atlas.id]: atlas,
 };
-
-/** The one key in a screen that is not an area. */
-const LAYOUT_KEY = "layout";
 
 /** The stores the demo switch offers. */
 export const merchantIds = Object.keys(MERCHANTS) as MerchantId[];
@@ -94,10 +128,12 @@ export const merchantIds = Object.keys(MERCHANTS) as MerchantId[];
  * ponytail: ceiling is Shopify's 250 identifiers per query. Past that, build the document per
  * merchant — the fragments and the query documents become functions.
  */
-export const queriedMetafieldBlocks: ProductBlock[] = Object.values(
+export const queriedMetafieldBlocks: MetafieldBlock[] = Object.values(
   MERCHANTS,
 ).flatMap(merchant =>
-  Object.values(declaredAreas(merchant)).flatMap(blocks => blocks ?? []),
+  declaredAreas(merchant.screens.productDetail?.metafields).flatMap(([, blocks]) =>
+    blocks.filter(isMetafieldBlock),
+  ),
 );
 
 /**
@@ -125,24 +161,22 @@ function assertCredentials(merchant: MerchantConfig): void {
 }
 
 /**
- * Widened so the areas can be walked as entries — each key accepts only its own kinds. `layout`
- * is dropped here rather than skipped downstream: it is the one key in the screen that is not an
- * area, and nothing below this should have to know that.
+ * One group's areas as entries, in declaration order. An area is a key holding a list of blocks,
+ * so a heading (a string) is skipped without being named here — the shape says it, and a key the
+ * app grows later needs no edit. An empty area is dropped rather than resolved to nothing.
  */
-function declaredAreas(
-  merchant: MerchantConfig,
-): Partial<Record<ProductDetailArea, ProductBlock[]>> {
-  const screen = merchant.screens.productDetail ?? {};
-
-  // Filtered rather than destructured with a rest: the lint config this project copies rejects
-  // the discarded binding, and a hardcoded list of areas would have to grow with every new one.
-  return Object.fromEntries(
-    Object.entries(screen).filter(([key]) => key !== LAYOUT_KEY),
-  ) as Partial<Record<ProductDetailArea, ProductBlock[]>>;
+function declaredAreas(screen: object = {}): AreaBlocks[] {
+  return Object.entries(screen).filter(isArea);
 }
 
-function hasBlocks(
-  entry: [string, ProductBlock[] | undefined],
-): entry is ProductDetailAreaBlocks {
-  return Boolean(entry[1]?.length);
+function isArea(entry: [string, unknown]): entry is AreaBlocks {
+  return Array.isArray(entry[1]) && entry[1].length > 0;
+}
+
+function isStoryBlock(block: ContentBlock): block is StoryBlock {
+  return block.kind === "story";
+}
+
+function isMetafieldBlock(block: ContentBlock): block is MetafieldBlock {
+  return block.source.from === "metafield";
 }

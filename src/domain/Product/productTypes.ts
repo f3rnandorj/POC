@@ -1,5 +1,6 @@
 import type { EdgesApi, ImageApi, MetafieldApi, MoneyV2Api } from "@api";
-import type { ProductDetailArea } from "@config";
+
+import type { ResolvedBlock } from "../contentTypes";
 
 export interface Product {
   id: string;
@@ -9,7 +10,12 @@ export interface Product {
   price: ProductPrice;
   images: ProductImage[];
   variants: ProductVariant[];
-  content: ProductContent;
+  /**
+   * The blocks this product resolved from its own metafields, flat and keyed by the block that
+   * declared each one. Which area they land in is not the product's to say: a story in the same
+   * area comes from a metaobject, so `toAreaContent` groups both at the screen's door.
+   */
+  blocks: ResolvedBlock[];
 }
 
 /** Unformatted on purpose — `formatPrice` runs at render, not in the adapter. */
@@ -30,40 +36,6 @@ export interface ProductVariant {
   image?: ProductImage;
   /** Absent when the merchant does not track this variant — see `CartLine.stockLimit`. */
   stockLimit?: number;
-}
-
-/** Resolved blocks grouped by the detail area they render into; an empty area is absent. */
-export type ProductContent = Partial<
-  Record<ProductDetailArea, ResolvedBlock[]>
->;
-
-export type ResolvedBlock =
-  | ResolvedBadge
-  | ResolvedTextLine
-  | ResolvedLabelValueSection;
-
-export interface ResolvedBadge {
-  id: string;
-  kind: "badge";
-  text: string;
-}
-
-export interface ResolvedTextLine {
-  id: string;
-  kind: "textLine";
-  text: string;
-}
-
-export interface ResolvedLabelValueSection {
-  id: string;
-  kind: "labelValueSection";
-  title: string;
-  items: ResolvedItem[];
-}
-
-export interface ResolvedItem {
-  label: string;
-  value: string;
 }
 
 export interface ProductNodeApi {

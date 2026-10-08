@@ -22,24 +22,25 @@ component, query or adapter is aware that either store exists.
 The build ships with both, and you can switch between them on the device —
 [see below](#switching-stores-on-the-device).
 
-| | `northstar` | `atlas` |
-|---|---|---|
-| **Home** | ![Northstar home](docs/screenshots/home.png) | ![Atlas home](docs/screenshots/atlas-home.png) |
-| **Product detail** | ![Northstar product detail](docs/screenshots/product-detail.png) | ![Atlas product detail](docs/screenshots/atlas-product-detail.png) |
+|                                  | `northstar`                                                                   | `atlas`                                                                   |
+| -------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **Home**                         | ![Northstar home](docs/screenshots/home.png)                                  | ![Atlas home](docs/screenshots/atlas-home.png)                            |
+| **Product detail**               | ![Northstar product detail](docs/screenshots/product-detail.png)              | ![Atlas product detail](docs/screenshots/atlas-product-detail.png)        |
 | **Further down the same screen** | ![Northstar care section and variants](docs/screenshots/product-variants.png) | ![Atlas fit and care guides](docs/screenshots/atlas-product-sections.png) |
 
 What actually differs, and where it is declared:
 
-| | `northstar` | `atlas` | Declared in |
-|---|---|---|---|
-| Palette | near-black base, lime accent | cream and clay, `#F04E23` accent | `theme` |
-| Product row | two stacked scrolling rows | one scrolling row | `layout.productRow` |
-| Product row heading | `Products` | none — the row runs untitled | `screens.home.productRow` |
-| Collections | a scrolling row of tiles | stacked wide rows | `layout.collections` |
-| Badges | `BEST SELLER` + a boolean flag rendered as `WINTER COLLECTION` | `NEW SEASON` only | `screens.productDetail.badgeRow` |
-| Line under the price | `Organic Cotton` (`custom.material`) | `Washed European Linen` (`custom.fabric_type`) | `screens.productDetail.underPrice` |
-| Sections | `HOW TO CARE`, **below** the description | `FIT GUIDE` and `CARE GUIDE`, **above** it | which area key holds them |
-| Home footer | brand story, from a metaobject | nothing — the key is absent | `screens.home.footer` |
+|                          | `northstar`                                                    | `atlas`                                        | Declared in                        |
+| ------------------------ | -------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------- |
+| Palette                  | near-black base, lime accent                                   | cream and clay, `#F04E23` accent               | `theme`                            |
+| Main product row         | two stacked scrolling rows                                     | a paged carousel, advancing on its own         | `layout.mainProductRow`            |
+| Main product row heading | `Products`                                                     | `Featured products`                            | `screens.home.mainProductRowTitle` |
+| Collections              | a scrolling row of tiles                                       | stacked wide rows                              | `layout.collections`               |
+| Product photos           | a gallery paged by swipe                                       | a hero photo plus a thumbnail strip            | `layout.media`                     |
+| Badges                   | `BEST SELLER` + a boolean flag rendered as `WINTER COLLECTION` | `NEW SEASON` only                              | `screens.productDetail.badgeRow`   |
+| Text lines               | `Organic Cotton` (`custom.material`)                           | `Washed European Linen` (`custom.fabric_type`) | `screens.productDetail.textLines`  |
+| Sections                 | `HOW TO CARE`, **below** the description                       | `FIT GUIDE` and `CARE GUIDE`, **above** it     | which key under `metafields`       |
+| Story sections           | one brand story under the collections, with a photo             | three `linen_journey` entries, no photo        | `screens.home.metaobjects.footer`  |
 
 Two different vocabularies, two palettes, two arrangements, two sets of sections in two different
 places on the screen — and the diff between them is one file each under
@@ -49,8 +50,8 @@ places on the screen — and the diff between them is one file each under
 And when a merchant fills in nothing, nothing renders — no placeholder, no `Material: —`, no empty
 heading. The sections do not exist:
 
-| A product with no metafields at all | The catalogue grid |
-|---|---|
+| A product with no metafields at all                                       | The catalogue grid                                 |
+| ------------------------------------------------------------------------- | -------------------------------------------------- |
 | ![Product with no metafields](docs/screenshots/product-detail-absent.png) | ![Product list](docs/screenshots/product-list.png) |
 
 ### Switching stores on the device
@@ -80,20 +81,20 @@ come back `null` and are dropped. The ceiling is Shopify's 250 identifiers per q
 
 Everything here is in `package.json`; nothing is listed that the project does not use.
 
-| | Why it is here |
-|---|---|
-| **React Native 0.87 (CLI)** | Bare CLI, not Expo. Nothing in the project needs the managed workflow, and the CLI keeps the native projects open for the Shopify SDKs a real deployment would reach for. |
-| **TypeScript** | The Storefront payload and the domain model are separate types on purpose; the compiler is what keeps a raw Shopify shape from leaking into a screen — and what rejects a merchant declaring a layout or a block the renderer cannot draw. |
-| **React Navigation** (native stack) | Six screens, one stack: three for browsing, three for buying. Params are typed in `src/routes/types/navigationTypes.ts`, and a cart ↔ detail round trip uses `popTo` so it cannot grow the stack. |
-| **TanStack Query v5** | Owns every bit of server state: cache, retry, loading and error flags. There is no second state library, and no Redux. |
-| **@shopify/restyle** | Themed primitives (`Box`, `Text`, `PressableBox`, `AnimatedBox`) whose props only accept tokens from `src/theme`. A raw hex in a component does not compile. |
-| **react-native-reanimated 4** (+ `react-native-worklets`) | Press feedback and list entrances. Worklets is a separate peer on RN 0.87, and its Babel plugin must stay last in `babel.config.js`. |
-| **lottie-react-native** | The loading animation on the product detail, repainted at runtime in the active merchant's accent. |
-| **react-native-safe-area-context** / **react-native-screens** | Insets for the `Screen` container and the native stack. |
-| **react-native-webview** | Shopify's own checkout, rendered in the app. The app never collects a card. |
-| **react-native-mmkv** (+ `react-native-nitro-modules`) | Holds the active cart id between launches — the id only, never the lines or the prices. Nitro is MMKV 4's peer, not a second storage library. |
-| **react-native-config** | Reads the API version and each merchant's domain + Storefront token from `.env`, so no credential is ever in a tracked file. |
-| **Shopify Storefront API + GraphQL** | Buyer-facing and read-only, so its token is safe on a device. One query shapes a whole screen. Called with the platform's own `fetch` — no HTTP client was added for four requests. |
+|                                                               | Why it is here                                                                                                                                                                                                                             |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **React Native 0.87 (CLI)**                                   | Bare CLI, not Expo. Nothing in the project needs the managed workflow, and the CLI keeps the native projects open for the Shopify SDKs a real deployment would reach for.                                                                  |
+| **TypeScript**                                                | The Storefront payload and the domain model are separate types on purpose; the compiler is what keeps a raw Shopify shape from leaking into a screen — and what rejects a merchant declaring a layout or a block the renderer cannot draw. |
+| **React Navigation** (native stack)                           | Six screens, one stack: three for browsing, three for buying. Params are typed in `src/routes/types/navigationTypes.ts`, and a cart ↔ detail round trip uses `popTo` so it cannot grow the stack.                                          |
+| **TanStack Query v5**                                         | Owns every bit of server state: cache, retry, loading and error flags. There is no second state library, and no Redux.                                                                                                                     |
+| **@shopify/restyle**                                          | Themed primitives (`Box`, `Text`, `PressableBox`, `AnimatedBox`) whose props only accept tokens from `src/theme`. A raw hex in a component does not compile.                                                                               |
+| **react-native-reanimated 4** (+ `react-native-worklets`)     | Press feedback and list entrances. Worklets is a separate peer on RN 0.87, and its Babel plugin must stay last in `babel.config.js`.                                                                                                       |
+| **lottie-react-native**                                       | The loading animation on the product detail, repainted at runtime in the active merchant's accent.                                                                                                                                         |
+| **react-native-safe-area-context** / **react-native-screens** | Insets for the `Screen` container and the native stack.                                                                                                                                                                                    |
+| **react-native-webview**                                      | Shopify's own checkout, rendered in the app. The app never collects a card.                                                                                                                                                                |
+| **react-native-mmkv** (+ `react-native-nitro-modules`)        | Holds the active cart id between launches — the id only, never the lines or the prices. Nitro is MMKV 4's peer, not a second storage library.                                                                                              |
+| **react-native-config**                                       | Reads the API version and each merchant's domain + Storefront token from `.env`, so no credential is ever in a tracked file.                                                                                                               |
+| **Shopify Storefront API + GraphQL**                          | Buyer-facing and read-only, so its token is safe on a device. One query shapes a whole screen. Called with the platform's own `fetch` — no HTTP client was added for four requests.                                                        |
 
 **There is no test layer, and that is deliberate.** Installing Jest and RTL to assert that an
 adapter maps five fields would have cost more than the mapping; the thing actually worth checking
@@ -111,13 +112,13 @@ bypasses.
 
 ## Requirements
 
-| | |
-|---|---|
-| Node | `>= 22.11.0` |
-| Yarn | 1.x |
-| Xcode | 16+, with an iOS simulator installed |
+|                |                                                                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Node           | `>= 22.11.0`                                                                                                                               |
+| Yarn           | 1.x                                                                                                                                        |
+| Xcode          | 16+, with an iOS simulator installed                                                                                                       |
 | Ruby + Bundler | for CocoaPods. The `Gemfile` is committed and `yarn pods` runs `bundle install` for you — you only need Ruby and the `bundler` gem on PATH |
-| Android Studio | only to build Android yourself — installing the prebuilt [`dist/fuego-v1.0.apk`](dist/fuego-v1.0.apk) needs nothing but a device |
+| Android Studio | only to build Android yourself — installing the prebuilt [`dist/fuego-v1.0.apk`](dist/fuego-v1.0.apk) needs nothing but a device           |
 
 You also need a Shopify store you can administer — see [Shopify setup](#shopify-setup).
 
@@ -166,37 +167,44 @@ reopening on a dead app.
 1. **Headless channel** — install it on the store, create a storefront, and copy the **public
    access token**. This is not an Admin API token; an Admin token must never reach the device.
 2. **Scopes** — the public token needs `unauthenticated_read_product_listings` (this covers
-   collections too) and `unauthenticated_read_metaobjects` for the brand story block.
-3. **Metafield definitions** — under *Settings → Custom data → Products*. Which ones you create
+   collections too) and `unauthenticated_read_metaobjects` for the story blocks.
+3. **Metafield definitions** — under _Settings → Custom data → Products_. Which ones you create
    depends on the merchant, because the keys come from the blocks that merchant declares:
 
-   | Namespace / key | Type | Used by |
-   |---|---|---|
-   | `custom.badge` | single line text | both |
-   | `custom.promotion_text` | single line text | both |
-   | `custom.material` | single line text | northstar |
-   | `custom.is_winter_collection` | boolean | northstar |
-   | `custom.care_instructions` | JSON (`{"washing": "...", "drying": "..."}`) | both |
-   | `custom.fabric_type` | single line text | atlas |
-   | `custom.fit_guide` | JSON (`{"cut": "...", "length": "..."}`) | atlas |
+   | Namespace / key               | Type                                         | Used by   |
+   | ----------------------------- | -------------------------------------------- | --------- |
+   | `custom.badge`                | single line text                             | both      |
+   | `custom.promotion_text`       | single line text                             | both      |
+   | `custom.material`             | single line text                             | northstar |
+   | `custom.is_winter_collection` | boolean                                      | northstar |
+   | `custom.care_instructions`    | JSON (`{"washing": "...", "drying": "..."}`) | both      |
+   | `custom.fabric_type`          | single line text                             | atlas     |
+   | `custom.fit_guide`            | JSON (`{"cut": "...", "length": "..."}`)     | atlas     |
 
-4. **⚠️ Turn on Storefront access for every definition.** Each definition has a *Storefront
-   access* toggle, and it is **off** by default. A definition that is correct in every other way
+4. **⚠️ Turn on Storefront access for every definition.** Each definition has a _Storefront
+   access_ toggle, and it is **off** by default. A definition that is correct in every other way
    but not exposed returns `null` to a correct query, so the app renders nothing and looks like
    it is ignoring your data. This is the single most common reason the app looks "empty" —
    check it before debugging anything in the code.
-5. **Metaobject** — a `brand_story` metaobject with `title`, `description` and `image` fields,
-   also exposed to the Storefront API. It feeds the block at the bottom of the home screen, and
-   only for a merchant that declares a `story` block (northstar does, atlas does not).
+5. **Metaobjects** — a `brand_story` metaobject with `title`, `description` and `image` fields,
+   also exposed to the Storefront API. It feeds the story section at the bottom of the home
+   screen, and only for a merchant that declares a `story` block. Both declare one, and they are
+   deliberately different: northstar's `brand_story` has one entry with a photo and the field keys
+   `title`/`description`/`image`; atlas's `linen_journey` has three entries, no photo, and the keys
+   `heading`/`story` — same code, three sections instead of one.
+   Every entry of that type becomes one section, so adding a second entry in the admin adds a
+   second section with no deploy. Storefront has no query that lists a store's metaobject
+   definitions — that is the Admin API — so the types to collect are named in the merchant's
+   `metaobjectSources`, and the blocks point at them by `ref`.
 6. **Publish** your products to the headless storefront's publication, or they will not be
    returned at all.
-7. **Test payment gateway** — under *Settings → Payments → See all other providers*, activate
-   **Test payment gateway** (Shopify's old "Bogus Gateway", renamed: searching for *bogus* finds
+7. **Test payment gateway** — under _Settings → Payments → See all other providers_, activate
+   **Test payment gateway** (Shopify's old "Bogus Gateway", renamed: searching for _bogus_ finds
    nothing). It is what lets the checkout finish without money. Shopify Payments' own test mode is
    not an option here — it needs a completed Shopify Payments setup on a paid plan.
 8. **Store password** — a development store's storefront stays password protected and the toggle
    cannot be lifted without a paid plan, so a cookieless visit is answered with the password page.
-   Copy the password from *Online Store → Preferences → Store access* into
+   Copy the password from _Online Store → Preferences → Store access_ into
    `{MERCHANT}_STORE_PASSWORD` in `.env`, and the checkout WebView submits that form on the way
    in. Leave the key empty for a store that is not password protected and the step is skipped.
 
@@ -230,7 +238,7 @@ cd android && ./gradlew assembleRelease
 cp app/build/outputs/apk/release/app-release.apk ../dist/fuego-v1.0.apk
 ```
 
-`react-native-config` reads `.env` at build time, so the APK you build carries *your* Storefront
+`react-native-config` reads `.env` at build time, so the APK you build carries _your_ Storefront
 credentials, and the one committed here carries the demo stores'. Both merchants are inside a single
 build — the overflow menu switches between them at runtime.
 
@@ -250,13 +258,15 @@ src/
 │   ├── client.ts         fetch + Storefront headers + pinned API version
 │   ├── fragments.ts      shared GraphQL selections, built from the merchant's blocks
 │   └── shopifyTypes.ts   raw payload shapes (MoneyV2, edges/nodes, metafields)
-├── domain/             one folder per concept: Product, Collection, BrandStory, Cart
+├── domain/             one folder per concept: Product, Collection, Metaobject, Cart
+│   ├── contentTypes.ts  ResolvedBlock — the shape every area renders, whatever the source
+│   ├── contentAreas.ts  groups resolved blocks into the areas that declared them
 │   └── Product/
 │       ├── productQueries.ts   the GraphQL documents
 │       ├── productApi.ts       runs a document, returns the raw payload
 │       ├── productService.ts   delegates
 │       ├── productAdapter.ts   payload → domain model; resolves the merchant's blocks
-│       ├── productTypes.ts     Product, ProductVariant, ProductContent, ResolvedBlock
+│       ├── productTypes.ts     Product, ProductVariant, and the raw payload shapes
 │       ├── useCases/           use{Domain}{Action}{Target} — the React Query entry point
 │       └── index.ts            exports useCases + types, never the service
 ├── config/merchant/    one file per merchant: credentials, palette, layout, screen areas
@@ -296,13 +306,13 @@ Shopify Storefront API
 
 What each layer may not do:
 
-| Layer | Must not |
-|---|---|
+| Layer              | Must not                                                                  |
+| ------------------ | ------------------------------------------------------------------------- |
 | Screen / component | Contain business logic, call a service, or touch a Storefront-shaped type |
-| UseCase hook | Reach past the service into the api |
-| Service | Know that React exists |
-| Api | Transform anything |
-| Adapter | Make a network call |
+| UseCase hook       | Reach past the service into the api                                       |
+| Service            | Know that React exists                                                    |
+| Api                | Transform anything                                                        |
+| Adapter            | Make a network call                                                       |
 
 The boundary is structural, not a convention: `domain/{Domain}/index.ts` exports **use cases and
 types only**. The service is not reachable from `@domain`, so a screen calling it directly does
@@ -311,21 +321,21 @@ not compile.
 **Where new things go.** A screen → `src/screens/{Name}Screen/`. A component shared across flows
 → `src/components/{Name}/`; used by one screen → that screen's `components/`. A new piece of
 merchant content → **one entry in the area that draws it, and nothing else**. Needing to touch a
-type, the adapter, a query or a screen means the *kind* of block is missing, and a new kind is a
+type, the adapter, a query or a screen means the _kind_ of block is missing, and a new kind is a
 platform change, not a merchant one.
 
 ---
 
 ## Key features
 
-**Product browsing.** Home with a product row, collections and the brand story; a product grid
+**Product browsing.** Home with a product row, collections and the merchant's story sections; a product grid
 for the whole catalogue or one collection; and a detail screen with photos, price, description,
 variants and availability. Sold-out variants are visible but not selectable, and picking a variant
 that has its own photo moves the image (or pages the gallery) to it.
 
 **Merchant content through metafields.** Metafields are not returned by default, so they are
-requested explicitly by identifier — and the identifier list in the GraphQL fragment is *built from
-the declared merchants' blocks*, deduplicated, at module load (every merchant's, because the
+requested explicitly by identifier — and the identifier list in the GraphQL fragment is _built from
+the declared merchants' blocks_, deduplicated, at module load (every merchant's, because the
 document is a template literal built once and the demo switch changes stores afterwards). Shopify answers with a **positional
 array containing `null` for every identifier the product does not define**, so the adapter indexes
 by `namespace:key` and reads by block, because indexing that array by position breaks on the first
@@ -338,7 +348,7 @@ resolved block; an area that collected nothing is left out of `content`; and eve
 
 **Generic components, always.** A merchant requirement becomes a generic component plus a config
 entry — `<ProductBadge text={...} />` and `<ProductSection title={...} items={...} />`, never a
-`<NorthstarWinterBadge />`. Merchant identity *and vocabulary* exist only inside
+`<NorthstarWinterBadge />`. Merchant identity _and vocabulary_ exist only inside
 `src/config/merchant/`: the "Winter Collection" badge is a boolean block whose label is in the
 config, and the care guide is the same `labelValueSection` kind that renders "Fit guide" for the
 other store and would render "Ingredients" for a cosmetics merchant with no code change.
@@ -356,12 +366,12 @@ is a development store and lists the test card numbers, because the person holdi
 nowhere else to learn them. A completed order lands on a feedback screen with the order number and
 empties the cart; abandoning the checkout leaves the cart exactly as it was.
 
-| Add to cart | The cart |
-|---|---|
+| Add to cart                                                                                                   | The cart                                                                                         |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | ![Product detail with the quantity stepper and the add-to-cart CTA](docs/screenshots/product-detail-cart.png) | ![Cart with two lines, a line at its stock ceiling, and the subtotal](docs/screenshots/cart.png) |
 
-| Before the handoff | After the order |
-|---|---|
+| Before the handoff                                                                         | After the order                                                                      |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
 | ![The dev-mode notice listing the test card numbers](docs/screenshots/checkout-notice.png) | ![The feedback screen after a completed order](docs/screenshots/checkout-result.png) |
 
 And the handoff itself — Shopify's own checkout, inside the app, with no store password asked for
@@ -400,11 +410,11 @@ merchant's keys are validated, so one developer never needs another store's toke
 A merchant overrides values, never the token list; an omitted token falls back to the base
 near-black identity.
 
-| Token | Overridable |
-|---|---|
-| `background`, `surface`, `text`, `textMuted`, `border`, `accent` | yes |
-| `accentText` | no — derived from the accent's luminance |
-| `success` / `danger` | no — picked from the **background's** luminance |
+| Token                                                            | Overridable                                     |
+| ---------------------------------------------------------------- | ----------------------------------------------- |
+| `background`, `surface`, `text`, `textMuted`, `border`, `accent` | yes                                             |
+| `accentText`                                                     | no — derived from the accent's luminance        |
+| `success` / `danger`                                             | no — picked from the **background's** luminance |
 
 Derived tokens are not configurable because a configured one can be invisible: a mint "in stock"
 tuned for near-black reads 1.68:1 on cream. Theme construction **throws in `__DEV__`** when a
@@ -423,8 +433,8 @@ fills:
 ```ts
 screens: {
   home: {
-    layout: { productRow: "double", collections: "horizontal" },
-    productRow: "Products",
+    layout: { mainProductRow: "double", collections: "horizontal" },
+    mainProductRowTitle: "Products",
   },
   productDetail: {
     layout: { media: "gallery" },
@@ -433,22 +443,23 @@ screens: {
 }
 ```
 
-| Screen | Key | Values | Base |
-|---|---|---|---|
-| `home` | `productRow` | `single` — one scrolling row · `double` — two stacked rows, the same products split | `single` |
-| `home` | `collections` | `inline` — stacked wide rows · `horizontal` — one scrolling row of tiles | `inline` |
-| `productDetail` | `media` | `single` — one cover photo · `gallery` — a paged run through every photo | `single` |
+| Screen          | Key              | Values                                                                                                                                         | Base      |
+| --------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| `home`          | `mainProductRow` | `single` — one scrolling row · `double` — two stacked rows, the same products split · `carousel` — one product per page, full width, with dots | `single`  |
+| `home`          | `collections`    | `inline` — stacked wide rows · `horizontal` — one scrolling row of tiles                                                                       | `inline`  |
+| `productDetail` | `media`          | `gallery` — one photo at a time, paged by swipe · `filmstrip` — a hero photo picked from a thumbnail strip                                     | `gallery` |
 
 Three rules make this hold up:
 
 - A component that gains a shape gains a **named variant** (`CollectionCard` `row` | `tile`), never
   a layout object at the call site.
-- `double` splits the products it already has — an arrangement is never a second query.
+- `double` splits the products it already has and `carousel` pages them — an arrangement is never a second query.
 - Two scrollers on one axis fight: the horizontal collections row renders inside the list header
   and the vertical list receives no data, instead of being nested.
 
-A gallery also degrades honestly: it pages only where the catalogue actually has photos, and a
-single-image product does not rubber-band sideways as if a second photo had failed to load.
+All three `media` arrangements degrade honestly: they show what the catalogue actually has, and a
+single-image product does not rubber-band sideways or offer a strip of one thumbnail as if a second
+photo had failed to load.
 
 ### 4. Content blocks — inside each screen
 
@@ -459,21 +470,27 @@ order:
 
 ```ts
 screens: {
-  productDetail: { badgeRow: [...], underPrice: [...], belowDescription: [...] },
-  home: { footer: {...} },
+  productDetail: { metafields: { badgeRow: [...], belowDescription: [...] },
+                   metaobjects: { footer: [...] } },
+  home: { metaobjects: { header: [...], footer: [...] } },
 }
 ```
 
+| Kind                | Draws                                             | Source                                                        |
+| ------------------- | ------------------------------------------------- | ------------------------------------------------------------- |
+| `badge`             | `ProductBadge`                                    | a text metafield, or a boolean one plus the block's own label |
+| `textLine`          | one muted line                                    | a text metafield                                              |
+| `labelValueSection` | `ProductSection` — a heading and label/value rows | a JSON metafield plus the field keys to read                  |
+| `story`             | one `StoryCard` per metaobject entry              | `metaobjectSources.{ref}` — the type plus that merchant's field keys |
 
-| Kind | Draws | Source |
-|---|---|---|
-| `badge` | `ProductBadge` | a text metafield, or a boolean one plus the block's own label |
-| `textLine` | one muted line | a text metafield |
-| `labelValueSection` | `ProductSection` — a heading and label/value rows | a JSON metafield plus the field keys to read |
-| `story` | `StoryCard` on the home footer | a metaobject type plus that merchant's field keys |
-
-Areas, in the order the detail screen stacks them: `productDetail.badgeRow` → `underPrice` →
-`aboveDescription` → *(description)* → `belowDescription`; plus `home.footer` for the story. Each
+Areas, in the order the detail screen stacks them: `metafields.badgeRow` → `textLines` →
+`aboveDescription` → _(description)_ → `belowDescription` → `metaobjects.footer`; and on the home
+screen `metaobjects.header`, above the main product row, then `metaobjects.footer`, under the
+collections. **Positions are grouped by where their values come from** — `metafields` for what the
+product says, `metaobjects` for what the store says — so a screen reads as `layout` → `metafields`
+→ `metaobjects`, and the metaobject types are declared once in
+`metaobjectSources` and pointed at by `ref` — the same brand story closes the home screen and the
+product screen without being written twice. Each
 area's element type is what it accepts, so a badge cannot be declared where only prose fits, and an
 area a merchant leaves out renders nothing — no heading, no divider, no gap. That absence is the
 whole optional/required mechanism; there is no flag.
@@ -487,10 +504,10 @@ it gets built generically, and a merchant that does not declare it simply never 
 every axis moves independently — the screenshots and the per-axis diff are at
 [the top of this file](#the-same-build-two-stores).
 
-Both declare `detail: "gallery"`, which is the honest half of the demonstration: northstar's
-products carry six and four photos and page through them, while atlas's carry one and the same
-arrangement quietly collapses to a single image. An arrangement is a request, not a promise the
-catalogue has to keep.
+The `media` axis is the honest half of the demonstration: northstar's products carry six and four
+photos and page through them as a `gallery`, while atlas picks `filmstrip` over a catalogue of
+single-image products — and the strip quietly collapses to the one photo it has. An arrangement is
+a request, not a promise the catalogue has to keep.
 
 The fabric line is the cheap one: a merchant who calls it `fabric_type` instead of `material`,
 under a different heading, in a different place on the screen, costs one array entry — because the
@@ -524,8 +541,8 @@ photography carrying the screen, type doing the talking, one radius scale and an
 
 ## How to use
 
-1. **Home** — the product rows, the collections, and the brand story block at the bottom, which
-   comes from a Shopify metaobject rather than a metafield. On `northstar` the catalogue comes in
+1. **Home** — the product rows, the collections, and the story sections the merchant declared,
+   which come from Shopify metaobjects rather than metafields. On `northstar` the catalogue comes in
    two stacked scrolling rows under a `Products` heading and the collections scroll sideways as
    tiles; on `atlas` it is one untitled row and stacked collection banners — same screen, same
    code.
@@ -555,9 +572,9 @@ photography carrying the screen, type doing the talking, one radius scale and an
    emptied, and the order is in the store's admin flagged as a test. Backing out of the checkout
    instead leaves the cart exactly as it was.
 10. Back on Home, open the control on the title row and pick **ATLAS**. Different store, different
-   palette, different arrangement, different vocabulary, different sections in different places —
-   and not one line of screen or component code involved. (That switch exists for this walkthrough
-   and the dialog says so: a real build ships bound to one merchant.)
+    palette, different arrangement, different vocabulary, different sections in different places —
+    and not one line of screen or component code involved. (That switch exists for this walkthrough
+    and the dialog says so: a real build ships bound to one merchant.)
 
 ---
 
@@ -565,16 +582,16 @@ photography carrying the screen, type doing the talking, one radius scale and an
 
 Deliberately absent, each for a reason — not a roadmap:
 
-| | Why |
-|---|---|
-| Reimplementing the checkout | The buying flow **is** here, but the checkout itself is Shopify's own page in a WebView — see [Cart and dev checkout](#cart-and-dev-checkout). Rebuilding contact, shipping and payment screens would prove nothing about merchant customisation, and would ask a POC to hold card data. |
-| Customer auth / OAuth app install | A real multi-merchant app installs through Shopify OAuth and keeps tokens server-side. Here, `getMerchantConfig` is a local stand-in for that platform endpoint — same shape, no server. A fetched config would also have to be *validated*, which these literals get from the compiler for free. |
-| Real payments | The stores are development stores, which can only process test payments. The checkout runs against Shopify's test payment gateway: card `1` approves, `2` declines, `3` fails at the gateway. A real order is created and flagged as a test. |
-| Orders and account | Needs the authenticated Customer API, which needs the auth above. |
-| Own backend / admin UI | The merchant's admin **is** the Shopify admin. That is the entire argument for metafields. |
-| Push, analytics, error monitoring | Pure infrastructure; it would not change a line of the architecture. |
-| Automated tests, CI/CD | See the note in [Technologies](#technologies). The first thing to add, in that order. |
-| App Store / Play Store release | Nothing is shipped from a POC. |
+|                                   | Why                                                                                                                                                                                                                                                                                               |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Reimplementing the checkout       | The buying flow **is** here, but the checkout itself is Shopify's own page in a WebView — see [Cart and dev checkout](#cart-and-dev-checkout). Rebuilding contact, shipping and payment screens would prove nothing about merchant customisation, and would ask a POC to hold card data.          |
+| Customer auth / OAuth app install | A real multi-merchant app installs through Shopify OAuth and keeps tokens server-side. Here, `getMerchantConfig` is a local stand-in for that platform endpoint — same shape, no server. A fetched config would also have to be _validated_, which these literals get from the compiler for free. |
+| Real payments                     | The stores are development stores, which can only process test payments. The checkout runs against Shopify's test payment gateway: card `1` approves, `2` declines, `3` fails at the gateway. A real order is created and flagged as a test.                                                      |
+| Orders and account                | Needs the authenticated Customer API, which needs the auth above.                                                                                                                                                                                                                                 |
+| Own backend / admin UI            | The merchant's admin **is** the Shopify admin. That is the entire argument for metafields.                                                                                                                                                                                                        |
+| Push, analytics, error monitoring | Pure infrastructure; it would not change a line of the architecture.                                                                                                                                                                                                                              |
+| Automated tests, CI/CD            | See the note in [Technologies](#technologies). The first thing to add, in that order.                                                                                                                                                                                                             |
+| App Store / Play Store release    | Nothing is shipped from a POC.                                                                                                                                                                                                                                                                    |
 
 ---
 

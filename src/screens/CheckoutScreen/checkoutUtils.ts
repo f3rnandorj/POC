@@ -41,11 +41,11 @@ export function completionScript(): string {
       if (window.__fuegoCheckoutWatch) { return; }
       window.__fuegoCheckoutWatch = true;
 
-      var sent = false;
       // ponytail: polling, because the page gives no event. 500ms is below noticing.
+      // It keeps posting instead of firing once: the native side may still be judging the message
+      // against the previous page, and a single shot would be lost for good.
       setInterval(function () {
-        if (sent || !${COMPLETED_PATTERN_SOURCE}.test(window.location.href)) { return; }
-        sent = true;
+        if (!${COMPLETED_PATTERN_SOURCE}.test(window.location.href)) { return; }
         var match = document.body.innerText.match(/#\\d{3,}/);
         window.ReactNativeWebView.postMessage(JSON.stringify({
           source: ${JSON.stringify(MESSAGE_SOURCE)},
@@ -67,8 +67,9 @@ export function isCompletionUrl(url: string): boolean {
  * message is read, never trusted: anything unrecognised is ignored, and the reference is only
  * ever taken from this app's own payload.
  *
- * A payload can still be forged by whatever runs in the page, so the caller pairs this with
- * `isCompletionUrl`: a completion claimed from anywhere but the order status page is noise.
+ * A payload can still be forged by whatever runs in the page, so nothing here says *where* it came
+ * from: the caller judges that by the WebView's own `nativeEvent.url`, and a completion claimed
+ * from anywhere but the order status page is noise.
  */
 export function readCheckoutMessage(data: string): CheckoutMessage {
   const parsed = parseJson(data);

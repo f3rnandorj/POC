@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { productDetailAreas, storyBlocksIn } from "@config";
 import { QueryKeys } from "@infra";
 
+import { toAreaContent } from "../../contentAreas";
+import { useMetaobjectGetBlocks } from "../../Metaobject";
 import { productService } from "../productService";
 
 export function useProductGetDetail(handle: string) {
@@ -12,8 +15,14 @@ export function useProductGetDetail(handle: string) {
     enabled: Boolean(handle),
   });
 
+  // Two sources, one set of areas: the product's metafields and, where the merchant declared one,
+  // the store's metaobjects. The declaration decides the area and the order for both.
+  const areas = productDetailAreas();
+  const { blocks: stories } = useMetaobjectGetBlocks(storyBlocksIn(areas));
+
   return {
     product: data ?? undefined,
+    content: toAreaContent(areas, [...(data?.blocks ?? []), ...stories]),
     isLoading,
     error,
     refetch,

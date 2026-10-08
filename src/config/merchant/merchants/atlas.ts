@@ -19,86 +19,107 @@ export const atlas: MerchantConfig = {
     textMuted: "#6B6054",
     border: "#E8D5BE",
   },
-  // No `belowDescription` and no `home` at all: this merchant bought neither, and both areas
-  // collapse — the absent case lives in the config, not in a flag.
+  // Same shape as northstar's story, different field keys: the merchant's words for them are
+  // what the map absorbs, so neither the app nor the domain knows this store calls it `heading`.
+  metaobjectSources: {
+    linenJourney: {
+      type: "linen_journey",
+      fields: { title: "heading", body: "story" },
+    },
+  },
+  // No `belowDescription`: this merchant did not buy it, and the area collapses — the absent case
+  // lives in the config, not in a flag. Same for `image` above: this store's entries have no photo.
   screens: {
     home: {
+      mainProductRowTitle: "Main products",
       layout: {
-        productRow: "single",
+        mainProductRow: "carousel",
         collections: "inline",
       },
-      productRow: "Featured products",
     },
     productDetail: {
       layout: {
         media: "gallery",
       },
-      badgeRow: [
-        {
-          id: "badge",
-          kind: "badge",
-          source: {
-            from: "metafield",
-            namespace: "custom",
-            key: "badge",
-            as: "text",
+      metafields: {
+        badgeRow: [
+          {
+            id: "badge",
+            kind: "badge",
+            source: {
+              from: "metafield",
+              namespace: "custom",
+              key: "badge",
+              as: "text",
+            },
           },
-        },
-      ],
-      underPrice: [
-        {
-          id: "fabric",
-          kind: "textLine",
-          source: {
-            from: "metafield",
-            namespace: "custom",
-            key: "fabric_type",
-            as: "text",
+        ],
+        textLines: [
+          {
+            id: "fabric",
+            kind: "textLine",
+            source: {
+              from: "metafield",
+              namespace: "custom",
+              key: "fabric_type",
+              as: "text",
+            },
           },
-        },
-        {
-          id: "promotion",
-          kind: "textLine",
-          source: {
-            from: "metafield",
-            namespace: "custom",
-            key: "promotion_text",
-            as: "text",
+          {
+            id: "promotion",
+            kind: "textLine",
+            source: {
+              from: "metafield",
+              namespace: "custom",
+              key: "promotion_text",
+              as: "text",
+            },
           },
-        },
-      ],
-      aboveDescription: [
-        {
-          id: "fit",
-          kind: "labelValueSection",
-          label: "Fit guide",
-          source: {
-            from: "metafield",
-            namespace: "custom",
-            key: "fit_guide",
-            as: "json",
+        ],
+        aboveDescription: [
+          {
+            id: "fit",
+            kind: "labelValueSection",
+            label: "Fit guide",
+            source: {
+              from: "metafield",
+              namespace: "custom",
+              key: "fit_guide",
+              as: "json",
+            },
+            fields: [
+              { key: "cut", label: "Cut" },
+              { key: "length", label: "Length" },
+            ],
           },
-          fields: [
-            { key: "cut", label: "Cut" },
-            { key: "length", label: "Length" },
-          ],
-        },
-        {
-          id: "care",
-          kind: "labelValueSection",
-          label: "Care guide",
-          source: {
-            from: "metafield",
-            namespace: "custom",
-            key: "care_instructions",
-            as: "json",
+          {
+            id: "care",
+            kind: "labelValueSection",
+            label: "Care guide",
+            source: {
+              from: "metafield",
+              namespace: "custom",
+              key: "care_instructions",
+              as: "json",
+            },
+            fields: [
+              { key: "washing", label: "Wash" },
+              { key: "drying", label: "Dry" },
+            ],
           },
-          fields: [
-            { key: "washing", label: "Wash" },
-            { key: "drying", label: "Dry" },
-          ],
-        },
-      ],
+        ],
+      },
+      // One block, three entries in the store, three sections — northstar's single entry draws
+      // one from the same code.
+      metaobjects: {
+        footer: [
+          {
+            id: "detailStory",
+            kind: "story",
+            source: { from: "metaobject", ref: "linenJourney" },
+          },
+        ],
+      },
     },
   },
 };

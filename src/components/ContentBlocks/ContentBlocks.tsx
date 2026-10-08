@@ -4,6 +4,7 @@ import type { BoxProps } from "../Box/Box";
 import { Box } from "../Box/Box";
 import { ProductBadge } from "../ProductBadge/ProductBadge";
 import { ProductSection } from "../ProductSection/ProductSection";
+import { StoryCard } from "../StoryCard/StoryCard";
 import { Text } from "../Text/Text";
 
 interface ContentBlocksProps {
@@ -33,24 +34,36 @@ export function ContentBlocks({
   );
 }
 
-function renderBlock(block: ResolvedBlock) {
+/**
+ * Keyed by id *and* position: one declared block can resolve to several rendered ones — a story
+ * block draws a section per metaobject entry — so the id alone is not unique inside an area.
+ */
+function renderBlock(block: ResolvedBlock, index: number) {
+  const key = `${block.id}:${index}`;
+
   switch (block.kind) {
     case "badge":
-      return <ProductBadge key={block.id} text={block.text} />;
+      return <ProductBadge key={key} text={block.text} />;
 
     case "textLine":
       return (
-        <Text key={block.id} variant="body" color="textMuted">
+        <Text key={key} variant="body" color="textMuted">
           {block.text}
         </Text>
       );
 
     case "labelValueSection":
       return (
-        <ProductSection
-          key={block.id}
+        <ProductSection key={key} title={block.title} items={block.items} />
+      );
+
+    case "story":
+      return (
+        <StoryCard
+          key={key}
           title={block.title}
-          items={block.items}
+          body={block.body}
+          image={block.image}
         />
       );
   }

@@ -664,3 +664,113 @@ screens: {
 **Axes do README caíram de quatro para três** (credenciais, paleta, mapa de telas): layout não é mais um eixo, é o que a tela diz antes de dizer o conteúdo.
 
 **Defeito pego na verificação:** mover o `layout` do northstar sem levar `productRow`/`collections` para `screens.home` derrubou a Home dele para o arranjo base — uma linha só e coleções empilhadas. O print do simulador foi o que mostrou; `tsc` e lint estavam limpos, porque chave ausente é arranjo base por construção.
+
+---
+
+## 2026-10-07 — A conclusão do checkout não pode depender de evento de navegação
+
+**Defeito em uso:** o redirect para a tela de resultado falhava de forma intermitente — o app ficava parado na página da Shopify depois do pedido fechado. O portão era `isCompletionUrl(currentUrl)`, e `currentUrl` só é atualizado por `onNavigationStateChange`. O checkout é documento único: quando a tela de obrigado chega por transição no cliente, o evento não vem, o `currentUrl` continua sendo o do checkout e a mensagem de conclusão é descartada. Pior: o script postava **uma vez só** (`sent = true`), então quando a mensagem caía nessa janela ela estava perdida para sempre.
+
+**Decisão:** o portão passa a julgar a mensagem por `event.nativeEvent.url` — a leitura que a própria WebView faz da página no momento do post, que a página não pode forjar — submetida aos dois testes de sempre, `isStoreUrl` e `isCompletionUrl`. A URL rastreada por evento de navegação saiu do código junto com o state que a guardava: ela não servia para isso. O intervalo de 500ms também deixou de travar depois do primeiro envio: repete enquanto a página estiver na URL de conclusão, então uma mensagem que caia numa janela ruim é reenviada em vez de sumir.
+
+**Descartado:** mandar `window.location.href` dentro do payload. Era dado da página, forjável como a referência, e trocava um portão quebrado por um portão decorativo — `nativeEvent.url` dá a mesma informação pelo lado nativo, de graça. Pego pela revisão de segurança automática antes de sair da sessão.
+
+**Verificado** com asserções sobre o portão (conclusão legítima na página de status passa; página de checkout, host estrangeiro e `href` declarado no payload continuam recusados; `checkout_completed` cru nunca vira referência) e com o script injetado parseado como JS.
+
+---
+
+## 2026-10-07 — `underPrice` virou `textLines`
+
+**Nome mentia sobre a posição:** a tela empilha preço → `badgeRow` → `underPrice`, então o que fica logo sob o preço é a fila de badges, não a área chamada `underPrice`. O print do detalhe mostrou isso: `BEST SELLER` / `WINTER COLLECTION` entre o `$299` e o `Organic Cotton`.
+
+**Decisão:** a área passa a se chamar `textLines` — nomeada pelo que aceita, como `badgeRow`, em tipo, configs dos dois lojistas, tela, README, template e `standards/shopify.md`. Com isso a regra de nome ficou explícita no standard: **área se nomeia pelo que aceita ou por conteúdo fixo (descrição), nunca por outra área**.
+
+**Descartado — `underBadges`,** que foi o primeiro corte desta mesma sessão: trocava uma posição errada por uma posição frágil. Badge é bloco de lojista, e lojista que não compra badge deixa `badgeRow` ausente — o nome perderia o referente. `aboveDescription`/`belowDescription` seguem posicionais porque descrição é campo do produto, não área.
+
+**Verificado** por `tsc --noEmit` e `eslint` limpos: nenhuma camada indexa área por string — `declaredAreas()` caminha por `Object.entries`, então a troca foi só de nome.
+
+---
+
+## 2026-10-07 — `media`: `single` saiu, `filmstrip` e `stack` entraram
+
+**`single` não era um arranjo, era a ausência de um.** Uma foto de capa é o que `gallery` já faz quando o produto tem uma imagem só — o lojista não estava escolhendo entre dois desenhos, estava escolhendo entre o desenho e a versão degradada dele. Os dois lojistas declaravam `gallery`, o que deixava o eixo sem demonstração.
+
+**Decisão:** `media` passa a ser `gallery` | `filmstrip` | `stack`, base `gallery` (era `single`).
+
+- `gallery` — uma foto por vez, paginada por swipe, com indicadores. Inalterado.
+- `filmstrip` — uma hero escolhida numa fita de thumbnails sob ela. Mesmo sync de mão única da galeria: a variante move a hero, o toque na thumb nunca move a variante.
+- `stack` — todas as fotos full-bleed, empilhadas, rolando com a página. Não tem `activeUrl`: nada está escondido, então não há para onde paginar.
+
+A tela deixou de ter o ternário e o `<Image>` solto: `ProductMedia` resolve o arranjo e é **o único** lugar que trata produto sem foto — o placeholder saiu de `ProductGallery`, que era o único caller dela. `atlas` passou a `filmstrip`, então o eixo virou linha na tabela dos dois lojistas no README.
+
+**Descartado — `mosaic`** (primeira foto full-bleed + grid de 2 colunas): é o `stack` com cálculo de layout em cima e nenhuma leitura nova; três arranjos já cobrem swipe, escolha e rolagem.
+
+**Verificado** por `tsc --noEmit` e `eslint` limpos, e pelo switch exaustivo em `ProductMedia` — um valor novo na união não compila até ganhar seu `case`.
+
+---
+
+## 2026-10-07 — `productRow` ganha `carousel`, e o eixo passa a resolver por switch
+
+**Decisão:** `home.layout.productRow` passa a ser `single` | `double` | `carousel`, base `single`.
+
+- `carousel` — um produto por página, largura do device, paginado por swipe, com indicadores. Mesmos produtos que os outros dois arranjos desenham: `double` divide, `carousel` pagina, nenhum dos dois busca mais nada.
+
+O arranjo saiu do `HomeHeader` e virou `HomeProductRow`, pelo mesmo motivo que `ProductMedia` nasceu no detalhe: com três valores, a cadeia de `===`/`!==` deixa um quarto valor cair silenciosamente no ramo do vizinho, enquanto o `switch` exaustivo não compila até o `case` novo existir. O `HomeHeader` voltou a ser só cabeçalho (título, "See all", estados de carga e as coleções).
+
+A página do carrossel tem a largura do device: a gutter é cancelada no frame e reaplicada por página, senão o `pagingEnabled` para uma gutter antes do card. Um produto só não é carrossel — o scroll é desligado, como na `ProductGallery`, para não dar rubber-band como se uma segunda página tivesse falhado.
+
+O carrossel anda sozinho quando o caller passa `autoScroll` — `HomeProductRow` passa, é o único. Um `setTimeout` por página, não um `setInterval`: `page` também se move no swipe, e o timeout reagendado reinicia a espera de onde o carrossel realmente está. O primeiro toque (`onScrollBeginDrag`) desliga o avanço **em definitivo** — timer que volta briga com a mão na tela — e `useReducedMotion` do reanimated desliga antes de começar.
+
+**Verificado** por `tsc --noEmit` e `eslint` limpos e no simulador já aberto, nos três arranjos (`carousel`, `single`, `double`), e o avanço automático por screenshots em sequência (página 3 → 5 em 8s), revertendo a config ao fim.
+
+---
+
+## 2026-10-07 — `stack` sai de `media`: o eixo volta a dois arranjos
+
+**Decisão:** `productDetail.layout.media` passa a ser `gallery` | `filmstrip`, base `gallery`. `stack` cai — nenhum lojista o declarava, então o valor custava um `case`, um componente e uma linha em três documentos sem demonstrar nada.
+
+Pelo mesmo argumento que derrubou `single` e `mosaic`: o eixo se justifica pela leitura que cada arranjo oferece, não pela quantidade de opções. `gallery` e `filmstrip` cobrem swipe e escolha; rolar a página já é o que a tela faz.
+
+O switch de `ProductMedia` segue exaustivo — a união com dois valores continua recusando compilação se um terceiro aparecer sem `case`.
+
+**Verificado** por `tsc --noEmit` e `eslint` limpos.
+
+---
+
+## 2026-10-07 — `BrandStory` vira o domínio `Metaobject`, e `story` passa a ser bloco de qualquer área
+
+**Decisão:** o domínio deixa de se chamar pelo tipo de metaobject de um lojista (`brand_story`) e passa a se chamar pela fonte: `src/domain/Metaobject/`. `story` vira um `kind` como os outros — `ContentBlocks` desenha, e toda área que aceita seção aceita story: `home.header`, `home.footer`, `productDetail.aboveDescription` e `belowDescription`. `home.footer` deixou de ser um bloco único e virou lista.
+
+**Coletar "todos os metaobjects da loja" só existe dentro do que o lojista declara.** A Storefront não lista definições de metaobject — `metaobjects(type:)` exige um tipo, e enumerar definições é Admin API, token de servidor que o app não pode ter. Então o eixo é: um bloco `story` = um tipo, e **toda entrada daquele tipo vira uma seção** (`first`, base `METAOBJECT_PAGE_SIZE = 10`). Três brand stories cadastradas na admin desenham três seções, sem deploy.
+
+**O modelo resolvido saiu do `Product`.** Uma área mistura fontes — o badge vem de metafield do produto, a story vem de metaobject da loja — então `ResolvedBlock` e `AreaContent` moram em `domain/contentTypes.ts`, e `domain/contentAreas.ts` tem o `toAreaContent`, que **caminha as declarações, não as resoluções**: cada resolver devolve lista plana e o agrupamento lê área e ordem do config. É isso que deixa uma área intercalar metafield e metaobject exatamente na ordem que o lojista escreveu. `Product.content` virou `Product.blocks` (plano) e o `content` agrupado passou a sair do `useProductGetDetail`.
+
+Consequências menores, todas pela mesma causa: o `id` do bloco declarado é a chave do agrupamento, então ele precisa ser único **dentro da tela** (está documentado no tipo); várias stories compartilham um `id`, então `ContentBlocks` chaveia por `id` + posição; `declaredAreas` deixou de excluir `layout` pelo nome e passou a manter **as chaves que seguram lista de blocos**, então `mainProductRowTitle` (string) e `layout` (objeto) se excluem sozinhos e uma chave nova não precisa editar nada; e `queriedMetafieldBlocks` filtra `source.from === "metafield"`, senão um bloco de metaobject entraria na seleção de metafields do documento.
+
+**Verificado** com `tsc --noEmit` e `eslint` limpos e no simulador já aberto: home com a story no `footer` (estado real) e, por config temporária, no `header`; e a mesma story em `productDetail.belowDescription`, alcançada por rota inicial temporária — as três revertidas ao fim.
+
+---
+
+## 2026-10-07 — As áreas de metaobject viram um grupo `metaobjects`, e o tipo se declara uma vez em `metaobjectSources`
+
+**Decisão:** o que vem dos metaobjects da loja deixa de se espalhar pelas áreas de metafield e passa a morar em `screens.{screen}.metaobjects` — `home.metaobjects.header|footer` e `productDetail.metaobjects.footer`. O tipo e o mapa de campos saem do bloco e viram um registro no nível do lojista: `metaobjectSources: { brandStory: { type, first?, fields } }`, e o bloco aponta com `source: { from: "metaobject", ref: "brandStory" }`.
+
+**`metaobjects` é um grupo de posições, não uma posição.** Dentro dele o caminho da chave continua dizendo onde o bloco cai — o invariante de que nenhum bloco carrega `slot` segue de pé. O que muda é que **as posições das duas árvores nunca repetem nome**: `header`/`footer` só existem no grupo de metaobject. Por isso nenhuma área precisa fundir duas fontes e inventar uma ordem entre elas, e `productDetailAreas()` entrega as duas árvores como uma lista só para o `toAreaContent`. O preço: `aboveDescription`/`belowDescription` deixaram de aceitar `story` — intercalar metafield e metaobject dentro de **uma** área não existe mais, e era o que a versão anterior permitia.
+
+**Por que o registro.** Um tipo usado em duas telas era escrito duas vezes (type + 3 campos + `first`). Com `ref`, "quais metaobjects esta loja usa?" tem um lugar só. O `ref` resolve **dentro da query** (`metaobjectService`), não no render: ref inexistente derruba o bloco, não a tela. E a queryKey ganhou o id do lojista — `ref` só é único dentro de um config, e dois lojistas podem chamar o deles de `brandStory` apontando para lojas diferentes.
+
+**`StoryBlock` não é nome de lojista**, questão levantada no mesmo prompt: `kind` nomeia a forma que o app desenha (`badge`, `textLine`, `labelValueSection`, `story`), nunca a fonte nem o dono. O exclusivo de um lojista é `brand_story`, uma string em `metaobjectSources.{ref}.type`. Fonte e forma são eixos independentes: um metaobject com campos `label`/`value` alimenta um `labelValueSection` sem kind novo.
+
+**Verificado** com `tsc --noEmit` e `eslint` limpos e no simulador já aberto: `home.metaobjects.footer` no estado real, e `productDetail.metaobjects.footer` resolvendo por `ref` por config temporária + rota inicial temporária, ambas revertidas.
+
+---
+
+## 2026-10-07 — As áreas de metafield também viram grupo: a tela agora é `layout` → `metafields` → `metaobjects`
+
+**Decisão:** `badgeRow`, `textLines`, `aboveDescription` e `belowDescription` saem da raiz da tela e passam a morar em `screens.{screen}.metafields`, simétrico ao `metaobjects` que nasceu antes. A tela se lê em três partes: como desenha, o que o **produto** diz, o que a **loja** diz.
+
+Antes a raiz da tela misturava três coisas de natureza diferente — arranjo (`layout`), posições de metafield soltas, e um grupo (`metaobjects`) — e só o leitor sabia qual era qual. Agora toda posição está dentro de um grupo nomeado pela fonte, e a raiz só tem `layout` + os dois grupos.
+
+Consequências: `ProductDetailArea` virou a união das chaves dos dois grupos; `declaredAreas` roda **por grupo** (`metafields`, depois `metaobjects`) e concatena, em vez de filtrar a raiz da tela; `queriedMetafieldBlocks` lê `productDetail.metafields`. Nada mudou na resolução nem no render — o `toAreaContent` continua recebendo uma lista só, porque os nomes não se repetem entre os grupos.
+
+**Verificado** com `tsc --noEmit` e `eslint` limpos. Sem simulador, a pedido do usuário — a mudança é de forma do config, e a resolução por área já estava provada no device.

@@ -3,7 +3,7 @@ export enum QueryKeys {
   ProductDetail = "ProductDetail",
   CollectionList = "CollectionList",
   CollectionDetail = "CollectionDetail",
-  BrandStory = "BrandStory",
+  Metaobject = "Metaobject",
   Cart = "Cart",
 }
 

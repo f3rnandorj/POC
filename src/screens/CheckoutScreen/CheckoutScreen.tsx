@@ -31,16 +31,12 @@ export function CheckoutScreen({ navigation }: AppScreenProps<"Checkout">) {
   // submitted first. An open store has no password declared and starts at the checkout.
   const [isUnlocked, setIsUnlocked] = useState(!storePassword);
   const [hasFailed, setHasFailed] = useState(false);
-  // Where the WebView actually is, so a posted message is judged against the page that sent it.
-  const [currentUrl, setCurrentUrl] = useState("");
 
   if (!cart) {
     return <CheckoutNotice onBack={navigation.goBack} />;
   }
 
   function onNavigate(event: WebViewNavigation) {
-    setCurrentUrl(event.url);
-
     if (!isUnlocked && !event.loading && !event.url.includes("/password")) {
       setIsUnlocked(true);
     }
@@ -50,8 +46,15 @@ export function CheckoutScreen({ navigation }: AppScreenProps<"Checkout">) {
     const message = readCheckoutMessage(event.nativeEvent.data);
 
     // The checkout chatters over this bridge, and anything running in the page can post to it.
-    // A completion is only believed from the order status page itself.
-    if (message.isCompleted && isCompletionUrl(currentUrl)) {
+    // A completion is only believed from the order status page itself, and the page it came from
+    // is the WebView's own reading — `nativeEvent.url`, which the page cannot forge. A URL tracked
+    // from navigation events would not do: it only moves when one fires, and Shopify's
+    // single-document checkout reaches "thank you" without one, so the redirect was a coin toss.
+    const sourceUrl = event.nativeEvent.url;
+    const isAtOrderStatus =
+      isStoreUrl(sourceUrl, storeDomain) && isCompletionUrl(sourceUrl);
+
+    if (message.isCompleted && isAtOrderStatus) {
       navigation.replace("CheckoutResult", { reference: message.reference });
     }
   }

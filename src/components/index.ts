@@ -8,6 +8,7 @@ export * from "./Dialog/Dialog";
 export * from "./PressableBox/PressableBox";
 export * from "./ProductBadge/ProductBadge";
 export * from "./ProductCard/ProductCard";
+export * from "./ProductFilmstrip/ProductFilmstrip";
 export * from "./ProductGallery/ProductGallery";
 export * from "./ProductSection/ProductSection";
 export * from "./QuantityStepper/QuantityStepper";

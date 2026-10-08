@@ -1,19 +1,26 @@
 import type { MetafieldApi } from "@api";
-import type { BadgeBlock, LabelValueBlock, ProductBlock } from "@config";
+import type {
+  BadgeBlock,
+  ContentBlock,
+  LabelValueBlock,
+  MetafieldBlock,
+} from "@config";
 import { productDetailAreas } from "@config";
 
 import type {
-  Product,
-  ProductByHandleApi,
-  ProductContent,
-  ProductImage,
-  ProductListApi,
-  ProductNodeApi,
-  ProductVariant,
   ResolvedBadge,
   ResolvedBlock,
   ResolvedItem,
   ResolvedLabelValueSection,
+} from "../contentTypes";
+
+import type {
+  Product,
+  ProductByHandleApi,
+  ProductImage,
+  ProductListApi,
+  ProductNodeApi,
+  ProductVariant,
 } from "./productTypes";
 
 function toProduct(node: ProductNodeApi): Product {
@@ -25,7 +32,7 @@ function toProduct(node: ProductNodeApi): Product {
     price: node.priceRange.minVariantPrice,
     images: toImages(node),
     variants: toVariants(node),
-    content: toContent(node.metafields),
+    blocks: toBlocks(node.metafields),
   };
 }
 
@@ -40,46 +47,52 @@ function toProductDetail(response: ProductByHandleApi): Product | undefined {
 /**
  * Shopify returns a POSITIONAL array holding `null` for every identifier the product does not
  * define, so this indexes by identifier and reads by block.
+ *
+ * Flat, not grouped by area: a story declared in the same area is resolved from a metaobject, and
+ * grouping both at once is `toAreaContent`'s job.
  */
-function toContent(
+function toBlocks(
   raw: (MetafieldApi | null)[] | null | undefined,
-): ProductContent {
+): ResolvedBlock[] {
   const byIdentifier = indexByIdentifier(raw);
-  const content: ProductContent = {};
 
-  for (const [area, blocks] of productDetailAreas()) {
-    for (const block of blocks) {
-      const resolved = resolveBlock(
-        block,
-        byIdentifier.get(toIdentifier(block.source)),
-      );
+  return productDetailAreas().flatMap(([, blocks]) =>
+    blocks.flatMap(block => {
+      const resolved = resolveBlock(block, byIdentifier);
 
-      if (resolved) {
-        (content[area] ??= []).push(resolved);
-      }
-    }
-  }
-
-  return content;
+      return resolved ? [resolved] : [];
+    }),
+  );
 }
 
 function resolveBlock(
-  block: ProductBlock,
-  metafield?: MetafieldApi,
+  block: ContentBlock,
+  byIdentifier: Map<string, MetafieldApi>,
 ): ResolvedBlock | undefined {
   switch (block.kind) {
     case "badge":
-      return resolveBadge(block, metafield);
+      return resolveBadge(block, metafieldOf(block, byIdentifier));
 
     case "textLine": {
-      const text = readText(metafield);
+      const text = readText(metafieldOf(block, byIdentifier));
 
       return text ? { id: block.id, kind: "textLine", text } : undefined;
     }
 
     case "labelValueSection":
-      return resolveSection(block, metafield);
+      return resolveSection(block, metafieldOf(block, byIdentifier));
+
+    // A story reads a metaobject, not this product: the Metaobject domain resolves it.
+    case "story":
+      return undefined;
   }
+}
+
+function metafieldOf(
+  block: MetafieldBlock,
+  byIdentifier: Map<string, MetafieldApi>,
+): MetafieldApi | undefined {
+  return byIdentifier.get(toIdentifier(block.source));
 }
 
 function resolveBadge(
@@ -221,5 +234,5 @@ export const productAdapter = {
   toProduct,
   toProductList,
   toProductDetail,
-  toContent,
+  toBlocks,
 };

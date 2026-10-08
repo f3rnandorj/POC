@@ -1,11 +1,16 @@
 import { FlatList } from "react-native";
 
-import { CollectionCard, Screen, screenGutter, StoryCard } from "@components";
-import { homeLayout, homeProductRowTitle } from "@config";
+import {
+  CollectionCard,
+  ContentBlocks,
+  Screen,
+  screenGutter,
+} from "@components";
+import { homeAreas, homeLayout, homeMainProductRowTitle } from "@config";
 import type { Collection } from "@domain";
 import {
-  useBrandStoryGetDetail,
   useCollectionGetList,
+  useMetaobjectGetContent,
   useProductGetList,
 } from "@domain";
 import type { AppScreenProps } from "@routes";
@@ -25,7 +30,8 @@ export function HomeScreen({ navigation }: AppScreenProps<"Home">) {
     isLoading: isLoadingCollections,
     error: collectionsError,
   } = useCollectionGetList();
-  const { brandStory } = useBrandStoryGetDetail();
+  // Every home area is metaobject-backed, so one hook resolves the whole screen's content.
+  const { content } = useMetaobjectGetContent(homeAreas());
   const layout = homeLayout();
 
   function openProduct(handle: string) {
@@ -47,11 +53,12 @@ export function HomeScreen({ navigation }: AppScreenProps<"Home">) {
         )}
         ListHeaderComponent={
           <HomeHeader
+            blocks={content.header}
             // ponytail: the row has no Shopify concept behind it — it is the first N of the
             // catalog, and the merchant names it. Point it at a curated collection handle in
             // merchantConfig the day a merchant curates one.
             products={products.slice(0, LEADING_COUNT)}
-            title={homeProductRowTitle()}
+            title={homeMainProductRowTitle()}
             collections={collections}
             layout={layout}
             isLoading={isLoadingProducts}
@@ -73,11 +80,7 @@ export function HomeScreen({ navigation }: AppScreenProps<"Home">) {
         contentContainerStyle={CONTENT}
         showsVerticalScrollIndicator={false}
         ListFooterComponent={
-          <StoryCard
-            title={brandStory?.title}
-            body={brandStory?.body}
-            image={brandStory?.image}
-          />
+          <ContentBlocks blocks={content.footer} gap="s24" />
         }
       />
     </Screen>

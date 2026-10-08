@@ -41,20 +41,75 @@ Rules:
 1. **The returned array is positional and contains `null`** for every identifier the product does not define. The adapter must tolerate `null` entries — indexing blindly is a crash, not a missing value.
 2. **The adapter owns all parsing.** `value` is always a string: `boolean` → `value === 'true'`, `json` → `JSON.parse` inside a try/catch, `number_integer` → `Number(...)`. A parse failure yields `undefined`, never a throw that kills the screen. A JSON payload that parses to something other than an object is also absent — merchant JSON is untrusted input, not a typed shape.
 3. **Absent means absent** — a block whose source the product does not define produces no resolved block, and an area that collected nothing is omitted from `content` entirely. No `''`, no `'—'`, no `'undefined'`, no default text, and no empty array that renders an empty container. This is quick-rule #5, now held in the adapter as well as in each component.
-4. **Sources are declared once**, as blocks under `screens.{screen}.{area}` in `src/config/merchant/merchants/{merchant}.ts`. The query is rendered from them and the adapter resolves through them, so a merchant with different keys — or a different set of concepts altogether — is a config change. See **Content blocks** below.
+4. **Sources are declared once**, as blocks under `screens.{screen}.metafields.{area}` in `src/config/merchant/merchants/{merchant}.ts`. The query is rendered from them and the adapter resolves through them, so a merchant with different keys — or a different set of concepts altogether — is a config change. See **Content blocks** below.
 5. The metafield must be **published to the Storefront API** in the Shopify admin (Settings → Custom data → the definition → "Storefront access"). A correct query against an unpublished definition returns `null` — check this before debugging the app.
 6. **Index by `namespace:key`, never by `key` alone.** `custom.badge` and `promo.badge` are two different metafields; once merchants declare their own sources, indexing by `key` silently merges them. That is why the selection includes `namespace`.
 
-Domain model shape (`productTypes.ts`) — resolved blocks grouped by area, not a concept record:
+Domain model shape (`domain/contentTypes.ts`) — resolved blocks, grouped by area and not by
+concept. The model is **shared, not Product's**: one area mixes sources, since a badge comes from
+a product metafield and a story from a metaobject.
 
 ```ts
-type ProductContent = Partial<Record<ProductDetailArea, ResolvedBlock[]>>;
+type AreaContent<Area extends string> = Partial<Record<Area, ResolvedBlock[]>>;
 
 type ResolvedBlock =
-  | { id: string; kind: 'badge'; text: string }
-  | { id: string; kind: 'textLine'; text: string }
-  | { id: string; kind: 'labelValueSection'; title: string; items: { label: string; value: string }[] };
+  | { id: string; kind: "badge"; text: string }
+  | { id: string; kind: "textLine"; text: string }
+  | {
+      id: string;
+      kind: "labelValueSection";
+      title: string;
+      items: { label: string; value: string }[];
+    }
+  | { id: string; kind: "story"; title?: string; body?: string; image?: ResolvedImage };
 ```
+
+`id` is the **declaring block's** id, not a unique row id: each resolver returns a flat list and
+`toAreaContent` (`domain/contentAreas.ts`) walks the declarations to group them, which is what lets
+one area interleave a metafield-backed block and a story in declaration order. A story block
+resolves to one section **per metaobject entry**, so several resolved blocks can carry one id —
+`ContentBlocks` keys by `id` plus position.
+
+## Metaobjects — the other source
+
+A `story` block reads a metaobject instead of a product metafield, through the `Metaobject` domain
+(never a merchant-named one — `BrandStory` was one store's type handle wearing a folder).
+
+**The types are declared once, at merchant level, and the blocks point at them:**
+
+```ts
+metaobjectSources: {
+  brandStory: { type: "brand_story", first: 10,
+                fields: { title: "title", body: "description", image: "image" } },
+},
+screens: {
+  home: { metaobjects: { footer: [{ id: "homeStory", kind: "story",
+                                    source: { from: "metaobject", ref: "brandStory" } }] } },
+  productDetail: { metafields: { /* … */ }, metaobjects: { footer: [ /* … */ ] } },
+}
+```
+
+`metafields` and `metaobjects` are **groups of positions**, not positions: inside each, the key
+path is still where the block lands. The two groups never repeat a name — `badgeRow` exists only
+under `metafields`, `footer` only under `metaobjects` — so no area has to merge two sources and
+invent an order between them, and `productDetailAreas()` hands both groups to `toAreaContent` as
+one list.
+
+Rules:
+
+1. **Storefront cannot enumerate a store's metaobject definitions.** `metaobjects(type:)` requires
+   a type, and listing definitions is Admin API — a server-side secret the app must not hold. So
+   "every metaobject in the store" means every entry of **the types the merchant declared**.
+2. **One block is one `ref`, one ref is one type, and every entry is one section.** `first` caps
+   the page (`METAOBJECT_PAGE_SIZE` when absent); a store with three entries draws three sections,
+   with no deploy. A `ref` with no entry in `metaobjectSources` fails that block's query — the ref
+   resolves inside the query, not during render, so a typo costs one section and not the screen.
+3. **One query per declared block** (`useMetaobjectGetBlocks` → `useQueries`), so an empty
+   declaration issues no request at all.
+4. **A field holding a file carries a gid in `value`** — only the resolved `reference` is
+   renderable. Text fields carry their value and no reference.
+5. The definition also needs **Storefront access**, and the token needs
+   `unauthenticated_read_metaobjects`.
 
 ## Generic components, never merchant-named
 
@@ -88,38 +143,48 @@ and, inside each, the **areas** that screen draws — nothing else varies in cod
 screens: {
   productDetail: {
     layout: { media: "gallery" },                   // how this screen draws, first
-    badgeRow: [ /* badges, in render order */ ],
-    underPrice: [ /* text lines */ ],
-    aboveDescription: [ /* label/value sections */ ],
-    belowDescription: [ /* text lines and label/value sections */ ],
+    metafields: {                                   // positions fed by the product
+      badgeRow: [ /* badges, in render order */ ],
+      textLines: [ /* text lines */ ],
+      aboveDescription: [ /* label/value sections */ ],
+      belowDescription: [ /* text lines and label/value sections */ ],
+    },
+    metaobjects: {                                  // positions fed by the store
+      footer: [ /* stories, under the variant picker */ ],
+    },
   },
   home: {
-    layout: { productRow: "double", collections: "horizontal" },
-    productRow: "Products",                         // the row's heading, a plain string
-    footer: { /* one story */ },
+    layout: { mainProductRow: "double", collections: "horizontal" },
+    mainProductRowTitle: "Products",              // the row's heading, a plain string
+    metaobjects: {
+      header: [ /* stories, above the main product row */ ],
+      footer: [ /* stories, under the collections */ ],
+    },
   },
 }
 ```
 
-**`layout` is the screen's first key and the only one that is not an area.** A screen says how it
-draws before it says what it draws, each screen resolves its own (`homeLayout`,
-`productDetailLayout`), and a screen the app grows later brings its arrangement with it instead of
-extending a central map. `declaredAreas` drops the key so nothing below it has to know.
+**`layout` is the screen's first key and is not an area.** A screen says how it draws before it
+says what it draws, each screen resolves its own (`homeLayout`, `productDetailLayout`), and a
+screen the app grows later brings its arrangement with it instead of extending a central map.
+`declaredAreas` runs **per group** and keeps the keys that hold a list of blocks, so a heading
+(a string) is skipped without being named: the shape says it, and a key the app grows later needs
+no edit there. The results of the groups concatenate.
 
 The key path is the position (so no block carries a `slot`), the array index is the render order
 (so no block carries an `order`), and the element type is what that area accepts. A key left out is
 an area that renders nothing — that is the whole optional/required mechanism.
 
-**"Area", not "section".** `labelValueSection` is a block *kind* and `ProductSection` is the
-component that draws it; a section is something you put *in* an area. Naming both the same thing is
+**"Area", not "section".** `labelValueSection` is a block _kind_ and `ProductSection` is the
+component that draws it; a section is something you put _in_ an area. Naming both the same thing is
 how `content.detailBelowDescription` stopped saying which screen it belonged to.
 
-| Owned by the app (source, closed) | Owned by the merchant (config, open) |
-|---|---|
-| the block `kind`s — `badge`, `textLine`, `labelValueSection`, `story` | which blocks exist |
-| the areas themselves — which exist, on which screen, drawn where | which areas it fills, what goes in each, and in what order |
-| parsing per `as` — `text`, `boolean`, `json` | where the data lives (`namespace`/`key`, or metaobject `type` + field map) |
-| the primitives that draw each kind | every label and heading |
+| Owned by the app (source, closed)                                     | Owned by the merchant (config, open)                                       |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| the block `kind`s — `badge`, `textLine`, `labelValueSection`, `story` | which blocks exist                                                         |
+| the areas themselves — which exist, on which screen, drawn where      | which areas it fills, what goes in each, and in what order                 |
+| parsing per `as` — `text`, `boolean`, `json`                          | where the data lives (`namespace`/`key`, or metaobject `type` + field map, and how many) |
+| the primitives that draw each kind                                    | every label and heading                                                    |
 
 Plus two axes that are not blocks:
 
@@ -135,16 +200,21 @@ it draws.
 Consequences worth stating:
 
 - **A new concept is one array entry.** A merchant with `fit_guide` costs no type, adapter, screen or
-  query edit. If a change needs one of those, the *kind* is missing — and a new kind is a platform
+  query edit. If a change needs one of those, the _kind_ is missing — and a new kind is a platform
   change, not a merchant one.
 - **A capability a merchant did not buy is an absent block**, not a `false` flag. There are no
   feature flags: a flag and a block were the same statement made twice.
 - **Each area's element type is closed**, so a merchant cannot express an arrangement the renderer
-  cannot draw: `badgeRow` takes badges, `underPrice` takes text lines, `home.footer` takes exactly
-  one story. That is the containment for letting config decide content.
-- **Cross-area order is the app's.** The detail areas are defined against fixed content (under the
-  price, above/below the description), so the screen places them; the merchant orders what is
-  *inside* an area.
+  cannot draw: `badgeRow` takes badges, `textLines` takes text lines, the `metaobjects` positions
+  take stories. That is the containment for letting config decide content.
+- **Positions are grouped by source, and a position belongs to exactly one group.** A screen reads
+  as `layout` → `metafields` → `metaobjects`: how it draws, what the product says, what the store
+  says. Because the names do not overlap, nothing downstream has to know which group a position
+  came from — `ProductDetailArea` is the union of both.
+- **Cross-area order is the app's.** The screen stacks the areas; the merchant orders what is
+  _inside_ an area. An area is named either for what it accepts (`badgeRow`, `textLines`) or for a
+  position against **fixed** content (`aboveDescription`, `belowDescription`) — never against
+  another area, which a merchant may leave empty.
 - **A merchant name appearing anywhere outside `config/merchant/` is a defect.** So is a concept
   name — `winterCollection` was one merchant's campaign with an API name.
 
