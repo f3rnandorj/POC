@@ -26,7 +26,7 @@ The build ships with both, and you can switch between them on the device —
 | -------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | **Home**                         | ![Northstar home](docs/screenshots/home.png)                                  | ![Atlas home](docs/screenshots/atlas-home.png)                            |
 | **Product detail**               | ![Northstar product detail](docs/screenshots/product-detail.png)              | ![Atlas product detail](docs/screenshots/atlas-product-detail.png)        |
-| **Further down the same screen** | ![Northstar care section and variants](docs/screenshots/product-variants.png) | ![Atlas fit and care guides](docs/screenshots/atlas-product-sections.png) |
+| **Further down the same screen** | ![Northstar care section and variants](docs/screenshots/product-variants.png) | ![Atlas variants and linen story](docs/screenshots/atlas-product-sections.png) |
 
 What actually differs, and where it is declared:
 
@@ -34,9 +34,9 @@ What actually differs, and where it is declared:
 | ------------------------ | -------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------- |
 | Palette                  | near-black base, lime accent                                   | cream and clay, `#F04E23` accent               | `theme`                            |
 | Main product row         | two stacked scrolling rows                                     | a paged carousel, advancing on its own         | `layout.mainProductRow`            |
-| Main product row heading | `Products`                                                     | `Featured products`                            | `screens.home.mainProductRowTitle` |
+| Main product row heading | `Products`                                                     | `Main products`                                | `screens.home.mainProductRowTitle` |
 | Collections              | a scrolling row of tiles                                       | stacked wide rows                              | `layout.collections`               |
-| Product photos           | a gallery paged by swipe                                       | a hero photo plus a thumbnail strip            | `layout.media`                     |
+| Product photos           | a hero photo plus a thumbnail strip                            | a gallery paged by swipe                       | `layout.media`                     |
 | Badges                   | `BEST SELLER` + a boolean flag rendered as `WINTER COLLECTION` | `NEW SEASON` only                              | `screens.productDetail.badgeRow`   |
 | Text lines               | `Organic Cotton` (`custom.material`)                           | `Washed European Linen` (`custom.fabric_type`) | `screens.productDetail.textLines`  |
 | Sections                 | `HOW TO CARE`, **below** the description                       | `FIT GUIDE` and `CARE GUIDE`, **above** it     | which key under `metafields`       |
@@ -505,9 +505,9 @@ every axis moves independently — the screenshots and the per-axis diff are at
 [the top of this file](#the-same-build-two-stores).
 
 The `media` axis is the honest half of the demonstration: northstar's products carry six and four
-photos and page through them as a `gallery`, while atlas picks `filmstrip` over a catalogue of
-single-image products — and the strip quietly collapses to the one photo it has. An arrangement is
-a request, not a promise the catalogue has to keep.
+photos and pick between them from a `filmstrip`, while atlas asks for a `gallery` over a catalogue
+that is mostly single-image — and the pager quietly collapses to the one photo it has. An
+arrangement is a request, not a promise the catalogue has to keep.
 
 The fabric line is the cheap one: a merchant who calls it `fabric_type` instead of `material`,
 under a different heading, in a different place on the screen, costs one array entry — because the
@@ -544,14 +544,14 @@ photography carrying the screen, type doing the talking, one radius scale and an
 1. **Home** — the product rows, the collections, and the story sections the merchant declared,
    which come from Shopify metaobjects rather than metafields. On `northstar` the catalogue comes in
    two stacked scrolling rows under a `Products` heading and the collections scroll sideways as
-   tiles; on `atlas` it is one untitled row and stacked collection banners — same screen, same
-   code.
+   tiles; on `atlas` it is a self-advancing carousel under `Main products` and stacked collection
+   banners — same screen, same code.
 2. Tap **All products**, or a collection, to reach the grid. Same screen in both cases; the
    collection just scopes it.
 3. Tap **Northstar Essential**. This is the fully-populated case: `BEST SELLER` and
    `WINTER COLLECTION` badges, `Organic Cotton`, the promotion line, a `HOW TO CARE` section from
-   a JSON metafield, three variants, and a gallery you can page through.
-4. Tap **Black**, then **White** — the gallery moves to the selected variant's photo. Swiping back
+   a JSON metafield, three variants, and a strip of thumbnails under the photo.
+4. Tap **Black**, then **White** — the photo moves to the selected variant's. Tapping a thumbnail
    does not change the selection: the sync is one-way on purpose. **Blue** is sold out: visible,
    marked, not selectable.
 5. Go back and open **Everyday Tee**. Same screen, same code, and the merchant filled in nothing:

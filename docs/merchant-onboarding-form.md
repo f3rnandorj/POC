@@ -65,13 +65,16 @@ product change, not a setting (see section 6).
 
 | Section | Options | Pick one |
 |---|---|---|
-| Home — featured products | `single` one scrolling row · `double` two stacked rows | ☐ single ☐ double |
+| Home — featured products | `single` one scrolling row · `double` two stacked rows · `carousel` one product per page, full width, advancing on its own | ☐ single ☐ double ☐ carousel |
 | Home — collections | `inline` stacked wide rows · `horizontal` one scrolling row of tiles | ☐ inline ☐ horizontal |
 | Product detail — photos | `gallery` swipe one photo at a time · `filmstrip` hero photo plus a thumbnail strip | ☐ gallery ☐ filmstrip |
 
-Both only pay off if your products carry more than one photo — see section 4. A product with
-a single image shows that image: `gallery` drops its page indicators, `filmstrip` drops the strip,
-and neither pretends a second photo failed to load.
+One free-text setting sits next to them: the heading printed above the featured products row, in
+your words — `Products`, `New in`, `Main products`: `___`
+
+The two photo arrangements only pay off if your products carry more than one photo — see section 4.
+A product with a single image shows that image: `gallery` drops its page indicators, `filmstrip`
+drops the strip, and neither pretends a second photo failed to load.
 
 ---
 
